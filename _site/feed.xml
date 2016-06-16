@@ -5,8 +5,8 @@
     <description>tech opinions and how-tos</description>
     <link>http://tuesdaydeveloper.com/</link>
     <atom:link href="http://tuesdaydeveloper.com/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Wed, 15 Jun 2016 19:35:45 -0700</pubDate>
-    <lastBuildDate>Wed, 15 Jun 2016 19:35:45 -0700</lastBuildDate>
+    <pubDate>Wed, 15 Jun 2016 19:38:06 -0700</pubDate>
+    <lastBuildDate>Wed, 15 Jun 2016 19:38:06 -0700</lastBuildDate>
     <generator>Jekyll v3.1.6</generator>
     
       <item>
@@ -45,17 +45,6 @@
         <pubDate>Tue, 09 Feb 2016 04:34:43 -0800</pubDate>
         <link>http://tuesdaydeveloper.com/2016/02/09/rounding-errors.html</link>
         <guid isPermaLink="true">http://tuesdaydeveloper.com/2016/02/09/rounding-errors.html</guid>
-        
-        
-      </item>
-    
-      <item>
-        <title>Comment Manager</title>
-        <description>
-</description>
-        <pubDate>Wed, 16 Dec 2015 04:40:12 -0800</pubDate>
-        <link>http://tuesdaydeveloper.com/2015/12/16/comment-manager.html</link>
-        <guid isPermaLink="true">http://tuesdaydeveloper.com/2015/12/16/comment-manager.html</guid>
         
         
       </item>
@@ -761,6 +750,62 @@ Hope it&#39;ll help others  &lt;div class=&quot;by&quot;&gt;Michael Zilbermann o
         <pubDate>Fri, 22 Feb 2013 05:49:13 -0800</pubDate>
         <link>http://tuesdaydeveloper.com/2013/02/22/story-estimation.html</link>
         <guid isPermaLink="true">http://tuesdaydeveloper.com/2013/02/22/story-estimation.html</guid>
+        
+        
+      </item>
+    
+      <item>
+        <title>My Three Dollar Phone Plan</title>
+        <description>&lt;p&gt;I get all the phone calling, data, and text messages for $3 a month.&lt;/p&gt;
+
+&lt;p&gt;Theres a catch, right? I’ve got an awful phone or terrible service, right? To answer that, I’ll be upfront and say that my phone plan isn’t for everyone—but, just to be clear I have a &lt;a title=&quot;Nexus 4&quot; href=&quot;http://www.google.com/nexus/4/&quot; target=&quot;_blank&quot;&gt;great phone&lt;/a&gt; and my service is fine. Without further ado I’ll get into the details of my awesome phone plan.&lt;/p&gt;
+&lt;h3&gt;Summary&lt;/h3&gt;
+&lt;p&gt;My GSM phone has no SIM card. I don’t need one. I don’t subscribe to any carriers service (no Verizon, AT&amp;amp;T, T-Mobile, or Sprint for me). I spend the greater part of every day within range of either my work’s WiFi or my home’s WiFi. And I have a mobile hotspot for any time I’m driving, at the store, or not in range of a WiFi signal for some other reason. I do all of my calling over WiFi using a special app that uses my Google Voice phone number.&lt;/p&gt;
+&lt;h3&gt;Details&lt;/h3&gt;
+&lt;p&gt;My $3 a month plan is possible for these reasons:&lt;/p&gt;
+&lt;ul&gt;
+	&lt;li&gt;Google Voice
+&lt;ul&gt;
+	&lt;li&gt;A service that uses a singe phone number to ring all or part of your phones at once (home, work, mobile). I have a Google Voice Phone number (a ported Sprint phone number) and another provided by Google. (I only needed one, but too many people have both numbers so I opted to keep both phone numbers).&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+	&lt;li&gt;Google offeres free calling to anywhere in the USA or Canada over Google Chat
+&lt;ul&gt;
+	&lt;li&gt;Isn&#39;t Google nice. They &lt;a href=&quot;http://gmailblog.blogspot.com/2011/12/free-calling-within-us-and-canada.html&quot; target=&quot;_blank&quot;&gt;provide free calling&lt;/a&gt; to the USA and Canada. This service has been promised through the end of 2012, which means we&#39;re getting close to this offer&#39;s expiration, however they promised the same in &lt;a href=&quot;http://googletalk.blogspot.com/2010/12/free-calling-in-gmail-extended-through.html&quot; target=&quot;_blank&quot;&gt;2011&lt;/a&gt; and for &lt;a href=&quot;http://gmailblog.blogspot.com/2010/08/call-phones-from-gmail.html&quot; target=&quot;_blank&quot;&gt;part of the year they introduced it in 2010&lt;/a&gt;. I&#39;m optimistic that Google won&#39;t let me down for 2013. If they do change this pollicy I&#39;ll probably be looking at about 1¢ a minute. (So maybe $2 more a month.) Calling to other countries is pretty comprable to what you&#39;ll find from other companies.&lt;/li&gt;
+	&lt;li&gt;UPDATE 12/26/2012: &lt;a href=&quot;http://gmailblog.blogspot.com/2012/12/free-calling-within-us-and-canada.html&quot;&gt;Google will continue to offer free calls through Google Chat through the end of 2013&lt;/a&gt;. Yay!&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+	&lt;li&gt;&lt;a href=&quot;https://play.google.com/store/apps/details?id=com.gvoip&amp;amp;feature=nav_other#?t=W251bGwsMSwyLDYsImNvbS5ndm9pcCJd&quot; target=&quot;_blank&quot;&gt;GrooVe IP&lt;/a&gt;
+&lt;ul&gt;
+	&lt;li&gt;An Android App that utilizes Google Voice over Google Chat to offer VOIP calls over your phones network (WiFi or mobile). They have both a paid version and a free version. (They also have an app they have if you do choose to use a carrier that will change your call settings between using GrooVe IP and your carrier called &lt;a href=&quot;https://play.google.com/store/apps/details?id=com.snrblabs.bishop&amp;amp;feature=more_from_developer#?t=W251bGwsMSwxLDEwMiwiY29tLnNucmJsYWJzLmJpc2hvcCJd&quot; target=&quot;_blank&quot;&gt;GrooVe Forwarder&lt;/a&gt; based on your location.) As long as you have Google Voice and rout calls to Google Chat, all you have to do is log in and you&#39;re good to go.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+	&lt;li&gt;&lt;a href=&quot;http://www.freedompop.com/&quot; target=&quot;_blank&quot;&gt;FreedomPop&lt;/a&gt;
+&lt;ul&gt;
+	&lt;li&gt;If not for FreedomPop I would only get calls when I was near a WiFi signal. FreedomPop allows me to take a WiFi hotspot with me.&lt;/li&gt;
+	&lt;li&gt;They may have a stupid name, but they offer &lt;em&gt;free&lt;/em&gt; mobile internet. You get 500 MB of data without any charge. If you go over this amount you pay a very reasonable 2¢ per megabyte (or 1¢ per megabyte if you go with one of their paid plans). You can even get more free data by connecting to other friends who use FreedomPop or completing advertising offers (which they thankfully don&#39;t cram down your throat). In the time I&#39;ve been using it, 500 MB has been about two to three times as much data as I need.&lt;/li&gt;
+	&lt;li&gt;FreedomPop will however throttle your data unless you pay them not to. This is where the $3 a month comes in.&lt;/li&gt;
+	&lt;li&gt;They also don&#39;t have to widest area of coverage currently. It mostly surrounds big cities, however this should all change around March of 2013 when they will be extending their network using Sprint 3g/4g LTE in addition to Clear Wire 4g LTE.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;So there you have it. I get free calling through Google Chat routed to my phone via GrooVe IP (with a one time charge of $4.99) and pay an on going $2.99 charge to FreedomPop for 500mb of un-throttled data when I’m out of range.&lt;/p&gt;
+&lt;h3&gt;&lt;strong&gt;Emergency Calling&lt;/strong&gt;&lt;/h3&gt;
+&lt;p&gt;Any phone regardless of whether it is activated will make emergency calls (911, 211, 112, 999, IXII depending on your country). There doesn’t even need to be a SIM card for this to happen. So even if you don’t have a WiFi signal for some reason, unless you are out of range of any networks that could work with your phone, you can still contact emergency personell.&lt;/p&gt;
+&lt;h3&gt;Pro Quos&lt;/h3&gt;
+&lt;ul&gt;
+	&lt;li&gt;My phone always says that I can only make emergency calls, however, this is not the case and whether I use the phones dialer or GrooVe IP&#39;s I get connected just fine.&lt;/li&gt;
+	&lt;li&gt;I have to keep track of two devices. My Nexus 4 and my WiFi hotspot. I have to keep them both charged. Turn the hotspot off when I don&#39;t want to use it (it only has about 6 hours battery charge).&lt;/li&gt;
+	&lt;li&gt;Android also doesn&#39;t nor have I found a 3rd party app that will allow you to priorities your WiFi networks. This means if I forget to turn my hotspot off at home then I&#39;m using the data off of it (not that I mind, like I said earlier: 500 mb is more than enough for me).&lt;/li&gt;
+	&lt;li&gt;Call quality, though usually good, is dependent on your network. If you have a slower internet connection, chances are your call quality could suffer. Keep in mind also, that typically upload speeds are lower than download speeds for many ISPs so even if you can hear the call just fine someone on the other end may not hear you at all. Chances are if you have a fast internet connection then your call quality should be just fine.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;I should also point out that &lt;a href=&quot;http://online.wsj.com/article/SB10001424127887324735104578121553147711538.html&quot; target=&quot;_blank&quot;&gt;Google and Dish Networks are discussing the potential of a wireless network partnership&lt;/a&gt;. According to some sources this is all but done and should be rolling out toward the end of 2013, and while I don’t usually hold a lot of stock in rumors I would bet this one is fairly accurate. So there may be another option in the future regarding mobile data.&lt;/p&gt;
+
+&lt;p&gt;What kind of things have you done to lower your phone bill?&lt;/p&gt;
+</description>
+        <pubDate>Sat, 15 Dec 2012 13:13:30 -0800</pubDate>
+        <link>http://tuesdaydeveloper.com/2012/12/15/my-three-dollar-phone-plan.html</link>
+        <guid isPermaLink="true">http://tuesdaydeveloper.com/2012/12/15/my-three-dollar-phone-plan.html</guid>
         
         
       </item>
