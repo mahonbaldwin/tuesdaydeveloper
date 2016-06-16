@@ -1,0 +1,39 @@
+---
+layout: post
+title: "Interface Rant"
+date: 2010-05-03 07:00:10.0
+author: mahon
+categories: 
+---
+As a developer (or rather, a future developer) I pay a lot of attention to user interfaces. As the main mechanism that is used to interact with the system and the hardware, the user interface seems to be very important. If the user interface is confusing to a user then, to them, the whole program doesn't work. Even if there are little things that distract the user that creates a sub-prime view of the software in the eyes of the user. This article will show a few things that I've seen repeatedly that I feel are way to annoying to be allowed.
+
+<strong>Why write this?</strong><strong><span style="font-weight: normal;">
+I know that this type of article has been written before. There are lots of them, really, but the user interface is almost a never ending project. There is almost always something you can do to make your systems interface better. I realize that much of what makes one interface better than another comes down to preference, and that makes UI-creation hard because no two people have the same preferences, but this is a list of things that I've seen in multiple places that I've never understood.</span></strong>
+
+<a href="/uploads/2010/05/Screen-shot-2010-05-02-at-8.33.15-PM.png"><img class="size-medium wp-image-241 " title="Screen shot 2010-05-02 at 8.33.15 PM" src="/uploads/2010/05/Screen-shot-2010-05-02-at-8.33.15-PM-268x300.png" alt="" width="268" height="300" /></a>
+
+<strong>Ads</strong><strong>
+</strong><strong><span style="font-weight: normal;">I realize completely that ads are very important to many sites and programs. Ads pay for content and are often the main source of revenue for a site or program. Consider Google, their business is information categorization, that has no money by itself (unless you want people to pay to use the system). Google's plan is different, they offer advertisements that pay for our easy access to their search indexes.</span></strong>
+
+<strong><span style="font-weight: normal;">Ads obviously have their place, but they can be taken too far. I hate it when a page is dominated by ads. When you're reading an article and you have to dodge flash this and text that it gets really frustrating. Even more frustrating is when you are trying to focus on the words on a page and there is some image flashing and moving and drawing your attention from the text. I get that this is the point of those ads (<a href="http://www.sethgodin.com/">Seth Godin</a> calls this "Interruption Marketing") but should it be? When I'm on a website that has this kind of marketing tactic I get the feeling that the ads are the most important part of the page. I get the feeling that the only reason the site wants me to visit their page is to click on their ads. (Hint: Users don't want to feel less important than your product. You should make the user feel like they are your top priority, and they should be.)</span></strong>
+
+<strong><span style="font-weight: normal;">I'm not saying that there is no room for ads on the Internet, indeed they are needed, but if they are so flashy and take up the hole page (so that the user can't even find the actual "content" of the site) then I feel it is too much. I realize entirely that to some developers and owners of websites, that the ads are very important. I also realize that there are site owners out there that feel that if you aren't going to click on their ads then your not worth the effort of creating the site in the first place. I think that is a huge mistake. The goal of any interface should be to make the user feel at home. To make them feel like everything they need to do is simple to do. And when it's<em> hard </em>to read a blog article you know there is something wrong! While I understand that your primary goal may be to make money, the user should feel that <em>they</em> are your primary goal.</span></strong>
+
+<strong><span style="font-weight: normal;">This is why, while I know that it's frustrating for some developers, I use AdBlock (<a href="https://addons.mozilla.org/en-US/firefox/addon/1865">FireFox</a>, <a href="https://chrome.google.com/extensions/detail/gighmmpiobklfepjocnamgkkbiglidom?hl=en">Chrome</a>, <a href="http://download.cnet.com/Safari-AdBlock/3000-2378_4-10793198.html">Safari</a>).</span></strong>
+
+<span style="font-weight: normal;"><strong>Non-progress Progress Bars
+<span style="font-weight: normal;">I really don't like it when you click on a link and your forwarded to a page with a status bar that seems to be progressing quite rapidly, only to find out that once it fills up, it then empties. The thing has to fill up five more times before it is finished (essentially five times as long as you thought it would take). I'd rather have one of those spiraling pinwheels of death! (The status images that go in circles repeatedly.) Those aren't that bad, they offer no anticipation of progress, but they let users know that your working on the results of their query.</span></strong></span>
+
+<a href="/uploads/2010/05/Screen-shot-2010-05-02-at-8.12.12-PM.png"><img class="size-medium wp-image-236" title="Mac Progress Bar" src="/uploads/2010/05/Screen-shot-2010-05-02-at-8.12.12-PM-300x83.png" alt="" width="300" height="83" /></a>
+
+<span style="font-weight: normal;">While we're on the subject of status bars, on a Mac the status bar has got to change! The bar continuously oscillates between a light and dark blue from right to left. The problem with this is that it's hard to tell if the progress bar is moving or not (at least for me). You can tell if there is a lot of progress, but if the progress bar is moving slowly, you aren't really sure if it's not just stopped. I really like the way that iTunes does this, they have a non-oscillating progress bar and when it's not moving you know and if it is moving, you know. This is (gasp) one area that Windows 7 does better on than a Mac. It still does that crazy whoosh thing, but not as frequently and while I would opt out of that too, it's better than rippling water (or whatever you want to call the Mac's effect).</span>
+
+<a href="/uploads/2010/05/Screen-shot-2010-05-03-at-7.44.37-AM.png"><img class="size-medium wp-image-251 " title="Non-standard Scrollbar" src="/uploads/2010/05/Screen-shot-2010-05-03-at-7.44.37-AM-300x149.png" alt="" width="300" height="149" /></a>
+
+<strong>Non-standard Scrolling</strong><strong>
+</strong><strong> </strong><strong><span style="font-weight: normal;">I hate it when a sub-window pops up with overflowed content and when you want to read or view that extra content the mouse pad or mouse's scroll feature doesn't work! It's like offering a promise of a better world and then ripping the rug out from under us users. This is the one UI idiocy that I hate above all else. It feels like a piratical joke, I can hear the developers laughing every time it happens.</span></strong>
+
+<strong><span style="font-weight: normal;">I don't know why they just don't use CSS to alter the way the standard scroll bar looks. If you're going to use a mechanism that is familiar with a user, you should make sure that the feature works the way they are used to it working. As it is, it's maddening. Only sadists use non-standard scrolling.</span></strong>
+
+<strong>More</strong><strong>
+</strong><strong> </strong><strong><span style="font-weight: normal;">There are certainly more things that I could write about, color choices, bad menu organization, no menu organization, etc. Maybe I'll write another post on them some other time. For now though, what things annoy you in regards to user interfaces?</span></strong>

@@ -1,0 +1,35 @@
+---
+layout: post
+title: "The Cause of Poor Code"
+date: 2015-05-26 08:00:13.0
+author: mahon
+categories: 
+---
+I said in my last post that I felt that the various codebases I've worked on were junk. I however do not think that the various programmers I've worked with were poor programmers. While every programmer surly makes mistakes once in a while the truth of the matter isn't so black and white. There are a couple reasons our precious code base devolves into a disorganized mess. While there are undeniably many reasons for poor code quality, I'll address the two that I think are the most predominant.
+<h3>Handling Dynamic Requirements</h3>
+When a new project is started, some understanding of what it will do must be delivered to the developers who will be working on it. This is a deliverable from the customers to the developers. It is an unfortunate truth, however, that users don't know what they want. We can't blame them for this, it's often hard to describe, technical know-how is lacking, and even if things are exactly as planned they often don't hold up to the thing you envisioned in your head. This enumeration is usually true for developers as well. But, even if we don't blame this problem, it still causes issues (you have to understand a problem to solve it!).
+
+But it doesn't stop there. As will invariably happen, even if the requirements were perfectly understood, once a user (or his/her replacement) has had a chance to use the tool you built or after a few weeks, months, or years, a new requirement will pop up. Working with updated requirements will cause difficulties in our code base if handled incorrectly. I am not implying that changing requirements are a problem, it's what developers do with the changing requirements that can be a problem.  It is perfectly natural for requirements to change and it should be part of any Agile project. The issue arises when a coder looks at the new requirement and (without doing a proper refactor) tries to make it work the same way another feature works when it wasn't ever intended to work that way.
+<h4>The Solution</h4>
+This is hardly the worst offender, but it is an issue. As eluded to above the solution for this problem is relatively simple (at least on paper): relentless refactoring.
+
+One of the reasons Relentless Refactoring is prized so much in Extreme Programming is because requirements are continually evolving and changing. Dynamic requirements demand dynamic code, a fresh look at the answer to yesterday's problem and a conscience effort to morph it into the answer for today's problem. This does not imply that we will do the minimum necessary to get it to work and it certainly doesn't imply that we will copy and paste some code and then make a few tweaks to it here and there. It means that we will iteratively take the code we have and change it into the code we need. Sometimes the answer is easy, sometimes a refactor involves substantially new code.
+<h3>Deadlines</h3>
+The next issue seems to often be the cause for a lack of proper refactoring: deadlines. Below I've quoted the best description I've ever seen that describes the next problem:
+<p style="padding-left: 30px;">A Big Ball of Mud is a haphazardly structured, sprawling, sloppy, duct-tape-and-baling-wire, spaghetti-code jungle. These systems show unmistakable signs of <em>unregulated growth</em>, and <em>repeated, <strong>expedient</strong> repair</em>. Information is shared promiscuously among distant elements of the system, often to the point where nearly all the important information becomes global or duplicated. The overall structure of the system may never have been well defined. If it was, it may have eroded beyond recognition. Programmers with a shred of architectural sensibility shun these quagmires. Only those who are unconcerned about architecture, and, perhaps, are comfortable with the inertia of the day-to-day chore of patching the holes in these failing dikes, are content to work on such systems.</p>
+<p style="padding-left: 30px;">—Brian Foote and Joseph Yoder, <i>Big Ball of Mud.</i> Fourth Conference on Patterns Languages of Programs (PLoP '97/EuroPLoP '97) Monticello, Illinois, September 1997 (emphasis added, this quote was copied from the Wikipedia entry on <a href="http://en.wikipedia.org/wiki/Big_ball_of_mud">Big Ball of Mud</a>)</p>
+Software engineers are often between a rock and a firearm when a new feature is requested. Every once in a while a manager will say that X (very large) Project needs to be done by Y (way to soon) date. I'll let you in on a little secret: this is counter productive. Few developers work better under pressure. Developers (and I'd argue everyone) work best with enough work to keep us busy, but not so much that we don't get to see our families or have a weekend.
+
+What is often most frustrating in these situations (it's happened this way to me before) is that the manager knew about this request from the CEO for months but didn't think to discuss it with the developers. And because of the delay requirements weren't developed properly and everyone will be scrambling to understand this huge problem in a very short time and will be delivering their poorest work because they aren't getting enough sleep.
+
+Okay, rant over.
+<h4>The Solution</h4>
+A sustainable pace in software development requires more than just time. Planning is just as crucial, but not just any kind of planning: smart planning <strong><em>with the developers</em></strong> who will be working on the feature. What constitutes smart planning? A careful consideration of the features you want, with feedback from developers taken into consideration.
+
+I'm going to borrow an analogy from a former boss. Imagine, if you will, a triangle. Each point represents an aspect of software development in practice. One represents Time, another represents Features, and the last represents Quality. As with most things in life, you can't have everything, you must choose which two points are most valuable to you. By imposing a deadline by which all of these features must be finished you are choosing Time and Features and neglecting <del>arguably</del> the most important element on our diagram.
+
+A more sensible approach is to choose one of the other two options. If you choose Time and Quality, you'll have to prioritize which features are most important (which probably means reducing scope and scaling back) and choose only what the developers are comfortable committing to complete within the allotted time. This is the option I would opt for most of the time.
+
+You may also choose Quality and Features which means it will get done when it get's done, but you'll know that what you have is the right product with good quality. The drawback I see in this is that by ignoring the time element you often (though not always) lose valuable feedback you get through iterative designs.
+<h3>Am I quixotic?</h3>
+Probably. I'm that way a lot. But I before you dismiss my musings I hope you will consider the value each developer brings. In my next post in this series I'll address this. As always, post your thoughts below.
