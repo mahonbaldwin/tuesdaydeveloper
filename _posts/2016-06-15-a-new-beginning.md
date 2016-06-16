@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  "A New Beginning!"
-date:   2016-06-04 16:30:42 -0700
+date:   2016-06-15 16:30:42 -0700
 categories: housekeeping
 ---
 
