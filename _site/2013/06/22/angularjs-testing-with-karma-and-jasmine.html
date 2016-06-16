@@ -1,0 +1,546 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>AngularJS Testing with Karma and Jasmine</title>
+  <meta name="description" content="AngularJS is the best thing to happen to JavaScript since jQuery. It’s what JavaScript development has always wanted to be. One of the key advantages to Angu...">
+
+  <link rel="stylesheet" href="/css/main.css">
+  <link rel="canonical" href="http://tuesdaydeveloper.com/2013/06/22/angularjs-testing-with-karma-and-jasmine.html">
+  <link rel="alternate" type="application/rss+xml" title="tuesdayDeveloper;" href="http://tuesdaydeveloper.com/feed.xml">
+</head>
+
+
+  <body>
+
+    <header class="site-header">
+
+  <div class="wrapper">
+
+    <a class="site-title" href="/">tuesdayDeveloper;</a>
+
+    <nav class="site-nav">
+      <a href="#" class="menu-icon">
+        <svg viewBox="0 0 18 15">
+          <path fill="#424242" d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.031C17.335,0,18,0.665,18,1.484L18,1.484z"/>
+          <path fill="#424242" d="M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0c0-0.82,0.665-1.484,1.484-1.484 h15.031C17.335,6.031,18,6.696,18,7.516L18,7.516z"/>
+          <path fill="#424242" d="M18,13.516C18,14.335,17.335,15,16.516,15H1.484C0.665,15,0,14.335,0,13.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.031C17.335,12.031,18,12.696,18,13.516L18,13.516z"/>
+        </svg>
+      </a>
+
+      <div class="trigger">
+        
+          
+          <a class="page-link" href="/about/">About</a>
+          
+        
+          
+        
+          
+        
+          
+        
+      </div>
+    </nav>
+
+  </div>
+
+</header>
+
+
+    <div class="page-content">
+      <div class="wrapper">
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title" itemprop="name headline">AngularJS Testing with Karma and Jasmine</h1>
+    <p class="post-meta"><time datetime="2013-06-22T06:35:48-07:00" itemprop="datePublished">Jun 22, 2013</time> • <span itemprop="author" itemscope itemtype="http://schema.org/Person"><span itemprop="name">mahon</span></span></p>
+  </header>
+
+  <div class="post-content" itemprop="articleBody">
+    <p><a href="/uploads/2013/06/AngularJS-Shield-large.png"><img class="alignleft size-medium wp-image-677" src="/uploads/2013/06/AngularJS-Shield-large-284x300.png" alt="AngularJS-Shield-large" width="284" height="300" /></a>AngularJS is the best thing to happen to JavaScript since jQuery. It’s what JavaScript development has always wanted to be. One of the key advantages to Angular is its dependency injection which is very advantageous when you want to unit test your code. There is one little quirk though… I can’t for the life of me find a tutorial out there that shows how to do that unit testing.</p>
+
+<p>Sure there are recommendations: use the <a title="Jasmine Overview" href="http://pivotal.github.io/jasmine/">Jasmine</a> test framework with the <a title="Karma" href="http://karma-runner.github.io/0.8/index.html">Karma</a> test runner; but there isn’t a start to finish setup guide to make testing work. So I made one. I had to go all around the web finding out how to do this, which (if this is your first stop) you won’t have to do.</p>
+
+<p>If you notice any errors please let me know, but as far as I can tell this is the best way to unit test Angular with Karma and Jasmine.</p>
+<h3>Introduction</h3>
+<p>This tutorial will lead you through installation of all the tools you will need to run automated tests using Karma and Jasmine. I don’t care if you’re doing TDD or TAD, but for this example, we’ll assume that you already have a file you want to test.</p>
+<h3>Install Karma</h3>
+<p>If you don’t have <a title="Node JS" href="http://nodejs.org/">node.js</a> installed, download and install it. After you have it installed go to your terminal or command line and type:</p>
+<pre lang="text">npm install -g karma</pre>
+<h3>File structure</h3>
+<p>The file structure is irrelevant, but for these tests it will look something like this:</p>
+<pre lang="text">Application
+| angular.js
+| angular-resource.js
+| Home
+  | home.js
+| Tests
+  | Home
+    | home.tests.js
+  | karma.config.js (will be created in the next step)
+  | angular-mocks.js</pre>
+<ul>
+  <li>I’m not advocating this file structure, I simply show it for example sake.</li>
+</ul>
+<h3>Configure Karma</h3>
+<p>Create a configuration file by navigating to the directory you wish it to be in and typing the following command in your terminal:</p>
+<pre lang="text">karma init karma.config.js</pre>
+<p>You’ll be asked a few questions including which testing framework you want to use, whether you want the files to be auto watched, and what files to include. For our tutorial we’ll leave ‘jasmine’ as the default framework, let it autowatch files, and include the following files:</p>
+<pre lang="text">../*.js
+../**.*.js
+angular-mocks.js
+**/*.tests.js</pre>
+<p>These are relative paths that include 1) any .js file in the parent directory, any .js file inside of any directory inside of the parent directory, <code>angular-mocks.js</code>, and any file within any directory (located in the current directory) that is formated <code>[name].tests.js</code> (which is how I like to delineate test file from other files).</p>
+
+<p>Whatever files you choose, just be sure that you include angular.js, angular-mocks.js, and any other files that you’ll need.</p>
+<h3>Start Karma</h3>
+<p>Now you are ready to start Karma. Again from the terminal type:</p>
+<pre lang="text">karma start karma.config.js</pre>
+<p>This will start any browsers you listed in the config file on your computer. Each browser will be connected to the Karma instance with it’s own socket and you will see a list of active browsers that will tell you whether or not it is running tests. I wish that Karma would tell you a summary of the last result of your tests for each browser (15 out of 16 passed, 1 failed) but alas for that information you need to look at the terminal window.</p>
+
+<p>An awesome thing about Karma is that you can test on any device connected to your network. Try pointing your phone’s browser to Karma by looking at teh URL of one of the browser windows running the tests. It should look something like this: <code>http://localhost:9876/?id=5359192</code>. Point your phone, VM, or any other device with a browser to <code>[your network IP address]:9876/?id=5359192</code>. Because Karma is running an instance of node.js, your test machine is acting like a server and will send the tests to any browser that is pointed to it.</p>
+<h3>Make Basic Test</h3>
+<p>We are assuming that you already have a file to test. We’ll say that your home.js file looks something like this:</p>
+<h4>home.js</h4>
+<pre lang="javascript" line="1">'use strict';
+
+var app = angular.module('Application', ['ngResource']);
+
+app.factory('UserFactory', function($resource){
+    return $resource('Users/users.json')
+});
+
+app.controller('MainCtrl', function($scope, UserFactory) {
+    $scope.text = 'Hello World!';
+    $scope.users = UserFactory.get();
+});</pre>
+<p>Inside of home.tests.js we can create our tests cases. We’ll start out with the simpler of the two: <code>$scope.text</code> should equal ‘Hello World!’. To test this we must mockout our <code>Application</code> module and the <code>$scope </code> variable. We’ll do this in the Jasmine beforeEach function so that we’ll have a fresh controller and scope at the beginning of each test.</p>
+<h4>home.tests.js</h4>
+<pre lang="javascript" line="1">'use strict';
+
+describe('MainCtrl', function(){
+    var scope;//we'll use this scope in our tests
+
+    //mock Application to allow us to inject our own dependencies
+    beforeEach(angular.mock.module('Application'));
+    //mock the controller for the same reason and include $rootScope and $controller
+    beforeEach(angular.mock.inject(function($rootScope, $controller){
+        //create an empty scope
+        scope = $rootScope.$new();
+        //declare the controller and inject our empty scope
+        $controller('MainCtrl', {$scope: scope});
+    });
+    // tests start here
+});</pre>
+<p>You’ll see in the code example that we are injecting our own scope so that we can verify information off of it. <strong>Also, do not forget to mock out the module itself as on line 7!</strong> We are now ready to do our tests:</p>
+<h4>home.tests.js</h4>
+<pre lang="javascript" line="15">    // tests start here
+    it('should have variable text = "Hello World!"', function(){
+        expect(scope.text).toBe('Hello World!');
+    });</pre>
+<p>If you run this test it should run in any browsers looking at Karma and pass.</p>
+<h3>Make $resource Request</h3>
+<p>Now we’re ready to test the <code>$resource</code> request. To make this request we need to use <code>$httpBackend </code>with is a mocked out version of Angular’s <code>$http</code>. We’ll create another variable called <code>$httpBackend</code> and in our second <code>beforeEach</code> block we’ll inject <code>_$httpBackend_</code> and assign the new variable to <code>_$httpBackend_</code>. We’ll then tell <code>$httpBackend</code> how to respond to requests.</p>
+<pre lang="javascript" line="10">        $httpBackend = _$httpBackend_;
+        $httpBackend.when('GET', 'Users/users.json').respond([{id: 1, name: 'Bob'}, {id:2, name: 'Jane'}]);</pre>
+<p>And our tests:</p>
+<h4>home.tests.js</h4>
+<pre lang="javascript" line="20">    it('should fetch list of users', function(){
+            $httpBackend.flush();
+            expect(scope.users.length).toBe(2);
+            expect(scope.users[0].name).toBe('Bob');
+        });</pre>
+<h3>All Together</h3>
+<h4>home.tests.js</h4>
+<pre lang="javascript" line="1">'use strict';
+
+describe('MainCtrl', function(){
+    var scope, $httpBackend;//we'll use these in our tests
+
+    //mock Application to allow us to inject our own dependencies
+    beforeEach(angular.mock.module('Application'));
+    //mock the controller for the same reason and include $rootScope and $controller
+    beforeEach(angular.mock.inject(function($rootScope, $controller, _$httpBackend_){
+        $httpBackend = _$httpBackend_;
+        $httpBackend.when('GET', 'Users/users.json').respond([{id: 1, name: 'Bob'}, {id:2, name: 'Jane'}]);
+
+        //create an empty scope
+        scope = $rootScope.$new();
+        //declare the controller and inject our empty scope
+        $controller('MainCtrl', {$scope: scope});
+    });
+    // tests start here
+    it('should have variable text = "Hello World!"', function(){
+        expect(scope.text).toBe('Hello World!');
+    });
+    it('should fetch list of users', function(){
+        $httpBackend.flush();
+        expect(scope.users.length).toBe(2);
+        expect(scope.users[0].name).toBe('Bob');
+    });
+});</pre>
+<h3>Tips</h3>
+<ul>
+	<li>Karma will run all tests in all files, if you only want to run a subset of tests change <code>describe</code> or <code>it</code> to <code>ddescribe</code> or <code>iit</code> to run the respective tests. If there are tests that you do not want to test change <code>describe</code> or <code>it</code> to <code>xdescribe</code> or <code>xit</code> to ignore that set of code.</li>
+	<li>I would also suggest reading through the <a title="Jasmine Documentation" href="http://pivotal.github.io/jasmine/">Jasmine documentation</a> to know what methods are available to you.</li>
+	<li>You also have the option to run your tests in an html file on the page. The code for our example would look something like this:
+<h4>home.runner.html</h4>
+<pre lang="html" line="1"><!-- include your script files (notice that the jasmine source files have been added to the project) --><script src="../jasmine/jasmine-1.3.1/jasmine.js" type="text/javascript"></script><script src="../jasmine/jasmine-1.3.1/jasmine-html.js" type="text/javascript"></script><script src="../angular-mocks.js" type="text/javascript"></script><script src="home.tests.js" type="text/javascript"></script><!-- use Jasmine to run and display test results --><script type="text/javascript">// <![CDATA[
+        var jasmineEnv = jasmine.getEnv();
+        jasmineEnv.addReporter(new jasmine.HtmlReporter());
+        jasmineEnv.execute();
+    
+// ]]></script></pre>
+</li>
+</ul>
+
+<div class="archived comments">
+
+<div class="comment">Nice job and thanks.
+I think there should be an additional ')' in the first home.tests.js line 14, making it <b>}));</b> rather than <b>});</b>  <div class="by">Grant on 2013-08-04 13:05:16.0  </div></div>
+<div class="comment">great job!  <div class="by">peterr on 2013-08-20 03:16:16.0  </div></div>
+<div class="comment">Thanks! I think that should be "npm -g install karma", not "npm install -g karma".  <div class="by">Alec McEachran on 2013-09-04 22:54:49.0  </div></div>
+<div class="comment">It appears that angular-mocks.js only defines angular.mock.module when Jasmine is being used. I don't understand why it would exclude the use of Mocha.  <div class="by">Mark Volkmann on 2013-09-08 15:58:09.0  </div></div>
+<div class="comment">So does karma-jasmine ship with jasmine itself, or do I have to install that separately using `npm`??  <div class="by">Rudolf Olah on 2013-09-10 16:50:12.0  </div></div>
+<div class="comment">Do we actually need karma if we are performing tests using browser with all jasmine files included?
+
+I kind of found the fact that karma opens browser completely redundant - as it doesn't really do anything apart from using it's console - all the relevant information is displayed in the terminal anyway.  <div class="by">Mark on 2013-10-12 08:26:23.0  </div></div>
+<div class="comment">Also - you haven't mentioned what the users.json file should contain - I'm constantly getting the following test failure:
+
+TypeError: Object # has no method 'push'  <div class="by">Mark on 2013-10-12 08:45:56.0  </div></div>
+<div class="comment">@Mark 
+You can use a headless browser such as PhantomJS with karma to avoid a browser window opening.  <div class="by">mr on 2013-10-14 22:57:51.0  </div></div>
+<div class="comment">Check out our Jasmine testing videos at http://blog.neosavvy.com.  <div class="by">Trevor Ewen on 2013-11-04 14:44:32.0  </div></div>
+<div class="comment">How could we do AngularJS Testing with Karma for https sites?  <div class="by"> on 2013-11-06 09:12:39.0  </div></div>
+<div class="comment">I tried running a simple test. But its failing with below error:
+C:\Users\502245602\combo&gt;karma start src/main/webapp/karma.config.js
+INFO [karma]: Karma v0.10.4 server started at http://localhost:9876/
+INFO [launcher]: Starting browser Chrome
+INFO [Chrome 30.0.1599 (Windows 7)]: Connected on socket auZijvn9LzbH_2K0QDcv
+Chrome 30.0.1599 (Windows 7) Sanity Test Sanity test Jasmine" FAILED
+        expect undefined toEqual "Hi"
+      ..../src/main/webapp/test/spec/controllers/welcome.test.js:15:3: expected "Hi" but was undefined
+Chrome 30.0.1599 (Windows 7): Executed 1 of 1 (1 FAILED) ERROR (0.38 secs / 0.024 secs)
+
+
+my test looks like below:
+
+
+describe('Sanity Test', function() {
+	var scope;
+	beforeEach(angular.mock.module('serviceApp'));
+	beforeEach(angular.mock.inject(function($rootScope, $controller) {
+		scope = $rootScope.$new();
+		$controller('welcomeController', {
+			$scope : scope
+		});
+	}));
+
+
+	it('Sanity test Jasmine"', function() {
+		scope.text = 'Hi';		
+		expect('Hi').toEqual('Hi');
+	});
+});
+
+any help...  <div class="by">Priyabrat on 2013-11-13 20:35:45.0  </div></div>
+<div class="comment"><code>var complement = "Great Job!";</code>  <div class="by"> on 2013-11-19 15:32:46.0  </div></div>
+<div class="comment">@Priyabrat your expect should be:
+
+expect(scope.text).toEqual('Hi');  <div class="by">Brandon R Staley on 2013-12-04 10:02:49.0  </div></div>
+<div class="comment">Thanks you for this tutorial. It helps me a lot!!  <div class="by">Tobi on 2013-12-17 17:31:53.0  </div></div>
+<div class="comment">Could not get html runner working:
+
+Uncaught TypeError: Cannot set property 'mock' of undefined angular-mocks.js:17
+Uncaught TypeError: undefined is not a function home.runner.html:16  <div class="by">Dmitri on 2013-12-28 02:04:22.0  </div></div>
+<div class="comment">Also the test did not pass:
+
+Chrome 31.0.1650 (Mac OS X 10.8.5) MainCtrlTest should have variable text = "Hello World!" FAILED
+	ReferenceError: $httpBackend is not defined
+	    at null. (/Users/dmitrizaitsev/Dropbox/Priv/APP/Testers/generated-app-test/test/spec/home.tests.js:21:26)
+	    at Object.invoke (/Users/dmitrizaitsev/Dropbox/Priv/APP/Testers/generated-app-test/app/bower_components/angular/angular.js:3697:17)
+	    at workFn (/Users/dmitrizaitsev/Dropbox/Priv/APP/Testers/generated-app-test/app/bower_components/angular-mocks/angular-mocks.js:2102:20)
+	Error: Declaration Location
+	    at Object.window.inject.angular.mock.inject [as inject] (/Users/dmitrizaitsev/Dropbox/Priv/APP/Testers/generated-app-test/app/bower_components/angular-mocks/angular-mocks.js:2087:25)
+	    at null. (/Users/dmitrizaitsev/Dropbox/Priv/APP/Testers/generated-app-test/test/spec/home.tests.js:19:29)
+	    at /Users/dmitrizaitsev/Dropbox/Priv/APP/Testers/generated-app-test/test/spec/home.tests.js:3:1
+	TypeError: Cannot read property 'text' of undefined
+	    at null. (/Users/dmitrizaitsev/Dropbox/Priv/APP/Testers/generated-app-test/test/spec/home.tests.js:32:21)
+Chrome 31.0.1650 (Mac OS X 10.8.5): Executed 2 of 2 (1 FAILED) (0.031 secs / 0.028 secs)
+
+However, dropping the _ miraculously  works:
+
+        function($rootScope, $controller, $httpBackend){
+            $httpBackend.when('GET', 'Users/users.json').respond([{id: 1, name: 'Bob'}, {id:2, name: 'Jane'}]);
+...
+
+Chrome 31.0.1650 (Mac OS X 10.8.5): Executed 2 of 2 SUCCESS (0.039 secs / 0.035 secs)  <div class="by">Dmitri on 2013-12-28 02:10:28.0  </div></div>
+<div class="comment">How to test multiple controller, whether i have to declare 'var scope' for each controller ?  <div class="by">Imran Khatri on 2013-12-31 23:48:43.0  </div></div>
+<div class="comment">How to test multiple controller, whether i have to declare 'var scope' for each controller?  <div class="by">Imran Khatri on 2013-12-31 23:49:24.0  </div></div>
+<div class="comment">Really nice!
+
+I spend days to make my tests work with karma/jasmine, and this is the best article that i found  <div class="by">Ariel Moraes on 2014-01-21 12:12:39.0  </div></div>
+<div class="comment">@Dmitri
+
+About the undefined mock,
+make sure your config/karma.conf.js 
+is pointing at the right file location.
+
+Example:
+
+files : [
+      'public/js/lib/angular/angular.js',
+      'public/js/lib/angular/angular-*.js',
+      'test/lib/angular/angular-mocks.js',
+      'public/js/**/*.js',
+      'test/unit/**/*.js'
+    ]  <div class="by">Dude on 2014-02-15 13:37:50.0  </div></div>
+<div class="comment">good one!!  <div class="by"> on 2014-02-19 04:49:56.0  </div></div>
+<div class="comment">Nice tutorial. Thanks!  <div class="by">Franco on 2014-02-19 10:41:14.0  </div></div>
+<div class="comment">I was unable to get this example to work with a fresh install, even after fixing the above errors.
+I'm using the latest versions of all tools, and Angular is v1.2.15
+The first error was:
+        Error: [$injector:modulerr] Failed to instantiate module ngResource due to:
+        Error: [$injector:nomod] Module 'ngResource' is not available! You either misspelled the module name or forgot to load it. If registering a module ensure that you specify the dependencies as the second argument.
+
+So I simplified the example further to:
+appl.js
+=====
+<code>
+'use strict';
+var app = angular.module('Application');
+app.controller('MainCtrl', function($scope) {
+    $scope.text = 'Hello World!';
+});
+</code>
+--------
+appl.test.js
+==========
+<code>
+'use strict';
+describe('MainCtrl', function() {
+    var scope;//we'll use this scope in our tests
+    beforeEach(angular.mock.module('Application'));
+    //mock the controller for the same reason and include $rootScope and $controller
+    beforeEach(angular.mock.inject(function($rootScope, $controller){
+        scope = $rootScope.$new();
+        $controller('MainCtrl', {$scope: scope});
+    }));
+    it('should have variable text = "Hello World!"', function() {
+       expect(scope.text).toBe('Hello World!');
+    });
+});
+</code>
+-------------
+but this fails with:
+  Uncaught Error: [$injector:nomod] Module 'Application' is not available! You either misspelled the module name or forgot to load it. If registering a module ensure that you specify the dependencies as the second argument.
+
+Any help is greatly appreciated...  <div class="by">P Snider on 2014-03-25 19:04:18.0  </div></div>
+<div class="comment">Hey P Snider, I had the same problem-- it looks like the home.js file isn't being included in the Karma config file (that's why it couldn't find the Application Module), so in karma.config.js, I added '../Home/*.js' to the files array.  <div class="by">Will on 2014-04-03 19:30:32.0  </div></div>
+<div class="comment">Great tutorial.
+
+Couple of addition to it will make a real life testing suite:
+
+1: PhantomJS integration for headless ( no opening browsers anymore) testing.
+2: Coverage, for testing code coverage in the application.
+3: Switching auto-run to false and doing on demand tests. (depends across type of projects and developers)
+
+All in all a great place to start karma-jasmine-angular unit testing !!!!  <div class="by">Abhi on 2014-04-21 13:34:30.0  </div></div>
+<div class="comment">Note that it is now recommended to globally install <strong>karma-cli</strong> (<code>npm install -g karma-cli</code>) which will take care of fetching the appropriate <strong>karma</strong>.
+
+Thus you can install a different local version specific to each project and <strong>karma-cli</strong> will pick the appropriate one.  <div class="by">Aymeric Beaumet on 2014-04-24 04:12:15.0  </div></div>
+<div class="comment">To run the command "karma init karma.config.js" I had to install the package karma-cli (npm install -g karma-cli)  <div class="by">Gianni Bossini on 2014-05-09 03:55:26.0  </div></div>
+<div class="comment">Good tutorial here as well for those interested:
+
+https://docs.angularjs.org/tutorial  <div class="by">Treize on 2014-05-23 10:55:57.0  </div></div>
+<div class="comment">aaa  <div class="by">Asawari Ranjit Patil on 2014-06-20 06:38:56.0  </div></div>
+<div class="comment">Great tutorial. Exactly what I needed!  <div class="by">KJ Price on 2014-06-25 11:48:16.0  </div></div>
+<div class="comment">Great article. Thanks!
+
+But I think that the whole point of factories is to isolate the dependancies, so your controller doesn't care uf the users are created by http request or its a simply hardcoded array. I think that the most useful way to test this funcionality is to stub the userfactory with an array or a mock promise that resolves returning the users array. What do you  think?  <div class="by">Vinícius Oyama on 2014-06-28 12:48:16.0  </div></div>
+<div class="comment">Nice  <div class="by">Karthee on 2014-07-13 03:53:56.0  </div></div>
+<div class="comment">Hi, I've tried exactly the same, but I'm always getting these following Errors:
+
+<code>minErr/&lt;@/home/michael/webui-ng/src/client/app/bower_components/angular/angular.js:78:5
+	loadModules/&lt;@/home/michael/webui-ng/src/client/app/bower_components/angular/angular.js:3859:1
+	forEach@/home/michael/webui-ng/src/client/app/bower_components/angular/angular.js:325:7
+	loadModules@/home/michael/webui-ng/src/client/app/bower_components/angular/angular.js:3824:5
+	createInjector@/home/michael/webui-ng/src/client/app/bower_components/angular/angular.js:3764:3
+	workFn@/home/michael/webui-ng/src/client/app/bower_components/angular-mocks/angular-mocks.js:2150:9
+	
+	TypeError: scope is undefined in /home/michael/webui-ng/src/client/test/hello.js (line 17)
+	@/home/michael/webui-ng/src/client/test/hello.js:17:9</code>
+
+My idea is, that the problem has something to do with the requirements array in angular.module('Application', ['ngRessource']), because when letting this empty the test passes. I'm pretty stuck at this problem at the moment, do you have an idea what it could be?  <div class="by">Michael on 2014-07-17 09:41:06.0  </div></div>
+<div class="comment">For people who just want to simply test on a web page, such as in the home.runner.html example above, and using Jasmine 2.X: you'll need the <i>boot.js</i> file declared after <i>jasmine.js</i> and <i>jasmine-html.js</i>.
+
+If not, you'll get nothing but a couple of reference errors in the browser console.  <div class="by">User20140804 on 2014-08-04 09:36:19.0  </div></div>
+<div class="comment">Line 17 in the second home.tests.js is missing a closing single-quote, which generates syntax errors if the code is copy/pasted directly.
+
+The line is:
+expect(scope.text).toBe('Hello World!);
+
+It should be:
+expect(scope.text).toBe('Hello World!');
+
+:-)  <div class="by">Paul B. Hartzog on 2014-10-16 23:42:19.0  </div></div>
+<div class="comment">1. If my unit test is calling function which is in controller and that function is calling a service to fetch the details. Will it call service(StationService)? 
+2. My Karma unit test is not able to inject StationService and not able to call service. 
+
+My Code.
+/// controller
+var policyControllers = angular.module('policyControllers', []);
+policyControllers.controller('StationListController', ['$translate', '$scope','$rootScope','$state', 'StationService', 'StationListExportService', function ($translate, $scope, $rootScope, $state, StationService, StationListExportService) {
+...
+$scope.getFilterDetails = function(StationService, filterDetails ){
+
+	StationService.get(filterDetails).$promise.then(function (filteredDetails) {
+			console.log(" Web services Result - ", JSON.stringify(filteredDetails));			
+		},function(error) {
+			console.log(" Error ");
+		});
+	};
+	
+
+
+
+
+	
+///Service	
+var policyServices = angular.module('policyServices', ['ngResource']);
+policyServices.factory('StationService', ['$resource', function($resource) {
+	return $resource(policyConfig.mock? 'modules/policymanager/services/mock/stations.json': 'http://10.132.240.25:7640/policy/api/v1/stationpolicy/stations',{},{
+		get:{method: 'POST',isArray: false, url:'modules/policymanager/services/mock/stations.json'}
+	});
+}]);
+
+
+
+/// Unit test
+describe('station filter', function(){
+
+    var scope;
+    var ctrl;
+    var translate, scope, rootScope, state;
+    var StationService, StationListExportService;
+
+    beforeEach(module('policyServices'));
+    beforeEach(module('policyControllers'));
+
+
+
+    beforeEach(inject(function(_StationService_, _StationListExportService_, $rootScope, $controller, $translate, $state) {
+
+        StationService = _StationService_;
+        StationListExportService = _StationListExportService_;
+        translate = $translate;
+        rootScope = $rootScope;
+        state = $state;
+        scope = $rootScope.$new();
+        ctrl = $controller('StationListController', {$scope: scope});
+
+    }));
+
+
+
+
+    it('Stations Inject test case', inject(['StationService',function(StationService){
+
+        var data = {"recency":"","countries":[],"policies":[],"stations":[{"stationName":"Test"}],"status":"ready","regions":[]};
+        
+        scope.getFilterDetails(StationService, data);
+        
+      ///  Getting StationService is undifiened 
+    
+    }]));  <div class="by">Amit on 2015-02-03 08:09:50.0  </div></div>
+<div class="comment">For anyone experiencing an issue where $httpBackend.flush() returns an error that it's looking for an object but an array was found, try changing this line:
+
+`$httpBackend.when('GET', 'Users/users.json').respond([{ id: 1, name: 'Bob' }, { id: 2, name: 'Jane' }]);` 
+
+to this:
+
+`$httpBackend.when('GET', 'Users/users.json').respond(200, { data: [{ id: 1, name: 'Bob' }, { id: 2, name: 'Jane' }] });`
+
+and subsequently change the following lines to test the new `data` object:
+
+`$httpBackend.flush();`
+`expect(scope.users.data.length).toBe(2);`
+`expect(scope.users.data[0].name).toBe('Bob');`
+
+Otherwise, great post!  <div class="by">Aaron Jessen on 2015-04-03 10:20:08.0  </div></div>
+<div class="comment">P.S. Remove the ` from the lines from the code in my previous comment (I thought the comment system might be like StackOverflow where ` creates code blocks).  <div class="by">Aaron Jessen on 2015-04-03 10:22:24.0  </div></div>
+<div class="comment">To make this code sample work , I had to :
+1 - add the missing parenthesis in "All Together, home.tests.js", line 17 : it should be "}));" instead of "});" (as noted by Grant above)
+2 - change "Userfactory.get()" by "UserFactory.query()" in home.js, otherwise I got a "Error in resource configuration. Expected response to contain an object but got an array"
+
+Hope it'll help others  <div class="by">Michael Zilbermann on 2015-05-12 14:23:51.0  </div></div>
+<div class="comment">You've help me. Thank you, Aaron Jessen!  <div class="by"> on 2015-07-02 00:19:19.0  </div></div>
+</div>
+
+  </div>
+  <div class="PageNavigation">
+    
+    <a class="prev" href="/2013/02/22/story-estimation.html">&laquo; Story Estimation</a>
+    
+    
+    <a class="next" href="/2013/10/28/how-to-add-a-widget-to-your-wordpress-blog.html">How to Add a Widget to your Wordpress Blog &raquo;</a>
+    
+  </div>
+
+</article>
+
+      </div>
+    </div>
+
+    <footer class="site-footer">
+
+  <div class="wrapper">
+
+    <h2 class="footer-heading">tuesdayDeveloper;</h2>
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col footer-col-1">
+        <ul class="contact-list">
+          <li>tuesdayDeveloper;</li>
+          <li><a href="mailto:"></a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col footer-col-2">
+        <ul class="social-media-list">
+          
+          <li>
+            <a href="https://github.com/mahon.baldwin"><span class="icon icon--github"><svg viewBox="0 0 16 16"><path fill="#828282" d="M7.999,0.431c-4.285,0-7.76,3.474-7.76,7.761 c0,3.428,2.223,6.337,5.307,7.363c0.388,0.071,0.53-0.168,0.53-0.374c0-0.184-0.007-0.672-0.01-1.32 c-2.159,0.469-2.614-1.04-2.614-1.04c-0.353-0.896-0.862-1.135-0.862-1.135c-0.705-0.481,0.053-0.472,0.053-0.472 c0.779,0.055,1.189,0.8,1.189,0.8c0.692,1.186,1.816,0.843,2.258,0.645c0.071-0.502,0.271-0.843,0.493-1.037 C4.86,11.425,3.049,10.76,3.049,7.786c0-0.847,0.302-1.54,0.799-2.082C3.768,5.507,3.501,4.718,3.924,3.65 c0,0,0.652-0.209,2.134,0.796C6.677,4.273,7.34,4.187,8,4.184c0.659,0.003,1.323,0.089,1.943,0.261 c1.482-1.004,2.132-0.796,2.132-0.796c0.423,1.068,0.157,1.857,0.077,2.054c0.497,0.542,0.798,1.235,0.798,2.082 c0,2.981-1.814,3.637-3.543,3.829c0.279,0.24,0.527,0.713,0.527,1.437c0,1.037-0.01,1.874-0.01,2.129 c0,0.208,0.14,0.449,0.534,0.373c3.081-1.028,5.302-3.935,5.302-7.362C15.76,3.906,12.285,0.431,7.999,0.431z"/></svg>
+</span><span class="username">mahon.baldwin</span></a>
+
+          </li>
+          
+
+          
+          <li>
+            <a href="https://twitter.com/mahonrib"><span class="icon icon--twitter"><svg viewBox="0 0 16 16"><path fill="#828282" d="M15.969,3.058c-0.586,0.26-1.217,0.436-1.878,0.515c0.675-0.405,1.194-1.045,1.438-1.809c-0.632,0.375-1.332,0.647-2.076,0.793c-0.596-0.636-1.446-1.033-2.387-1.033c-1.806,0-3.27,1.464-3.27,3.27 c0,0.256,0.029,0.506,0.085,0.745C5.163,5.404,2.753,4.102,1.14,2.124C0.859,2.607,0.698,3.168,0.698,3.767 c0,1.134,0.577,2.135,1.455,2.722C1.616,6.472,1.112,6.325,0.671,6.08c0,0.014,0,0.027,0,0.041c0,1.584,1.127,2.906,2.623,3.206 C3.02,9.402,2.731,9.442,2.433,9.442c-0.211,0-0.416-0.021-0.615-0.059c0.416,1.299,1.624,2.245,3.055,2.271 c-1.119,0.877-2.529,1.4-4.061,1.4c-0.264,0-0.524-0.015-0.78-0.046c1.447,0.928,3.166,1.469,5.013,1.469 c6.015,0,9.304-4.983,9.304-9.304c0-0.142-0.003-0.283-0.009-0.423C14.976,4.29,15.531,3.714,15.969,3.058z"/></svg>
+</span><span class="username">mahonrib</span></a>
+
+          </li>
+          
+        </ul>
+      </div>
+
+      <div class="footer-col footer-col-3">
+        <p>tech opinions and how-tos</p>
+      </div>
+    </div>
+
+  </div>
+
+</footer>
+
+
+  </body>
+
+</html>

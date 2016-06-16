@@ -1,0 +1,774 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>tuesdayDeveloper;</title>
+    <description>tech opinions and how-tos</description>
+    <link>http://tuesdaydeveloper.com/</link>
+    <atom:link href="http://tuesdaydeveloper.com/feed.xml" rel="self" type="application/rss+xml"/>
+    <pubDate>Wed, 15 Jun 2016 17:15:40 -0700</pubDate>
+    <lastBuildDate>Wed, 15 Jun 2016 17:15:40 -0700</lastBuildDate>
+    <generator>Jekyll v3.1.6</generator>
+    
+      <item>
+        <title>A New Beginning!</title>
+        <description>&lt;p&gt;I’ve been blogging here for more than six years and I’m now excited to announce that I’m transitioning my blog from WordPress to Jekyll (because it’s cool). You’ve probably&lt;sup id=&quot;fnref:1&quot;&gt;&lt;a href=&quot;#fn:1&quot; class=&quot;footnote&quot;&gt;1&lt;/a&gt;&lt;/sup&gt; already noticed the blog layout change which is likely to continue to change in the sort term.&lt;/p&gt;
+
+&lt;p&gt;Due to some complications&lt;sup id=&quot;fnref:2&quot;&gt;&lt;a href=&quot;#fn:2&quot; class=&quot;footnote&quot;&gt;2&lt;/a&gt;&lt;/sup&gt; an achieve with past posts isn’t available for now (I’ll work on getting them back though).&lt;/p&gt;
+
+&lt;div class=&quot;footnotes&quot;&gt;
+  &lt;ol&gt;
+    &lt;li id=&quot;fn:1&quot;&gt;
+      &lt;p&gt;Unless you don’t read my blog regularly, which you should start, though I can’t really blame you because it’s not like there is a lot of new content here on a regular basis. &lt;a href=&quot;#fnref:1&quot; class=&quot;reversefootnote&quot;&gt;&amp;#8617;&lt;/a&gt;&lt;/p&gt;
+    &lt;/li&gt;
+    &lt;li id=&quot;fn:2&quot;&gt;
+      &lt;p&gt;Which may or may not have something to do with why my site has been down for a month. But I’m not pointing fingers. I’m using them to type instead. &lt;a href=&quot;#fnref:2&quot; class=&quot;reversefootnote&quot;&gt;&amp;#8617;&lt;/a&gt;&lt;/p&gt;
+    &lt;/li&gt;
+  &lt;/ol&gt;
+&lt;/div&gt;
+</description>
+        <pubDate>Sat, 04 Jun 2016 16:30:42 -0700</pubDate>
+        <link>http://tuesdaydeveloper.com/housekeeping/2016/06/04/a-new-beginning.html</link>
+        <guid isPermaLink="true">http://tuesdaydeveloper.com/housekeeping/2016/06/04/a-new-beginning.html</guid>
+        
+        
+        <category>housekeeping</category>
+        
+      </item>
+    
+      <item>
+        <title>Rounding Errors</title>
+        <description>&lt;p&gt;I’m not really sure why, but since I learned about rounding errors I’ve always been fascinated by them. Case in point, I was playing with Clojure’s (range) function and:&lt;/p&gt;
+
+&lt;pre lang=&quot;clojure&quot;&gt;(range 0.1 1.1 0.1)
+=&amp;gt;(0.1 0.2 0.30000000000000004 0.4 0.5 0.6 0.7 0.7999999999999999 0.8999999999999999 0.9999999999999999 1.0999999999999999&lt;/pre&gt;
+
+&lt;p&gt;When I tried this out I was expecting ten results—not eleven—something more like:&lt;/p&gt;
+
+&lt;pre lang=&quot;clojure&quot;&gt;(map #(/ % 10.0) (range 1 11))
+=&amp;gt;(0.1 0.2 0.3 0.4 0.5 0.6 0.7 0.8 0.9 1.0)&lt;/pre&gt;
+</description>
+        <pubDate>Tue, 09 Feb 2016 04:34:43 -0800</pubDate>
+        <link>http://tuesdaydeveloper.com/2016/02/09/rounding-errors.html</link>
+        <guid isPermaLink="true">http://tuesdaydeveloper.com/2016/02/09/rounding-errors.html</guid>
+        
+        
+      </item>
+    
+      <item>
+        <title>Comment Manager</title>
+        <description>
+</description>
+        <pubDate>Wed, 16 Dec 2015 04:40:12 -0800</pubDate>
+        <link>http://tuesdaydeveloper.com/2015/12/16/comment-manager.html</link>
+        <guid isPermaLink="true">http://tuesdaydeveloper.com/2015/12/16/comment-manager.html</guid>
+        
+        
+      </item>
+    
+      <item>
+        <title>The Cause of Poor Code</title>
+        <description>&lt;p&gt;I said in my last post that I felt that the various codebases I’ve worked on were junk. I however do not think that the various programmers I’ve worked with were poor programmers. While every programmer surly makes mistakes once in a while the truth of the matter isn’t so black and white. There are a couple reasons our precious code base devolves into a disorganized mess. While there are undeniably many reasons for poor code quality, I’ll address the two that I think are the most predominant.&lt;/p&gt;
+&lt;h3&gt;Handling Dynamic Requirements&lt;/h3&gt;
+&lt;p&gt;When a new project is started, some understanding of what it will do must be delivered to the developers who will be working on it. This is a deliverable from the customers to the developers. It is an unfortunate truth, however, that users don’t know what they want. We can’t blame them for this, it’s often hard to describe, technical know-how is lacking, and even if things are exactly as planned they often don’t hold up to the thing you envisioned in your head. This enumeration is usually true for developers as well. But, even if we don’t blame this problem, it still causes issues (you have to understand a problem to solve it!).&lt;/p&gt;
+
+&lt;p&gt;But it doesn’t stop there. As will invariably happen, even if the requirements were perfectly understood, once a user (or his/her replacement) has had a chance to use the tool you built or after a few weeks, months, or years, a new requirement will pop up. Working with updated requirements will cause difficulties in our code base if handled incorrectly. I am not implying that changing requirements are a problem, it’s what developers do with the changing requirements that can be a problem.  It is perfectly natural for requirements to change and it should be part of any Agile project. The issue arises when a coder looks at the new requirement and (without doing a proper refactor) tries to make it work the same way another feature works when it wasn’t ever intended to work that way.&lt;/p&gt;
+&lt;h4&gt;The Solution&lt;/h4&gt;
+&lt;p&gt;This is hardly the worst offender, but it is an issue. As eluded to above the solution for this problem is relatively simple (at least on paper): relentless refactoring.&lt;/p&gt;
+
+&lt;p&gt;One of the reasons Relentless Refactoring is prized so much in Extreme Programming is because requirements are continually evolving and changing. Dynamic requirements demand dynamic code, a fresh look at the answer to yesterday’s problem and a conscience effort to morph it into the answer for today’s problem. This does not imply that we will do the minimum necessary to get it to work and it certainly doesn’t imply that we will copy and paste some code and then make a few tweaks to it here and there. It means that we will iteratively take the code we have and change it into the code we need. Sometimes the answer is easy, sometimes a refactor involves substantially new code.&lt;/p&gt;
+&lt;h3&gt;Deadlines&lt;/h3&gt;
+&lt;p&gt;The next issue seems to often be the cause for a lack of proper refactoring: deadlines. Below I’ve quoted the best description I’ve ever seen that describes the next problem:&lt;/p&gt;
+&lt;p style=&quot;padding-left: 30px;&quot;&gt;A Big Ball of Mud is a haphazardly structured, sprawling, sloppy, duct-tape-and-baling-wire, spaghetti-code jungle. These systems show unmistakable signs of &lt;em&gt;unregulated growth&lt;/em&gt;, and &lt;em&gt;repeated, &lt;strong&gt;expedient&lt;/strong&gt; repair&lt;/em&gt;. Information is shared promiscuously among distant elements of the system, often to the point where nearly all the important information becomes global or duplicated. The overall structure of the system may never have been well defined. If it was, it may have eroded beyond recognition. Programmers with a shred of architectural sensibility shun these quagmires. Only those who are unconcerned about architecture, and, perhaps, are comfortable with the inertia of the day-to-day chore of patching the holes in these failing dikes, are content to work on such systems.&lt;/p&gt;
+&lt;p style=&quot;padding-left: 30px;&quot;&gt;—Brian Foote and Joseph Yoder, &lt;i&gt;Big Ball of Mud.&lt;/i&gt; Fourth Conference on Patterns Languages of Programs (PLoP &#39;97/EuroPLoP &#39;97) Monticello, Illinois, September 1997 (emphasis added, this quote was copied from the Wikipedia entry on &lt;a href=&quot;http://en.wikipedia.org/wiki/Big_ball_of_mud&quot;&gt;Big Ball of Mud&lt;/a&gt;)&lt;/p&gt;
+&lt;p&gt;Software engineers are often between a rock and a firearm when a new feature is requested. Every once in a while a manager will say that X (very large) Project needs to be done by Y (way to soon) date. I’ll let you in on a little secret: this is counter productive. Few developers work better under pressure. Developers (and I’d argue everyone) work best with enough work to keep us busy, but not so much that we don’t get to see our families or have a weekend.&lt;/p&gt;
+
+&lt;p&gt;What is often most frustrating in these situations (it’s happened this way to me before) is that the manager knew about this request from the CEO for months but didn’t think to discuss it with the developers. And because of the delay requirements weren’t developed properly and everyone will be scrambling to understand this huge problem in a very short time and will be delivering their poorest work because they aren’t getting enough sleep.&lt;/p&gt;
+
+&lt;p&gt;Okay, rant over.&lt;/p&gt;
+&lt;h4&gt;The Solution&lt;/h4&gt;
+&lt;p&gt;A sustainable pace in software development requires more than just time. Planning is just as crucial, but not just any kind of planning: smart planning &lt;strong&gt;&lt;em&gt;with the developers&lt;/em&gt;&lt;/strong&gt; who will be working on the feature. What constitutes smart planning? A careful consideration of the features you want, with feedback from developers taken into consideration.&lt;/p&gt;
+
+&lt;p&gt;I’m going to borrow an analogy from a former boss. Imagine, if you will, a triangle. Each point represents an aspect of software development in practice. One represents Time, another represents Features, and the last represents Quality. As with most things in life, you can’t have everything, you must choose which two points are most valuable to you. By imposing a deadline by which all of these features must be finished you are choosing Time and Features and neglecting &lt;del&gt;arguably&lt;/del&gt; the most important element on our diagram.&lt;/p&gt;
+
+&lt;p&gt;A more sensible approach is to choose one of the other two options. If you choose Time and Quality, you’ll have to prioritize which features are most important (which probably means reducing scope and scaling back) and choose only what the developers are comfortable committing to complete within the allotted time. This is the option I would opt for most of the time.&lt;/p&gt;
+
+&lt;p&gt;You may also choose Quality and Features which means it will get done when it get’s done, but you’ll know that what you have is the right product with good quality. The drawback I see in this is that by ignoring the time element you often (though not always) lose valuable feedback you get through iterative designs.&lt;/p&gt;
+&lt;h3&gt;Am I quixotic?&lt;/h3&gt;
+&lt;p&gt;Probably. I’m that way a lot. But I before you dismiss my musings I hope you will consider the value each developer brings. In my next post in this series I’ll address this. As always, post your thoughts below.&lt;/p&gt;
+</description>
+        <pubDate>Tue, 26 May 2015 01:00:13 -0700</pubDate>
+        <link>http://tuesdaydeveloper.com/2015/05/26/the-cause-of-poor-code.html</link>
+        <guid isPermaLink="true">http://tuesdaydeveloper.com/2015/05/26/the-cause-of-poor-code.html</guid>
+        
+        
+      </item>
+    
+      <item>
+        <title>A Better Way</title>
+        <description>&lt;p&gt;Since the onset of my programming career it seemed to me that there must be a better way.&lt;/p&gt;
+
+&lt;p&gt;In college I really enjoyed learning how to “think like a computer” (as one teacher put it). I got very good at dissecting each problem and tuning the gears and syntax of a language to make the programs work well. I felt destined to be a great coder and I was excited for the destiny that surely awaited.&lt;/p&gt;
+
+&lt;p&gt;In the more advanced courses, shortly before graduation, I felt a resistance to some of the more complex patterns and practices, but I didn’t question them because I knew that I was just some silly undergraduate with no real experience—and besides, all I needed was time to understand the new practices that seemed a bit odd and I would be able to master those too. Despite my hesitance, I did very well in my classes. I really enjoyed my professors and it seemed that they were impressed by me as well.&lt;/p&gt;
+
+&lt;p&gt;And then I graduated.&lt;/p&gt;
+
+&lt;p&gt;I had a rude awakening in my first job when I realized how little I really knew and when I discovered how very &lt;em&gt;wrong&lt;/em&gt; the code I inherited and was expected to curate was.&lt;/p&gt;
+
+&lt;p&gt;In each job I’ve begun I’ve made the same realizations—I don’t know enough and I’ll be working on some ugly code.&lt;/p&gt;
+
+&lt;p&gt;I’ve attempted to address the first issue, and I continue to educate myself continually (as well as can be expected for a full-time worker who also has a two-year-old).&lt;/p&gt;
+
+&lt;p&gt;As for the second point, however, I’m almost beginning to wonder if the software project exists that I wouldn’t classify as abysmal in its architecture, organization, and/or general messed-up-ness. Perhaps the odds have been stacked against me and I’ve just been unlucky with the jobs that I’ve had, but the way other programmers talk there are even worse faits than the piles of spaghetti code I’ve worked on.&lt;/p&gt;
+
+&lt;p&gt;This isn’t to say that all the code I’ve worked on has been completely bad, there was certainly strong points in each code base that I’ve worked on. It’s also certainly true that I’m not nearly as experienced as other software engineers and perhaps I wouldn’t recognize good code if I saw it. But, well, I’m pretty arrogant and I don’t think that’s the case.&lt;/p&gt;
+
+&lt;p&gt;I’m starting to wonder if what Tolstoy says of &lt;a href=&quot;http://www.goodreads.com/quotes/7142-all-happy-families-are-alike-each-unhappy-family-is-unhappy&quot; target=&quot;_blank&quot;&gt;happy and unhappy families&lt;/a&gt; can be said of software as well:&lt;/p&gt;
+&lt;p style=&quot;text-align: center;&quot;&gt;All good code is alike; all bad code is bad in its own way.&lt;/p&gt;
+&lt;p&gt;But one thing bothers me more than anything else: What is good code?&lt;/p&gt;
+
+&lt;p&gt;Is there one true way to code that is superior to all other methods? Is there a language that is better than all the rest? If there is a better way to organize, write, create, and author code; does anyone know what it is?&lt;/p&gt;
+
+&lt;p&gt;To be sure there are a lot of opinions out there. I’m not interested in opinions! I want facts. Something that can be proven and is measurable. There is a litmus test for this better way:&lt;/p&gt;
+&lt;ul&gt;
+	&lt;li&gt;Are fewer bugs recorded?&lt;/li&gt;
+	&lt;li&gt;Is the code easy to follow and understand?&lt;/li&gt;
+	&lt;li&gt;Is there added complexity and overhead required that isn&#39;t necessary (rather than the pomp and circumstance you see with a good number of frameworks)?&lt;/li&gt;
+	&lt;li&gt;How easy it is to respond to errors?&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;I don’t purport to have all the answers, I may be close to understanding some of them, but there is also the danger of finding more questions along the way….&lt;/p&gt;
+
+&lt;p&gt;(This is the first post in a series: &lt;a href=&quot;/tag/a-better-way/&quot;&gt;A Better Way&lt;/a&gt;.)&lt;/p&gt;
+</description>
+        <pubDate>Tue, 12 May 2015 01:00:29 -0700</pubDate>
+        <link>http://tuesdaydeveloper.com/2015/05/12/a-better-way.html</link>
+        <guid isPermaLink="true">http://tuesdaydeveloper.com/2015/05/12/a-better-way.html</guid>
+        
+        
+      </item>
+    
+      <item>
+        <title>An Apologist&#39;s Defense of Trunk-based Development</title>
+        <description>&lt;p&gt;There are two prevailing thoughts about source code management in contemporary software development with multi-member teams: trunk-based development and the feature branch model (or pull-request model). Looking at GitHub alone will surly lead you to believe that the only way to develop with a distributed source control system is using the pull-request model, but then there are technology pundits out there who opine that the only way to use git (or one of its relatives) is using the trunk based development model.&lt;/p&gt;
+
+&lt;p&gt;This disparity (the masses using one model, but the role-models prescribing another) has understandably led to confusion in the tech industry. After reading &lt;a href=&quot;http://martinfowler.com/bliki/FeatureBranch.html&quot;&gt;Martin Fowler’s excellent description of Trunk Based Development&lt;/a&gt; (which he refers to as it’s more classical, but now overloaded, terminology: Continuous Integration) I found a few bloggers that didn’t like Martin Fowler’s suggestions. I’m going to address the article found &lt;a href=&quot;http://web.archive.org/web/20110721063430/http://jamesmckay.net/2011/07/why-does-martin-fowler-not-understand-feature-branches/&quot;&gt;here&lt;/a&gt; by James McKay (whom I will refer to as JM). I will attempt to assuage some of their concerns and answer some of the questions they have in this post.&lt;/p&gt;
+&lt;h3&gt;Continuous Integration &lt;em&gt;is&lt;/em&gt; At Odds With Feature Branching&lt;/h3&gt;
+&lt;p&gt;The first point that JM brings up is, “[Martin Fowler and Mike Mason] are saying that Feature Branching is incompatible with Continuous Integration.” I believe that the source of the confusion here is simply a case of semantics and history.&lt;/p&gt;
+
+&lt;p&gt;Continuous Integration (as I eluded to previously) has multiple meanings today. The history of the term is described very well on &lt;a href=&quot;http://en.wikipedia.org/wiki/Continuous_integration&quot;&gt;Wikipedia&lt;/a&gt;, but it would do well to quote the opening line, “&lt;b&gt;Continuous integration&lt;/b&gt; (&lt;b&gt;CI&lt;/b&gt;) is the practice, in software engineering, of merging all developer working copies with a shared mainline several times a day.” As you can see its original meaning had nothing to do with build servers, but various vendors coopted the term (quite successfully) and  the original meaning is lost on some developers. Continuous Integration originally meant just that—integrating continuously. Integrating all the new code you wrote as frequently as you can with what is the latest code on a single branch. Everyone has the same version of the latest code. With Feature Branching you don’t share this promise. Everyone may have the latest code from a shared branch, but they also have their own dirty little secrets which none of the other branches share.&lt;/p&gt;
+
+&lt;p&gt;Git and Mercurial often show a representation of a commit history something like this for feature branches:&lt;a href=&quot;/uploads/2015/05/feature-branches.png&quot;&gt;
+&lt;img class=&quot;alignleft size-medium wp-image-730&quot; src=&quot;/uploads/2015/05/feature-branches-300x120.png&quot; alt=&quot;feature-branches&quot; width=&quot;300&quot; height=&quot;120&quot; /&gt;&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;The blue branch in the middle is the shared, common, dev, develop, whatever-you-want-to-call-it branch. The plan is to release whatever is on the blue branch. The red and yellow branches are feature branches that have branched off of the blue branch. Unfortunately this image is misleading. The red and yellow branches may be merging frequently with the blue branch, but they aren’t as close to each other as they may seem. The red and yellow branches are actually drifting further and further apart. Something like the next image:&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;/uploads/2015/05/feature-branches-reality.png&quot;&gt;&lt;img class=&quot;alignleft size-medium wp-image-729&quot; src=&quot;/uploads/2015/05/feature-branches-reality-300x233.png&quot; alt=&quot;feature-branches-reality&quot; width=&quot;300&quot; height=&quot;233&quot; /&gt;&lt;/a&gt;The blue branch, which is still getting commits (presumably from other branches) is still the same distance from both red and yellow, but red and yellow are much further apart., The more code that is added to red but not to yellow or to yellow but not to red the more different they become. The longer time goes without merging the code from red and yellow together (as well as any other feature branches) the further apart they two branches will drift, even if they are continually merging with blue.&lt;/p&gt;
+
+&lt;p&gt;This leads us to a natural question about what happens when one of these branches merges with the shared blue branch. I’m glad you asked, I’ve got an image for that:&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;/uploads/2015/05/feature-branch-after-merge.png&quot;&gt;&lt;img class=&quot;alignleft size-medium wp-image-728&quot; src=&quot;/uploads/2015/05/feature-branch-after-merge-300x260.png&quot; alt=&quot;feature-branch-after-merge&quot; width=&quot;300&quot; height=&quot;260&quot; /&gt;&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;In the third image you see that the yellow branch is nowhere near where the blue branch is anymore. In fact it is further from blue than when it started because now the blue branch is also the red branch and so yellow is actually as far away from its parent as it was from the red branch.&lt;/p&gt;
+
+&lt;p&gt;This will remain the case until a merge occurs which will likely cause a &lt;em&gt;huge&lt;/em&gt; merge conflict and while merge conflicts would happen even when using trunk based development, they occur are more regulated and more manageable intervals (more on that later).&lt;/p&gt;
+
+&lt;p&gt;Obviously this is an image and I haven’t calculated the actual difference between the red and yellow branches, theoretically this could be done with an algorithm that tracked differences, but the point is clear: when using feature branches you are often in danger of working on a branch that is very different from the other feature branches and when one of them merges before your branch merges then you will have to deal with the problem of finding out how to merge the two very different code bases together.&lt;/p&gt;
+
+&lt;p&gt;The problem highlighted is known as &lt;em&gt;delayed integration&lt;/em&gt; which, just like it sounds, is exactly the opposite of Continuous Integration and means that the developers involved have waited to integrate their code with others’ code. That’s why feature branches are at odds with Continuous Integration, because they are nothing alike.&lt;/p&gt;
+&lt;h3&gt;Merging Isn&#39;t So Bad&lt;/h3&gt;
+&lt;p&gt;JM declares that they didn’t feel that merging was so bad (maybe not is so many words). They’re right. But it is dangerous, and in more ways than one. In fact there are three ways that merging is dangerous. The first is obvious, the developer preforming the merge may make a mistake. Maybe they misunderstood the other developer’s code or they could have forgotten exactly what that piece of code was supposed to do. It’s true that this is a problem that can be retroactively rectified, but it’s still inconvenient.&lt;/p&gt;
+
+&lt;p&gt;The second is a little less obvious and doesn’t have anything to do with the actual merge process, but in the fact that merging must wait. The problem arrises when you have to wait to share code! Just the other day I overheard two developers talking. One of them needed some code that the other had written, but they were working in two different branches. They spent probably ten minutes thinking of ways to get Git to share parts of one branch with the other, but not merging the whole branch.&lt;/p&gt;
+
+&lt;p&gt;The last way that merging is dangerous is because it gets more difficult with time. I like to think of it as gum on a sidewalk. If someone spits gum on the sidewalk (it wasn’t you, of course, because it is a nasty habit) it’s really quite easy to get it off the ground and into a trash bin. But if you wait a week, chances are that it has been stepped on and trampled and it will take a long time to get it off (unless you have a high-powered presser washer handy).&lt;/p&gt;
+
+&lt;p&gt;Merging little changes (like you do with trunk based development) is usually painless, but the longer you let changes go without merging them the greater the chance that you code will be more difficult to merge. This is one of the best features of Trunk Based Development: small merges, frequently.&lt;/p&gt;
+&lt;h3&gt;Feature Toggles&lt;/h3&gt;
+&lt;p&gt;There seems to be a lot of fear about feature toggles. Whether it done using branch by abstraction or permissions or some other method it’s basically a method to not call new code until the time comes when it is ready to turn them on. JM feels that feature toggling is actually more dangerous than keeping code completely isolated until it is ready to be used and I respect this fear. It’s true that there is a small amount of risk involved when toggling a feature that isn’t ready yet. But I want to point out a misunderstanding that he has and a benefit that feature toggles have that you wouldn’t get when using feature branches.&lt;/p&gt;
+
+&lt;p&gt;First, James McKay says that feature branches is releasing code that is untested. This is untrue. We must keep in mind that trunk based development isn’t just a pattern for the repository—it is a pattern for the way we code as well. In trunk based development one never pushes code that hasn’t passed every unit test and doesn’t have unit test written for it as well. If you are careful, end users should never be running the code that isn’t ready, but if by some small chance they do it should be tested. (I don’t have time to get into the &lt;a href=&quot;http://martinfowler.com/articles/mocksArentStubs.html&quot;&gt;classic unit tests vs the mockist approach&lt;/a&gt;, but there are differences of opinion about that in the software development world too. I believe that if unit tests are written using the classic approach, which is a manner that test more consistently with how a user may be using or misusing your system, then those tests will be more than adequate at preventing bugs in feature toggled software without manual tests of any kind.)&lt;/p&gt;
+
+&lt;p&gt;The other benefit to using feature toggles comes into play when everything is working as designed, but you want to turn a feature off for a business reason. Maybe you are using a social network’s Oauth 2 authentication to login to your site, but then a competitor acquires them and you want to turn off everything in your site associated with them. If you’ve been using feature toggles this becomes a simple matter of reenabling the toggle that was in place—if not, you may need to go in and manually remove all traces by hand (introducing the chance for bugs and errors that wouldn’t have happened if you used a configuration or abstraction to keep a feature from being released). Of course this means whatever mechanism you are using to do your feature toggles can be reenabled and hasn’t been removed, but chances are good that it’s easier to reenable a feature toggle than to remove and replace code by hand.&lt;/p&gt;
+&lt;h3&gt;Whatever Merge Goes&lt;/h3&gt;
+&lt;p&gt;I’ve compared and contrasted two version control models, Trunk Based Development and Feature Branches. There is, however, a third option that gets some usage. Unfortunately this model sometimes gets confused with Trunk Based Development, but the two are very different. There isn’t really an official name for it, but I like to call it Whatever Merge Goes meaning a haphazard, non-regulated method for software version control.&lt;/p&gt;
+
+&lt;p&gt;It’s confused with Trunk Based Development, because there is usually only one shared branch. The difference is that the trunk branch is treated carelessly. Developers aren’t required to run unit tests before committing and pushing code or to even write them. Stories are not polished before developers are expected to work with them (and the developers almost never helped define them) and so there is real risk that the features committed to for a coding cycle may only get half-way done by the deadline and won’t be able to be removed which will result in a traffic jam of last minute changes and half-tested code.&lt;/p&gt;
+
+&lt;p&gt;Please don’t confuse a team working on a single shared branch with Trunk Based Development. Trunk Based Development requires discipline and diligence. Adequate tests, discipline to run them and verify the build won’t break, and frequent pushes (not just when your code if &lt;em&gt;finished&lt;/em&gt; but when it’s in a stable state) and pulls are all a vital part of Trunk Based Development. Between having no process and having Feature Branches, I’d choose Feature Branches too even though that will only go so far to improve the situation.&lt;/p&gt;
+&lt;h3&gt;When to Choose Feature Branches&lt;/h3&gt;
+&lt;p&gt;In all professionally developed projects I would use Trunk Based Development. With personal projects (where you or a small group of friends are working on an application) I’d use Trunk Based Development. The only time I would consider branching is when I was working with an open source project and didn’t know if I could trust the other developers contributing.&lt;/p&gt;
+
+&lt;p&gt;For an excellent resource regarding Trunk Based Development refer to &lt;a href=&quot;http://paulhammant.com&quot;&gt;Paul Hammant’s blog&lt;/a&gt;, he has several articles talking about what Trunk Based Development is, why it’s better, and about how companies like Facebook and Google use Trunk Based Development.&lt;/p&gt;
+
+&lt;div class=&quot;archived comments&quot;&gt;
+
+&lt;div class=&quot;comment&quot;&gt;&lt;blockquote&gt;First, James McKay says that feature branches is releasing code that is untested.&lt;/blockquote&gt;
+
+I think you meant to say &quot;feature toggles&quot; here.
+
+While I&#39;m suggesting edits, &quot;eluded&quot; should be &quot;alluded&quot;, &quot;they two&quot; should be &quot;the two&quot;, &quot;not is so&quot; —&amp;gt; &quot;not in so&quot;, &quot;you code&quot; —&amp;gt; &quot;your code&quot;, &quot;presser&quot; —&amp;gt; &quot;pressure&quot;, and &quot;Oauth 2&quot; —&amp;gt; something that actually works.  (You should take heart in the fact that the only first draft I&#39;ve seen of Martin Fowler&#39;s was littered with typos and omitted words.)
+
+I, too, am dismayed at the abuse of the term &quot;Continuous Integration&quot;: &quot;Of course we do Continuous Integration: we have our Continuous Integration server all set up, with a build for every feature branch!  It&#39;s especially useful at the end of the month when we integrate all the feature branches.&quot;
+
+Another pitfall I&#39;ve seen is teams implementing &quot;Continuous Integration&quot; by merging &lt;i&gt;from&lt;/i&gt; master (or &quot;trunk&quot; or &quot;main&quot; or &quot;mainline&quot;) multiple times a day—until they all realize this is pointless, because nobody&#39;s merging anything &lt;i&gt;into&lt;/i&gt; master until the last couple days of the sprint.  Maybe &quot;trunk-based development&quot; would be a useful label for avoiding this situation.  &lt;div class=&quot;by&quot;&gt;George Paci on 2015-08-29 09:40:47.0  &lt;/div&gt;&lt;/div&gt;
+&lt;/div&gt;
+</description>
+        <pubDate>Mon, 11 May 2015 08:45:26 -0700</pubDate>
+        <link>http://tuesdaydeveloper.com/2015/05/11/an-apologists-defense-of-trunk-based-development.html</link>
+        <guid isPermaLink="true">http://tuesdaydeveloper.com/2015/05/11/an-apologists-defense-of-trunk-based-development.html</guid>
+        
+        
+      </item>
+    
+      <item>
+        <title>Angular Dependency Injection</title>
+        <description>&lt;p&gt;I just spent two awesome days at &lt;a href=&quot;http://ng-conf.org&quot;&gt;ng-conf 2014&lt;/a&gt; where were presented with a challenge to improve upon the already &lt;em&gt;awesome&lt;/em&gt; Angular dependency injection. At first I didn’t really have any ideas. “The only way to improve the DI framework would require interfaces,” I thought. And I left it at that.&lt;/p&gt;
+
+&lt;p&gt;My subconscious mind, however, kept working on it and I woke up at five this morning with a few ideas. I admit that this solution needs some improvement, but I thought I’d at least write it down and see what comes of it.&lt;/p&gt;
+
+&lt;p&gt;One of the few weaknesses that Angular has in its dependency framework is because JavaScript lacks interfaces. This doesn’t mean however that Angular couldn’t build an interface system. I’m not sure if these ideas could be used without a framework like Angular, so I write this document with the understanding that it would naturally fit into Angular.&lt;/p&gt;
+
+&lt;p&gt;Before I begin, I should explain a little about how I personally use Angular, and more importantly, how the various pieces used in Angular come together to help the code stay organized. When I finally convinced my employer, to use Angular, the first thing we found is that it was very easy for everyone to have their own way to structure their code. It is for this reason that I came up with a coding standard that we now currently use.&lt;/p&gt;
+
+&lt;p&gt;There is, obviously, nothing in Angular that enforces this standard and I’ve seen a lot of good code that does it differently, but this is what makes most sense to me.&lt;/p&gt;
+
+&lt;p&gt;As you know, under the hood services and factories are the same thing in Angular. While I see no reason for this to change, I try to keep them and their purposes logically separated.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Factories:&lt;/strong&gt;
+A factory is used only when dealing with things that need to be created or saved. In general this means that they use $resource (or sometimes $http) to interact with our API. Controllers never directly interact with a factory, rather they are always used by a service. Factories always have the postfix, “Factory”.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Services:&lt;/strong&gt;
+A service is used to keep logic for a certain thing together. This helps with code reuse and to keep the size of a controller to a minimum. Services are used directly from controllers and other services. Often services use factories to get or save off data. Services are always prefixed with a dollar sign and a two letter abbreviation for the company or project it is used for. (Example: If I’m building a task app called Task App a users service may be named: $taUsers.&lt;/p&gt;
+
+&lt;p&gt;With that out of the way, I’ll explain what I think could be a good idea for Angular. I hope that there are others who can improve upon this because it has some spots that are a bit clunky.&lt;/p&gt;
+
+&lt;p&gt;I consider myself pretty new in the software engineering world, but when I think of dependency injection I think of interfaces. Most of my knowledge about DI is colored by the C# dependency injection framework: Windsor. The general principle that Angular lacks when it comes to dependency injection is that there can be more than one dependency that meets the requirements of the dependency. The particular implementation used is usually chosen at runtime based on the DI frameworks configuration. The only problem is that to do this correctly: there really needs to be interfaces, or something that acts like an interface, in JavaScript. I’m not sure what the best practice would be for declaring the members of an interface, but this is one idea. (Using ECMAScript 5.)&lt;/p&gt;
+
+&lt;p&gt;&lt;b&gt;For “Pet Application” this would be used to create an interface.&lt;/b&gt;&lt;/p&gt;
+&lt;pre lang=&quot;javascript&quot; line=&quot;1&quot;&gt;app.interface(&#39;iAnimalService&#39;, {
+  species: angular.STRING,
+  commonName: angular.STRING,
+  numberOfLegs: angular.NUMBER,
+  speak: function(duration){}
+});&lt;/pre&gt;
+&lt;p&gt;&lt;b&gt;Implementing the interface.&lt;/b&gt;&lt;/p&gt;
+&lt;pre lang=&quot;javascript&quot; line=&quot;10&quot;&gt;app.service(&#39;$paDog&#39;, function(){
+  angular.implements(&#39;iAnimalService&#39;, this);//will throw an error if the requirements are not met
+
+  this.species = “Canis lupus”;
+  this.speak = function(duration){
+    //…
+  }
+  //etc.
+});&lt;/pre&gt;
+&lt;p&gt;You can see that the $paDog service implements the iAnimalService interface and that any derivation from the contract will cause an error to be thrown.&lt;/p&gt;
+
+&lt;p&gt;I hope that this was helpful. I would love to hear feedback on this and how it could be improved or thoughts that others have.&lt;/p&gt;
+
+&lt;div class=&quot;archived comments&quot;&gt;
+
+&lt;div class=&quot;comment&quot;&gt;Hey great article, I just wanted to mention you have a duplicate paragraph .
+
+&quot;&lt;b&gt;There is, obviously, nothing in Angular that enforces this standard and I’ve seen a lot of good code that does it differently, but this is what makes most sense to me.&lt;/b&gt;&quot;  &lt;div class=&quot;by&quot;&gt;Andrew Del Prete on 2014-01-22 12:02:21.0  &lt;/div&gt;&lt;/div&gt;
+&lt;/div&gt;
+</description>
+        <pubDate>Sat, 18 Jan 2014 00:38:11 -0800</pubDate>
+        <link>http://tuesdaydeveloper.com/2014/01/18/angular-dependency-injection.html</link>
+        <guid isPermaLink="true">http://tuesdaydeveloper.com/2014/01/18/angular-dependency-injection.html</guid>
+        
+        
+      </item>
+    
+      <item>
+        <title>How to Add a Widget to your Wordpress Blog</title>
+        <description>&lt;p&gt;My awesome wife asked me to do her a favor, “Can you write a tutorial on how to add an HTML widget to a Wordpress blog?”&lt;/p&gt;
+
+&lt;p&gt;While I’m sure that there is already probably fifty explanations on how to do it, but well, I’ll write it anyway:&lt;/p&gt;
+
+&lt;p&gt;Step One: Smile. Think to yourself, “This is easy. I can do this.”&lt;/p&gt;
+
+&lt;p&gt;Step Two: Open your Wordpress Admin page.&lt;/p&gt;
+
+&lt;p&gt;Step Three: Navigate to Appearance &amp;gt; Widgets&lt;/p&gt;
+
+&lt;p&gt;Step D: Select the widget type you want. If you’re doing an HTML widget, select “Text: Arbitrary text or HTML”&lt;/p&gt;
+
+&lt;p&gt;Step E: Drag the button to the sidebar (you may have more than one) that you want to have the widget on.&lt;/p&gt;
+
+&lt;p&gt;Step F: Stop worrying about the fact that I changed my enumeration system half way through.&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;/uploads/2013/10/Screen-Shot-2013-10-28-at-9.17.38-PM.png&quot;&gt;&lt;img class=&quot;alignleft size-medium wp-image-690&quot; alt=&quot;Screen Shot 2013-10-28 at 9.17.38 PM&quot; src=&quot;/uploads/2013/10/Screen-Shot-2013-10-28-at-9.17.38-PM-279x300.png&quot; width=&quot;279&quot; height=&quot;300&quot; /&gt;&lt;/a&gt;Step G: Expand the widget editor by clicking on it and editing the title (optional) and the body of your widget (see image).&lt;/p&gt;
+
+&lt;p&gt;Step H: Click Save.&lt;/p&gt;
+
+&lt;p&gt;Step I: Check your changes by navigating to your blog.&lt;/p&gt;
+
+&lt;p&gt;Step J: If there are changes you want to make, go back to Step One, skip Step D, and continue until you have the widget in the way you want it.&lt;/p&gt;
+
+&lt;p&gt;Step K: That is it.&lt;/p&gt;
+</description>
+        <pubDate>Mon, 28 Oct 2013 16:24:04 -0700</pubDate>
+        <link>http://tuesdaydeveloper.com/2013/10/28/how-to-add-a-widget-to-your-wordpress-blog.html</link>
+        <guid isPermaLink="true">http://tuesdaydeveloper.com/2013/10/28/how-to-add-a-widget-to-your-wordpress-blog.html</guid>
+        
+        
+      </item>
+    
+      <item>
+        <title>AngularJS Testing with Karma and Jasmine</title>
+        <description>&lt;p&gt;&lt;a href=&quot;/uploads/2013/06/AngularJS-Shield-large.png&quot;&gt;&lt;img class=&quot;alignleft size-medium wp-image-677&quot; src=&quot;/uploads/2013/06/AngularJS-Shield-large-284x300.png&quot; alt=&quot;AngularJS-Shield-large&quot; width=&quot;284&quot; height=&quot;300&quot; /&gt;&lt;/a&gt;AngularJS is the best thing to happen to JavaScript since jQuery. It’s what JavaScript development has always wanted to be. One of the key advantages to Angular is its dependency injection which is very advantageous when you want to unit test your code. There is one little quirk though… I can’t for the life of me find a tutorial out there that shows how to do that unit testing.&lt;/p&gt;
+
+&lt;p&gt;Sure there are recommendations: use the &lt;a title=&quot;Jasmine Overview&quot; href=&quot;http://pivotal.github.io/jasmine/&quot;&gt;Jasmine&lt;/a&gt; test framework with the &lt;a title=&quot;Karma&quot; href=&quot;http://karma-runner.github.io/0.8/index.html&quot;&gt;Karma&lt;/a&gt; test runner; but there isn’t a start to finish setup guide to make testing work. So I made one. I had to go all around the web finding out how to do this, which (if this is your first stop) you won’t have to do.&lt;/p&gt;
+
+&lt;p&gt;If you notice any errors please let me know, but as far as I can tell this is the best way to unit test Angular with Karma and Jasmine.&lt;/p&gt;
+&lt;h3&gt;Introduction&lt;/h3&gt;
+&lt;p&gt;This tutorial will lead you through installation of all the tools you will need to run automated tests using Karma and Jasmine. I don’t care if you’re doing TDD or TAD, but for this example, we’ll assume that you already have a file you want to test.&lt;/p&gt;
+&lt;h3&gt;Install Karma&lt;/h3&gt;
+&lt;p&gt;If you don’t have &lt;a title=&quot;Node JS&quot; href=&quot;http://nodejs.org/&quot;&gt;node.js&lt;/a&gt; installed, download and install it. After you have it installed go to your terminal or command line and type:&lt;/p&gt;
+&lt;pre lang=&quot;text&quot;&gt;npm install -g karma&lt;/pre&gt;
+&lt;h3&gt;File structure&lt;/h3&gt;
+&lt;p&gt;The file structure is irrelevant, but for these tests it will look something like this:&lt;/p&gt;
+&lt;pre lang=&quot;text&quot;&gt;Application
+| angular.js
+| angular-resource.js
+| Home
+  | home.js
+| Tests
+  | Home
+    | home.tests.js
+  | karma.config.js (will be created in the next step)
+  | angular-mocks.js&lt;/pre&gt;
+&lt;ul&gt;
+  &lt;li&gt;I’m not advocating this file structure, I simply show it for example sake.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3&gt;Configure Karma&lt;/h3&gt;
+&lt;p&gt;Create a configuration file by navigating to the directory you wish it to be in and typing the following command in your terminal:&lt;/p&gt;
+&lt;pre lang=&quot;text&quot;&gt;karma init karma.config.js&lt;/pre&gt;
+&lt;p&gt;You’ll be asked a few questions including which testing framework you want to use, whether you want the files to be auto watched, and what files to include. For our tutorial we’ll leave ‘jasmine’ as the default framework, let it autowatch files, and include the following files:&lt;/p&gt;
+&lt;pre lang=&quot;text&quot;&gt;../*.js
+../**.*.js
+angular-mocks.js
+**/*.tests.js&lt;/pre&gt;
+&lt;p&gt;These are relative paths that include 1) any .js file in the parent directory, any .js file inside of any directory inside of the parent directory, &lt;code&gt;angular-mocks.js&lt;/code&gt;, and any file within any directory (located in the current directory) that is formated &lt;code&gt;[name].tests.js&lt;/code&gt; (which is how I like to delineate test file from other files).&lt;/p&gt;
+
+&lt;p&gt;Whatever files you choose, just be sure that you include angular.js, angular-mocks.js, and any other files that you’ll need.&lt;/p&gt;
+&lt;h3&gt;Start Karma&lt;/h3&gt;
+&lt;p&gt;Now you are ready to start Karma. Again from the terminal type:&lt;/p&gt;
+&lt;pre lang=&quot;text&quot;&gt;karma start karma.config.js&lt;/pre&gt;
+&lt;p&gt;This will start any browsers you listed in the config file on your computer. Each browser will be connected to the Karma instance with it’s own socket and you will see a list of active browsers that will tell you whether or not it is running tests. I wish that Karma would tell you a summary of the last result of your tests for each browser (15 out of 16 passed, 1 failed) but alas for that information you need to look at the terminal window.&lt;/p&gt;
+
+&lt;p&gt;An awesome thing about Karma is that you can test on any device connected to your network. Try pointing your phone’s browser to Karma by looking at teh URL of one of the browser windows running the tests. It should look something like this: &lt;code&gt;http://localhost:9876/?id=5359192&lt;/code&gt;. Point your phone, VM, or any other device with a browser to &lt;code&gt;[your network IP address]:9876/?id=5359192&lt;/code&gt;. Because Karma is running an instance of node.js, your test machine is acting like a server and will send the tests to any browser that is pointed to it.&lt;/p&gt;
+&lt;h3&gt;Make Basic Test&lt;/h3&gt;
+&lt;p&gt;We are assuming that you already have a file to test. We’ll say that your home.js file looks something like this:&lt;/p&gt;
+&lt;h4&gt;home.js&lt;/h4&gt;
+&lt;pre lang=&quot;javascript&quot; line=&quot;1&quot;&gt;&#39;use strict&#39;;
+
+var app = angular.module(&#39;Application&#39;, [&#39;ngResource&#39;]);
+
+app.factory(&#39;UserFactory&#39;, function($resource){
+    return $resource(&#39;Users/users.json&#39;)
+});
+
+app.controller(&#39;MainCtrl&#39;, function($scope, UserFactory) {
+    $scope.text = &#39;Hello World!&#39;;
+    $scope.users = UserFactory.get();
+});&lt;/pre&gt;
+&lt;p&gt;Inside of home.tests.js we can create our tests cases. We’ll start out with the simpler of the two: &lt;code&gt;$scope.text&lt;/code&gt; should equal ‘Hello World!’. To test this we must mockout our &lt;code&gt;Application&lt;/code&gt; module and the &lt;code&gt;$scope &lt;/code&gt; variable. We’ll do this in the Jasmine beforeEach function so that we’ll have a fresh controller and scope at the beginning of each test.&lt;/p&gt;
+&lt;h4&gt;home.tests.js&lt;/h4&gt;
+&lt;pre lang=&quot;javascript&quot; line=&quot;1&quot;&gt;&#39;use strict&#39;;
+
+describe(&#39;MainCtrl&#39;, function(){
+    var scope;//we&#39;ll use this scope in our tests
+
+    //mock Application to allow us to inject our own dependencies
+    beforeEach(angular.mock.module(&#39;Application&#39;));
+    //mock the controller for the same reason and include $rootScope and $controller
+    beforeEach(angular.mock.inject(function($rootScope, $controller){
+        //create an empty scope
+        scope = $rootScope.$new();
+        //declare the controller and inject our empty scope
+        $controller(&#39;MainCtrl&#39;, {$scope: scope});
+    });
+    // tests start here
+});&lt;/pre&gt;
+&lt;p&gt;You’ll see in the code example that we are injecting our own scope so that we can verify information off of it. &lt;strong&gt;Also, do not forget to mock out the module itself as on line 7!&lt;/strong&gt; We are now ready to do our tests:&lt;/p&gt;
+&lt;h4&gt;home.tests.js&lt;/h4&gt;
+&lt;pre lang=&quot;javascript&quot; line=&quot;15&quot;&gt;    // tests start here
+    it(&#39;should have variable text = &quot;Hello World!&quot;&#39;, function(){
+        expect(scope.text).toBe(&#39;Hello World!&#39;);
+    });&lt;/pre&gt;
+&lt;p&gt;If you run this test it should run in any browsers looking at Karma and pass.&lt;/p&gt;
+&lt;h3&gt;Make $resource Request&lt;/h3&gt;
+&lt;p&gt;Now we’re ready to test the &lt;code&gt;$resource&lt;/code&gt; request. To make this request we need to use &lt;code&gt;$httpBackend &lt;/code&gt;with is a mocked out version of Angular’s &lt;code&gt;$http&lt;/code&gt;. We’ll create another variable called &lt;code&gt;$httpBackend&lt;/code&gt; and in our second &lt;code&gt;beforeEach&lt;/code&gt; block we’ll inject &lt;code&gt;_$httpBackend_&lt;/code&gt; and assign the new variable to &lt;code&gt;_$httpBackend_&lt;/code&gt;. We’ll then tell &lt;code&gt;$httpBackend&lt;/code&gt; how to respond to requests.&lt;/p&gt;
+&lt;pre lang=&quot;javascript&quot; line=&quot;10&quot;&gt;        $httpBackend = _$httpBackend_;
+        $httpBackend.when(&#39;GET&#39;, &#39;Users/users.json&#39;).respond([{id: 1, name: &#39;Bob&#39;}, {id:2, name: &#39;Jane&#39;}]);&lt;/pre&gt;
+&lt;p&gt;And our tests:&lt;/p&gt;
+&lt;h4&gt;home.tests.js&lt;/h4&gt;
+&lt;pre lang=&quot;javascript&quot; line=&quot;20&quot;&gt;    it(&#39;should fetch list of users&#39;, function(){
+            $httpBackend.flush();
+            expect(scope.users.length).toBe(2);
+            expect(scope.users[0].name).toBe(&#39;Bob&#39;);
+        });&lt;/pre&gt;
+&lt;h3&gt;All Together&lt;/h3&gt;
+&lt;h4&gt;home.tests.js&lt;/h4&gt;
+&lt;pre lang=&quot;javascript&quot; line=&quot;1&quot;&gt;&#39;use strict&#39;;
+
+describe(&#39;MainCtrl&#39;, function(){
+    var scope, $httpBackend;//we&#39;ll use these in our tests
+
+    //mock Application to allow us to inject our own dependencies
+    beforeEach(angular.mock.module(&#39;Application&#39;));
+    //mock the controller for the same reason and include $rootScope and $controller
+    beforeEach(angular.mock.inject(function($rootScope, $controller, _$httpBackend_){
+        $httpBackend = _$httpBackend_;
+        $httpBackend.when(&#39;GET&#39;, &#39;Users/users.json&#39;).respond([{id: 1, name: &#39;Bob&#39;}, {id:2, name: &#39;Jane&#39;}]);
+
+        //create an empty scope
+        scope = $rootScope.$new();
+        //declare the controller and inject our empty scope
+        $controller(&#39;MainCtrl&#39;, {$scope: scope});
+    });
+    // tests start here
+    it(&#39;should have variable text = &quot;Hello World!&quot;&#39;, function(){
+        expect(scope.text).toBe(&#39;Hello World!&#39;);
+    });
+    it(&#39;should fetch list of users&#39;, function(){
+        $httpBackend.flush();
+        expect(scope.users.length).toBe(2);
+        expect(scope.users[0].name).toBe(&#39;Bob&#39;);
+    });
+});&lt;/pre&gt;
+&lt;h3&gt;Tips&lt;/h3&gt;
+&lt;ul&gt;
+	&lt;li&gt;Karma will run all tests in all files, if you only want to run a subset of tests change &lt;code&gt;describe&lt;/code&gt; or &lt;code&gt;it&lt;/code&gt; to &lt;code&gt;ddescribe&lt;/code&gt; or &lt;code&gt;iit&lt;/code&gt; to run the respective tests. If there are tests that you do not want to test change &lt;code&gt;describe&lt;/code&gt; or &lt;code&gt;it&lt;/code&gt; to &lt;code&gt;xdescribe&lt;/code&gt; or &lt;code&gt;xit&lt;/code&gt; to ignore that set of code.&lt;/li&gt;
+	&lt;li&gt;I would also suggest reading through the &lt;a title=&quot;Jasmine Documentation&quot; href=&quot;http://pivotal.github.io/jasmine/&quot;&gt;Jasmine documentation&lt;/a&gt; to know what methods are available to you.&lt;/li&gt;
+	&lt;li&gt;You also have the option to run your tests in an html file on the page. The code for our example would look something like this:
+&lt;h4&gt;home.runner.html&lt;/h4&gt;
+&lt;pre lang=&quot;html&quot; line=&quot;1&quot;&gt;&lt;!-- include your script files (notice that the jasmine source files have been added to the project) --&gt;&lt;script src=&quot;../jasmine/jasmine-1.3.1/jasmine.js&quot; type=&quot;text/javascript&quot;&gt;&lt;/script&gt;&lt;script src=&quot;../jasmine/jasmine-1.3.1/jasmine-html.js&quot; type=&quot;text/javascript&quot;&gt;&lt;/script&gt;&lt;script src=&quot;../angular-mocks.js&quot; type=&quot;text/javascript&quot;&gt;&lt;/script&gt;&lt;script src=&quot;home.tests.js&quot; type=&quot;text/javascript&quot;&gt;&lt;/script&gt;&lt;!-- use Jasmine to run and display test results --&gt;&lt;script type=&quot;text/javascript&quot;&gt;// &lt;![CDATA[
+        var jasmineEnv = jasmine.getEnv();
+        jasmineEnv.addReporter(new jasmine.HtmlReporter());
+        jasmineEnv.execute();
+    
+// ]]&gt;&lt;/script&gt;&lt;/pre&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;div class=&quot;archived comments&quot;&gt;
+
+&lt;div class=&quot;comment&quot;&gt;Nice job and thanks.
+I think there should be an additional &#39;)&#39; in the first home.tests.js line 14, making it &lt;b&gt;}));&lt;/b&gt; rather than &lt;b&gt;});&lt;/b&gt;  &lt;div class=&quot;by&quot;&gt;Grant on 2013-08-04 13:05:16.0  &lt;/div&gt;&lt;/div&gt;
+&lt;div class=&quot;comment&quot;&gt;great job!  &lt;div class=&quot;by&quot;&gt;peterr on 2013-08-20 03:16:16.0  &lt;/div&gt;&lt;/div&gt;
+&lt;div class=&quot;comment&quot;&gt;Thanks! I think that should be &quot;npm -g install karma&quot;, not &quot;npm install -g karma&quot;.  &lt;div class=&quot;by&quot;&gt;Alec McEachran on 2013-09-04 22:54:49.0  &lt;/div&gt;&lt;/div&gt;
+&lt;div class=&quot;comment&quot;&gt;It appears that angular-mocks.js only defines angular.mock.module when Jasmine is being used. I don&#39;t understand why it would exclude the use of Mocha.  &lt;div class=&quot;by&quot;&gt;Mark Volkmann on 2013-09-08 15:58:09.0  &lt;/div&gt;&lt;/div&gt;
+&lt;div class=&quot;comment&quot;&gt;So does karma-jasmine ship with jasmine itself, or do I have to install that separately using `npm`??  &lt;div class=&quot;by&quot;&gt;Rudolf Olah on 2013-09-10 16:50:12.0  &lt;/div&gt;&lt;/div&gt;
+&lt;div class=&quot;comment&quot;&gt;Do we actually need karma if we are performing tests using browser with all jasmine files included?
+
+I kind of found the fact that karma opens browser completely redundant - as it doesn&#39;t really do anything apart from using it&#39;s console - all the relevant information is displayed in the terminal anyway.  &lt;div class=&quot;by&quot;&gt;Mark on 2013-10-12 08:26:23.0  &lt;/div&gt;&lt;/div&gt;
+&lt;div class=&quot;comment&quot;&gt;Also - you haven&#39;t mentioned what the users.json file should contain - I&#39;m constantly getting the following test failure:
+
+TypeError: Object # has no method &#39;push&#39;  &lt;div class=&quot;by&quot;&gt;Mark on 2013-10-12 08:45:56.0  &lt;/div&gt;&lt;/div&gt;
+&lt;div class=&quot;comment&quot;&gt;@Mark 
+You can use a headless browser such as PhantomJS with karma to avoid a browser window opening.  &lt;div class=&quot;by&quot;&gt;mr on 2013-10-14 22:57:51.0  &lt;/div&gt;&lt;/div&gt;
+&lt;div class=&quot;comment&quot;&gt;Check out our Jasmine testing videos at http://blog.neosavvy.com.  &lt;div class=&quot;by&quot;&gt;Trevor Ewen on 2013-11-04 14:44:32.0  &lt;/div&gt;&lt;/div&gt;
+&lt;div class=&quot;comment&quot;&gt;How could we do AngularJS Testing with Karma for https sites?  &lt;div class=&quot;by&quot;&gt; on 2013-11-06 09:12:39.0  &lt;/div&gt;&lt;/div&gt;
+&lt;div class=&quot;comment&quot;&gt;I tried running a simple test. But its failing with below error:
+C:\Users\502245602\combo&amp;gt;karma start src/main/webapp/karma.config.js
+INFO [karma]: Karma v0.10.4 server started at http://localhost:9876/
+INFO [launcher]: Starting browser Chrome
+INFO [Chrome 30.0.1599 (Windows 7)]: Connected on socket auZijvn9LzbH_2K0QDcv
+Chrome 30.0.1599 (Windows 7) Sanity Test Sanity test Jasmine&quot; FAILED
+        expect undefined toEqual &quot;Hi&quot;
+      ..../src/main/webapp/test/spec/controllers/welcome.test.js:15:3: expected &quot;Hi&quot; but was undefined
+Chrome 30.0.1599 (Windows 7): Executed 1 of 1 (1 FAILED) ERROR (0.38 secs / 0.024 secs)
+
+
+my test looks like below:
+
+
+describe(&#39;Sanity Test&#39;, function() {
+	var scope;
+	beforeEach(angular.mock.module(&#39;serviceApp&#39;));
+	beforeEach(angular.mock.inject(function($rootScope, $controller) {
+		scope = $rootScope.$new();
+		$controller(&#39;welcomeController&#39;, {
+			$scope : scope
+		});
+	}));
+
+
+	it(&#39;Sanity test Jasmine&quot;&#39;, function() {
+		scope.text = &#39;Hi&#39;;		
+		expect(&#39;Hi&#39;).toEqual(&#39;Hi&#39;);
+	});
+});
+
+any help...  &lt;div class=&quot;by&quot;&gt;Priyabrat on 2013-11-13 20:35:45.0  &lt;/div&gt;&lt;/div&gt;
+&lt;div class=&quot;comment&quot;&gt;&lt;code&gt;var complement = &quot;Great Job!&quot;;&lt;/code&gt;  &lt;div class=&quot;by&quot;&gt; on 2013-11-19 15:32:46.0  &lt;/div&gt;&lt;/div&gt;
+&lt;div class=&quot;comment&quot;&gt;@Priyabrat your expect should be:
+
+expect(scope.text).toEqual(&#39;Hi&#39;);  &lt;div class=&quot;by&quot;&gt;Brandon R Staley on 2013-12-04 10:02:49.0  &lt;/div&gt;&lt;/div&gt;
+&lt;div class=&quot;comment&quot;&gt;Thanks you for this tutorial. It helps me a lot!!  &lt;div class=&quot;by&quot;&gt;Tobi on 2013-12-17 17:31:53.0  &lt;/div&gt;&lt;/div&gt;
+&lt;div class=&quot;comment&quot;&gt;Could not get html runner working:
+
+Uncaught TypeError: Cannot set property &#39;mock&#39; of undefined angular-mocks.js:17
+Uncaught TypeError: undefined is not a function home.runner.html:16  &lt;div class=&quot;by&quot;&gt;Dmitri on 2013-12-28 02:04:22.0  &lt;/div&gt;&lt;/div&gt;
+&lt;div class=&quot;comment&quot;&gt;Also the test did not pass:
+
+Chrome 31.0.1650 (Mac OS X 10.8.5) MainCtrlTest should have variable text = &quot;Hello World!&quot; FAILED
+	ReferenceError: $httpBackend is not defined
+	    at null. (/Users/dmitrizaitsev/Dropbox/Priv/APP/Testers/generated-app-test/test/spec/home.tests.js:21:26)
+	    at Object.invoke (/Users/dmitrizaitsev/Dropbox/Priv/APP/Testers/generated-app-test/app/bower_components/angular/angular.js:3697:17)
+	    at workFn (/Users/dmitrizaitsev/Dropbox/Priv/APP/Testers/generated-app-test/app/bower_components/angular-mocks/angular-mocks.js:2102:20)
+	Error: Declaration Location
+	    at Object.window.inject.angular.mock.inject [as inject] (/Users/dmitrizaitsev/Dropbox/Priv/APP/Testers/generated-app-test/app/bower_components/angular-mocks/angular-mocks.js:2087:25)
+	    at null. (/Users/dmitrizaitsev/Dropbox/Priv/APP/Testers/generated-app-test/test/spec/home.tests.js:19:29)
+	    at /Users/dmitrizaitsev/Dropbox/Priv/APP/Testers/generated-app-test/test/spec/home.tests.js:3:1
+	TypeError: Cannot read property &#39;text&#39; of undefined
+	    at null. (/Users/dmitrizaitsev/Dropbox/Priv/APP/Testers/generated-app-test/test/spec/home.tests.js:32:21)
+Chrome 31.0.1650 (Mac OS X 10.8.5): Executed 2 of 2 (1 FAILED) (0.031 secs / 0.028 secs)
+
+However, dropping the _ miraculously  works:
+
+        function($rootScope, $controller, $httpBackend){
+            $httpBackend.when(&#39;GET&#39;, &#39;Users/users.json&#39;).respond([{id: 1, name: &#39;Bob&#39;}, {id:2, name: &#39;Jane&#39;}]);
+...
+
+Chrome 31.0.1650 (Mac OS X 10.8.5): Executed 2 of 2 SUCCESS (0.039 secs / 0.035 secs)  &lt;div class=&quot;by&quot;&gt;Dmitri on 2013-12-28 02:10:28.0  &lt;/div&gt;&lt;/div&gt;
+&lt;div class=&quot;comment&quot;&gt;How to test multiple controller, whether i have to declare &#39;var scope&#39; for each controller ?  &lt;div class=&quot;by&quot;&gt;Imran Khatri on 2013-12-31 23:48:43.0  &lt;/div&gt;&lt;/div&gt;
+&lt;div class=&quot;comment&quot;&gt;How to test multiple controller, whether i have to declare &#39;var scope&#39; for each controller?  &lt;div class=&quot;by&quot;&gt;Imran Khatri on 2013-12-31 23:49:24.0  &lt;/div&gt;&lt;/div&gt;
+&lt;div class=&quot;comment&quot;&gt;Really nice!
+
+I spend days to make my tests work with karma/jasmine, and this is the best article that i found  &lt;div class=&quot;by&quot;&gt;Ariel Moraes on 2014-01-21 12:12:39.0  &lt;/div&gt;&lt;/div&gt;
+&lt;div class=&quot;comment&quot;&gt;@Dmitri
+
+About the undefined mock,
+make sure your config/karma.conf.js 
+is pointing at the right file location.
+
+Example:
+
+files : [
+      &#39;public/js/lib/angular/angular.js&#39;,
+      &#39;public/js/lib/angular/angular-*.js&#39;,
+      &#39;test/lib/angular/angular-mocks.js&#39;,
+      &#39;public/js/**/*.js&#39;,
+      &#39;test/unit/**/*.js&#39;
+    ]  &lt;div class=&quot;by&quot;&gt;Dude on 2014-02-15 13:37:50.0  &lt;/div&gt;&lt;/div&gt;
+&lt;div class=&quot;comment&quot;&gt;good one!!  &lt;div class=&quot;by&quot;&gt; on 2014-02-19 04:49:56.0  &lt;/div&gt;&lt;/div&gt;
+&lt;div class=&quot;comment&quot;&gt;Nice tutorial. Thanks!  &lt;div class=&quot;by&quot;&gt;Franco on 2014-02-19 10:41:14.0  &lt;/div&gt;&lt;/div&gt;
+&lt;div class=&quot;comment&quot;&gt;I was unable to get this example to work with a fresh install, even after fixing the above errors.
+I&#39;m using the latest versions of all tools, and Angular is v1.2.15
+The first error was:
+        Error: [$injector:modulerr] Failed to instantiate module ngResource due to:
+        Error: [$injector:nomod] Module &#39;ngResource&#39; is not available! You either misspelled the module name or forgot to load it. If registering a module ensure that you specify the dependencies as the second argument.
+
+So I simplified the example further to:
+appl.js
+=====
+&lt;code&gt;
+&#39;use strict&#39;;
+var app = angular.module(&#39;Application&#39;);
+app.controller(&#39;MainCtrl&#39;, function($scope) {
+    $scope.text = &#39;Hello World!&#39;;
+});
+&lt;/code&gt;
+--------
+appl.test.js
+==========
+&lt;code&gt;
+&#39;use strict&#39;;
+describe(&#39;MainCtrl&#39;, function() {
+    var scope;//we&#39;ll use this scope in our tests
+    beforeEach(angular.mock.module(&#39;Application&#39;));
+    //mock the controller for the same reason and include $rootScope and $controller
+    beforeEach(angular.mock.inject(function($rootScope, $controller){
+        scope = $rootScope.$new();
+        $controller(&#39;MainCtrl&#39;, {$scope: scope});
+    }));
+    it(&#39;should have variable text = &quot;Hello World!&quot;&#39;, function() {
+       expect(scope.text).toBe(&#39;Hello World!&#39;);
+    });
+});
+&lt;/code&gt;
+-------------
+but this fails with:
+  Uncaught Error: [$injector:nomod] Module &#39;Application&#39; is not available! You either misspelled the module name or forgot to load it. If registering a module ensure that you specify the dependencies as the second argument.
+
+Any help is greatly appreciated...  &lt;div class=&quot;by&quot;&gt;P Snider on 2014-03-25 19:04:18.0  &lt;/div&gt;&lt;/div&gt;
+&lt;div class=&quot;comment&quot;&gt;Hey P Snider, I had the same problem-- it looks like the home.js file isn&#39;t being included in the Karma config file (that&#39;s why it couldn&#39;t find the Application Module), so in karma.config.js, I added &#39;../Home/*.js&#39; to the files array.  &lt;div class=&quot;by&quot;&gt;Will on 2014-04-03 19:30:32.0  &lt;/div&gt;&lt;/div&gt;
+&lt;div class=&quot;comment&quot;&gt;Great tutorial.
+
+Couple of addition to it will make a real life testing suite:
+
+1: PhantomJS integration for headless ( no opening browsers anymore) testing.
+2: Coverage, for testing code coverage in the application.
+3: Switching auto-run to false and doing on demand tests. (depends across type of projects and developers)
+
+All in all a great place to start karma-jasmine-angular unit testing !!!!  &lt;div class=&quot;by&quot;&gt;Abhi on 2014-04-21 13:34:30.0  &lt;/div&gt;&lt;/div&gt;
+&lt;div class=&quot;comment&quot;&gt;Note that it is now recommended to globally install &lt;strong&gt;karma-cli&lt;/strong&gt; (&lt;code&gt;npm install -g karma-cli&lt;/code&gt;) which will take care of fetching the appropriate &lt;strong&gt;karma&lt;/strong&gt;.
+
+Thus you can install a different local version specific to each project and &lt;strong&gt;karma-cli&lt;/strong&gt; will pick the appropriate one.  &lt;div class=&quot;by&quot;&gt;Aymeric Beaumet on 2014-04-24 04:12:15.0  &lt;/div&gt;&lt;/div&gt;
+&lt;div class=&quot;comment&quot;&gt;To run the command &quot;karma init karma.config.js&quot; I had to install the package karma-cli (npm install -g karma-cli)  &lt;div class=&quot;by&quot;&gt;Gianni Bossini on 2014-05-09 03:55:26.0  &lt;/div&gt;&lt;/div&gt;
+&lt;div class=&quot;comment&quot;&gt;Good tutorial here as well for those interested:
+
+https://docs.angularjs.org/tutorial  &lt;div class=&quot;by&quot;&gt;Treize on 2014-05-23 10:55:57.0  &lt;/div&gt;&lt;/div&gt;
+&lt;div class=&quot;comment&quot;&gt;aaa  &lt;div class=&quot;by&quot;&gt;Asawari Ranjit Patil on 2014-06-20 06:38:56.0  &lt;/div&gt;&lt;/div&gt;
+&lt;div class=&quot;comment&quot;&gt;Great tutorial. Exactly what I needed!  &lt;div class=&quot;by&quot;&gt;KJ Price on 2014-06-25 11:48:16.0  &lt;/div&gt;&lt;/div&gt;
+&lt;div class=&quot;comment&quot;&gt;Great article. Thanks!
+
+But I think that the whole point of factories is to isolate the dependancies, so your controller doesn&#39;t care uf the users are created by http request or its a simply hardcoded array. I think that the most useful way to test this funcionality is to stub the userfactory with an array or a mock promise that resolves returning the users array. What do you  think?  &lt;div class=&quot;by&quot;&gt;Vinícius Oyama on 2014-06-28 12:48:16.0  &lt;/div&gt;&lt;/div&gt;
+&lt;div class=&quot;comment&quot;&gt;Nice  &lt;div class=&quot;by&quot;&gt;Karthee on 2014-07-13 03:53:56.0  &lt;/div&gt;&lt;/div&gt;
+&lt;div class=&quot;comment&quot;&gt;Hi, I&#39;ve tried exactly the same, but I&#39;m always getting these following Errors:
+
+&lt;code&gt;minErr/&amp;lt;@/home/michael/webui-ng/src/client/app/bower_components/angular/angular.js:78:5
+	loadModules/&amp;lt;@/home/michael/webui-ng/src/client/app/bower_components/angular/angular.js:3859:1
+	forEach@/home/michael/webui-ng/src/client/app/bower_components/angular/angular.js:325:7
+	loadModules@/home/michael/webui-ng/src/client/app/bower_components/angular/angular.js:3824:5
+	createInjector@/home/michael/webui-ng/src/client/app/bower_components/angular/angular.js:3764:3
+	workFn@/home/michael/webui-ng/src/client/app/bower_components/angular-mocks/angular-mocks.js:2150:9
+	
+	TypeError: scope is undefined in /home/michael/webui-ng/src/client/test/hello.js (line 17)
+	@/home/michael/webui-ng/src/client/test/hello.js:17:9&lt;/code&gt;
+
+My idea is, that the problem has something to do with the requirements array in angular.module(&#39;Application&#39;, [&#39;ngRessource&#39;]), because when letting this empty the test passes. I&#39;m pretty stuck at this problem at the moment, do you have an idea what it could be?  &lt;div class=&quot;by&quot;&gt;Michael on 2014-07-17 09:41:06.0  &lt;/div&gt;&lt;/div&gt;
+&lt;div class=&quot;comment&quot;&gt;For people who just want to simply test on a web page, such as in the home.runner.html example above, and using Jasmine 2.X: you&#39;ll need the &lt;i&gt;boot.js&lt;/i&gt; file declared after &lt;i&gt;jasmine.js&lt;/i&gt; and &lt;i&gt;jasmine-html.js&lt;/i&gt;.
+
+If not, you&#39;ll get nothing but a couple of reference errors in the browser console.  &lt;div class=&quot;by&quot;&gt;User20140804 on 2014-08-04 09:36:19.0  &lt;/div&gt;&lt;/div&gt;
+&lt;div class=&quot;comment&quot;&gt;Line 17 in the second home.tests.js is missing a closing single-quote, which generates syntax errors if the code is copy/pasted directly.
+
+The line is:
+expect(scope.text).toBe(&#39;Hello World!);
+
+It should be:
+expect(scope.text).toBe(&#39;Hello World!&#39;);
+
+:-)  &lt;div class=&quot;by&quot;&gt;Paul B. Hartzog on 2014-10-16 23:42:19.0  &lt;/div&gt;&lt;/div&gt;
+&lt;div class=&quot;comment&quot;&gt;1. If my unit test is calling function which is in controller and that function is calling a service to fetch the details. Will it call service(StationService)? 
+2. My Karma unit test is not able to inject StationService and not able to call service. 
+
+My Code.
+/// controller
+var policyControllers = angular.module(&#39;policyControllers&#39;, []);
+policyControllers.controller(&#39;StationListController&#39;, [&#39;$translate&#39;, &#39;$scope&#39;,&#39;$rootScope&#39;,&#39;$state&#39;, &#39;StationService&#39;, &#39;StationListExportService&#39;, function ($translate, $scope, $rootScope, $state, StationService, StationListExportService) {
+...
+$scope.getFilterDetails = function(StationService, filterDetails ){
+
+	StationService.get(filterDetails).$promise.then(function (filteredDetails) {
+			console.log(&quot; Web services Result - &quot;, JSON.stringify(filteredDetails));			
+		},function(error) {
+			console.log(&quot; Error &quot;);
+		});
+	};
+	
+
+
+
+
+	
+///Service	
+var policyServices = angular.module(&#39;policyServices&#39;, [&#39;ngResource&#39;]);
+policyServices.factory(&#39;StationService&#39;, [&#39;$resource&#39;, function($resource) {
+	return $resource(policyConfig.mock? &#39;modules/policymanager/services/mock/stations.json&#39;: &#39;http://10.132.240.25:7640/policy/api/v1/stationpolicy/stations&#39;,{},{
+		get:{method: &#39;POST&#39;,isArray: false, url:&#39;modules/policymanager/services/mock/stations.json&#39;}
+	});
+}]);
+
+
+
+/// Unit test
+describe(&#39;station filter&#39;, function(){
+
+    var scope;
+    var ctrl;
+    var translate, scope, rootScope, state;
+    var StationService, StationListExportService;
+
+    beforeEach(module(&#39;policyServices&#39;));
+    beforeEach(module(&#39;policyControllers&#39;));
+
+
+
+    beforeEach(inject(function(_StationService_, _StationListExportService_, $rootScope, $controller, $translate, $state) {
+
+        StationService = _StationService_;
+        StationListExportService = _StationListExportService_;
+        translate = $translate;
+        rootScope = $rootScope;
+        state = $state;
+        scope = $rootScope.$new();
+        ctrl = $controller(&#39;StationListController&#39;, {$scope: scope});
+
+    }));
+
+
+
+
+    it(&#39;Stations Inject test case&#39;, inject([&#39;StationService&#39;,function(StationService){
+
+        var data = {&quot;recency&quot;:&quot;&quot;,&quot;countries&quot;:[],&quot;policies&quot;:[],&quot;stations&quot;:[{&quot;stationName&quot;:&quot;Test&quot;}],&quot;status&quot;:&quot;ready&quot;,&quot;regions&quot;:[]};
+        
+        scope.getFilterDetails(StationService, data);
+        
+      ///  Getting StationService is undifiened 
+    
+    }]));  &lt;div class=&quot;by&quot;&gt;Amit on 2015-02-03 08:09:50.0  &lt;/div&gt;&lt;/div&gt;
+&lt;div class=&quot;comment&quot;&gt;For anyone experiencing an issue where $httpBackend.flush() returns an error that it&#39;s looking for an object but an array was found, try changing this line:
+
+`$httpBackend.when(&#39;GET&#39;, &#39;Users/users.json&#39;).respond([{ id: 1, name: &#39;Bob&#39; }, { id: 2, name: &#39;Jane&#39; }]);` 
+
+to this:
+
+`$httpBackend.when(&#39;GET&#39;, &#39;Users/users.json&#39;).respond(200, { data: [{ id: 1, name: &#39;Bob&#39; }, { id: 2, name: &#39;Jane&#39; }] });`
+
+and subsequently change the following lines to test the new `data` object:
+
+`$httpBackend.flush();`
+`expect(scope.users.data.length).toBe(2);`
+`expect(scope.users.data[0].name).toBe(&#39;Bob&#39;);`
+
+Otherwise, great post!  &lt;div class=&quot;by&quot;&gt;Aaron Jessen on 2015-04-03 10:20:08.0  &lt;/div&gt;&lt;/div&gt;
+&lt;div class=&quot;comment&quot;&gt;P.S. Remove the ` from the lines from the code in my previous comment (I thought the comment system might be like StackOverflow where ` creates code blocks).  &lt;div class=&quot;by&quot;&gt;Aaron Jessen on 2015-04-03 10:22:24.0  &lt;/div&gt;&lt;/div&gt;
+&lt;div class=&quot;comment&quot;&gt;To make this code sample work , I had to :
+1 - add the missing parenthesis in &quot;All Together, home.tests.js&quot;, line 17 : it should be &quot;}));&quot; instead of &quot;});&quot; (as noted by Grant above)
+2 - change &quot;Userfactory.get()&quot; by &quot;UserFactory.query()&quot; in home.js, otherwise I got a &quot;Error in resource configuration. Expected response to contain an object but got an array&quot;
+
+Hope it&#39;ll help others  &lt;div class=&quot;by&quot;&gt;Michael Zilbermann on 2015-05-12 14:23:51.0  &lt;/div&gt;&lt;/div&gt;
+&lt;div class=&quot;comment&quot;&gt;You&#39;ve help me. Thank you, Aaron Jessen!  &lt;div class=&quot;by&quot;&gt; on 2015-07-02 00:19:19.0  &lt;/div&gt;&lt;/div&gt;
+&lt;/div&gt;
+</description>
+        <pubDate>Sat, 22 Jun 2013 06:35:48 -0700</pubDate>
+        <link>http://tuesdaydeveloper.com/2013/06/22/angularjs-testing-with-karma-and-jasmine.html</link>
+        <guid isPermaLink="true">http://tuesdaydeveloper.com/2013/06/22/angularjs-testing-with-karma-and-jasmine.html</guid>
+        
+        
+      </item>
+    
+      <item>
+        <title>Story Estimation</title>
+        <description>&lt;p&gt;&lt;img class=&quot;alignleft size-medium wp-image-654&quot; alt=&quot;dogs&quot; src=&quot;/uploads/2013/02/dogs-e1361559202624-293x300.jpg&quot; width=&quot;293&quot; height=&quot;300&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;I’ve come up with the perfect explanation for how I would estimate stories.&lt;/p&gt;
+
+&lt;p&gt;First, we are not measuring time or complexity—we’re measuring effort.&lt;/p&gt;
+
+&lt;p&gt;For this example forget all you know—or think you know. Let’s ignore everything about T-shirt sizes or hours… instead we’ll think about vicious canines and the effort it requires you to render them unconscious in order to stop an attack.&lt;/p&gt;
+
+&lt;p&gt;Incapacitating a chiwawa (not Phil’s, I’m sure they’re nice and not vicious and we don’t want to hurt them) doesn’t require much effort at all. You have no fear to simply bend down pick it up and (as gently as possible) toss it a few feet away—out cold.&lt;/p&gt;
+
+&lt;p&gt;Incapacitating a mastiff (you initially thought was a horse), however, requires a significantly larger about of effort. I don’t want one of those sicked on me. You may resort to running, kicking, or beating him with a stick…it still may be attacking you.&lt;/p&gt;
+
+&lt;p&gt;Who is providing the effort makes a difference. If Dave, significantly stronger than I am, was knocking out the mastiff, he would perform an elegant taekwondo chop to the poor beasts skull and the attack would be over and out cold. Me, even if I used the biggest stick I could carry, it would still take significantly longer to render the dog unconscious.&lt;/p&gt;
+
+&lt;p&gt;The actual effort required to halt the attack is the same in each case for each of us, the dog needs to be knocked out—same problem same amount of effort.&lt;/p&gt;
+
+&lt;p&gt;The chiwawa is the story that requires the least amount of effort we have. The mastiff swallowed several chiwawas he thought were burritos—an epic with a LOT of effort.&lt;/p&gt;
+</description>
+        <pubDate>Fri, 22 Feb 2013 05:49:13 -0800</pubDate>
+        <link>http://tuesdaydeveloper.com/2013/02/22/story-estimation.html</link>
+        <guid isPermaLink="true">http://tuesdaydeveloper.com/2013/02/22/story-estimation.html</guid>
+        
+        
+      </item>
+    
+  </channel>
+</rss>

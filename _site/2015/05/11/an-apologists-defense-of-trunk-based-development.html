@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>An Apologist&#39;s Defense of Trunk-based Development</title>
+  <meta name="description" content="There are two prevailing thoughts about source code management in contemporary software development with multi-member teams: trunk-based development and the ...">
+
+  <link rel="stylesheet" href="/css/main.css">
+  <link rel="canonical" href="http://tuesdaydeveloper.com/2015/05/11/an-apologists-defense-of-trunk-based-development.html">
+  <link rel="alternate" type="application/rss+xml" title="tuesdayDeveloper;" href="http://tuesdaydeveloper.com/feed.xml">
+</head>
+
+
+  <body>
+
+    <header class="site-header">
+
+  <div class="wrapper">
+
+    <a class="site-title" href="/">tuesdayDeveloper;</a>
+
+    <nav class="site-nav">
+      <a href="#" class="menu-icon">
+        <svg viewBox="0 0 18 15">
+          <path fill="#424242" d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.031C17.335,0,18,0.665,18,1.484L18,1.484z"/>
+          <path fill="#424242" d="M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0c0-0.82,0.665-1.484,1.484-1.484 h15.031C17.335,6.031,18,6.696,18,7.516L18,7.516z"/>
+          <path fill="#424242" d="M18,13.516C18,14.335,17.335,15,16.516,15H1.484C0.665,15,0,14.335,0,13.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.031C17.335,12.031,18,12.696,18,13.516L18,13.516z"/>
+        </svg>
+      </a>
+
+      <div class="trigger">
+        
+          
+          <a class="page-link" href="/about/">About</a>
+          
+        
+          
+        
+          
+        
+          
+        
+      </div>
+    </nav>
+
+  </div>
+
+</header>
+
+
+    <div class="page-content">
+      <div class="wrapper">
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title" itemprop="name headline">An Apologist's Defense of Trunk-based Development</h1>
+    <p class="post-meta"><time datetime="2015-05-11T08:45:26-07:00" itemprop="datePublished">May 11, 2015</time> • <span itemprop="author" itemscope itemtype="http://schema.org/Person"><span itemprop="name">mahon</span></span></p>
+  </header>
+
+  <div class="post-content" itemprop="articleBody">
+    <p>There are two prevailing thoughts about source code management in contemporary software development with multi-member teams: trunk-based development and the feature branch model (or pull-request model). Looking at GitHub alone will surly lead you to believe that the only way to develop with a distributed source control system is using the pull-request model, but then there are technology pundits out there who opine that the only way to use git (or one of its relatives) is using the trunk based development model.</p>
+
+<p>This disparity (the masses using one model, but the role-models prescribing another) has understandably led to confusion in the tech industry. After reading <a href="http://martinfowler.com/bliki/FeatureBranch.html">Martin Fowler’s excellent description of Trunk Based Development</a> (which he refers to as it’s more classical, but now overloaded, terminology: Continuous Integration) I found a few bloggers that didn’t like Martin Fowler’s suggestions. I’m going to address the article found <a href="http://web.archive.org/web/20110721063430/http://jamesmckay.net/2011/07/why-does-martin-fowler-not-understand-feature-branches/">here</a> by James McKay (whom I will refer to as JM). I will attempt to assuage some of their concerns and answer some of the questions they have in this post.</p>
+<h3>Continuous Integration <em>is</em> At Odds With Feature Branching</h3>
+<p>The first point that JM brings up is, “[Martin Fowler and Mike Mason] are saying that Feature Branching is incompatible with Continuous Integration.” I believe that the source of the confusion here is simply a case of semantics and history.</p>
+
+<p>Continuous Integration (as I eluded to previously) has multiple meanings today. The history of the term is described very well on <a href="http://en.wikipedia.org/wiki/Continuous_integration">Wikipedia</a>, but it would do well to quote the opening line, “<b>Continuous integration</b> (<b>CI</b>) is the practice, in software engineering, of merging all developer working copies with a shared mainline several times a day.” As you can see its original meaning had nothing to do with build servers, but various vendors coopted the term (quite successfully) and  the original meaning is lost on some developers. Continuous Integration originally meant just that—integrating continuously. Integrating all the new code you wrote as frequently as you can with what is the latest code on a single branch. Everyone has the same version of the latest code. With Feature Branching you don’t share this promise. Everyone may have the latest code from a shared branch, but they also have their own dirty little secrets which none of the other branches share.</p>
+
+<p>Git and Mercurial often show a representation of a commit history something like this for feature branches:<a href="/uploads/2015/05/feature-branches.png">
+<img class="alignleft size-medium wp-image-730" src="/uploads/2015/05/feature-branches-300x120.png" alt="feature-branches" width="300" height="120" /></a></p>
+
+<p>The blue branch in the middle is the shared, common, dev, develop, whatever-you-want-to-call-it branch. The plan is to release whatever is on the blue branch. The red and yellow branches are feature branches that have branched off of the blue branch. Unfortunately this image is misleading. The red and yellow branches may be merging frequently with the blue branch, but they aren’t as close to each other as they may seem. The red and yellow branches are actually drifting further and further apart. Something like the next image:</p>
+
+<p><a href="/uploads/2015/05/feature-branches-reality.png"><img class="alignleft size-medium wp-image-729" src="/uploads/2015/05/feature-branches-reality-300x233.png" alt="feature-branches-reality" width="300" height="233" /></a>The blue branch, which is still getting commits (presumably from other branches) is still the same distance from both red and yellow, but red and yellow are much further apart., The more code that is added to red but not to yellow or to yellow but not to red the more different they become. The longer time goes without merging the code from red and yellow together (as well as any other feature branches) the further apart they two branches will drift, even if they are continually merging with blue.</p>
+
+<p>This leads us to a natural question about what happens when one of these branches merges with the shared blue branch. I’m glad you asked, I’ve got an image for that:</p>
+
+<p><a href="/uploads/2015/05/feature-branch-after-merge.png"><img class="alignleft size-medium wp-image-728" src="/uploads/2015/05/feature-branch-after-merge-300x260.png" alt="feature-branch-after-merge" width="300" height="260" /></a></p>
+
+<p>In the third image you see that the yellow branch is nowhere near where the blue branch is anymore. In fact it is further from blue than when it started because now the blue branch is also the red branch and so yellow is actually as far away from its parent as it was from the red branch.</p>
+
+<p>This will remain the case until a merge occurs which will likely cause a <em>huge</em> merge conflict and while merge conflicts would happen even when using trunk based development, they occur are more regulated and more manageable intervals (more on that later).</p>
+
+<p>Obviously this is an image and I haven’t calculated the actual difference between the red and yellow branches, theoretically this could be done with an algorithm that tracked differences, but the point is clear: when using feature branches you are often in danger of working on a branch that is very different from the other feature branches and when one of them merges before your branch merges then you will have to deal with the problem of finding out how to merge the two very different code bases together.</p>
+
+<p>The problem highlighted is known as <em>delayed integration</em> which, just like it sounds, is exactly the opposite of Continuous Integration and means that the developers involved have waited to integrate their code with others’ code. That’s why feature branches are at odds with Continuous Integration, because they are nothing alike.</p>
+<h3>Merging Isn't So Bad</h3>
+<p>JM declares that they didn’t feel that merging was so bad (maybe not is so many words). They’re right. But it is dangerous, and in more ways than one. In fact there are three ways that merging is dangerous. The first is obvious, the developer preforming the merge may make a mistake. Maybe they misunderstood the other developer’s code or they could have forgotten exactly what that piece of code was supposed to do. It’s true that this is a problem that can be retroactively rectified, but it’s still inconvenient.</p>
+
+<p>The second is a little less obvious and doesn’t have anything to do with the actual merge process, but in the fact that merging must wait. The problem arrises when you have to wait to share code! Just the other day I overheard two developers talking. One of them needed some code that the other had written, but they were working in two different branches. They spent probably ten minutes thinking of ways to get Git to share parts of one branch with the other, but not merging the whole branch.</p>
+
+<p>The last way that merging is dangerous is because it gets more difficult with time. I like to think of it as gum on a sidewalk. If someone spits gum on the sidewalk (it wasn’t you, of course, because it is a nasty habit) it’s really quite easy to get it off the ground and into a trash bin. But if you wait a week, chances are that it has been stepped on and trampled and it will take a long time to get it off (unless you have a high-powered presser washer handy).</p>
+
+<p>Merging little changes (like you do with trunk based development) is usually painless, but the longer you let changes go without merging them the greater the chance that you code will be more difficult to merge. This is one of the best features of Trunk Based Development: small merges, frequently.</p>
+<h3>Feature Toggles</h3>
+<p>There seems to be a lot of fear about feature toggles. Whether it done using branch by abstraction or permissions or some other method it’s basically a method to not call new code until the time comes when it is ready to turn them on. JM feels that feature toggling is actually more dangerous than keeping code completely isolated until it is ready to be used and I respect this fear. It’s true that there is a small amount of risk involved when toggling a feature that isn’t ready yet. But I want to point out a misunderstanding that he has and a benefit that feature toggles have that you wouldn’t get when using feature branches.</p>
+
+<p>First, James McKay says that feature branches is releasing code that is untested. This is untrue. We must keep in mind that trunk based development isn’t just a pattern for the repository—it is a pattern for the way we code as well. In trunk based development one never pushes code that hasn’t passed every unit test and doesn’t have unit test written for it as well. If you are careful, end users should never be running the code that isn’t ready, but if by some small chance they do it should be tested. (I don’t have time to get into the <a href="http://martinfowler.com/articles/mocksArentStubs.html">classic unit tests vs the mockist approach</a>, but there are differences of opinion about that in the software development world too. I believe that if unit tests are written using the classic approach, which is a manner that test more consistently with how a user may be using or misusing your system, then those tests will be more than adequate at preventing bugs in feature toggled software without manual tests of any kind.)</p>
+
+<p>The other benefit to using feature toggles comes into play when everything is working as designed, but you want to turn a feature off for a business reason. Maybe you are using a social network’s Oauth 2 authentication to login to your site, but then a competitor acquires them and you want to turn off everything in your site associated with them. If you’ve been using feature toggles this becomes a simple matter of reenabling the toggle that was in place—if not, you may need to go in and manually remove all traces by hand (introducing the chance for bugs and errors that wouldn’t have happened if you used a configuration or abstraction to keep a feature from being released). Of course this means whatever mechanism you are using to do your feature toggles can be reenabled and hasn’t been removed, but chances are good that it’s easier to reenable a feature toggle than to remove and replace code by hand.</p>
+<h3>Whatever Merge Goes</h3>
+<p>I’ve compared and contrasted two version control models, Trunk Based Development and Feature Branches. There is, however, a third option that gets some usage. Unfortunately this model sometimes gets confused with Trunk Based Development, but the two are very different. There isn’t really an official name for it, but I like to call it Whatever Merge Goes meaning a haphazard, non-regulated method for software version control.</p>
+
+<p>It’s confused with Trunk Based Development, because there is usually only one shared branch. The difference is that the trunk branch is treated carelessly. Developers aren’t required to run unit tests before committing and pushing code or to even write them. Stories are not polished before developers are expected to work with them (and the developers almost never helped define them) and so there is real risk that the features committed to for a coding cycle may only get half-way done by the deadline and won’t be able to be removed which will result in a traffic jam of last minute changes and half-tested code.</p>
+
+<p>Please don’t confuse a team working on a single shared branch with Trunk Based Development. Trunk Based Development requires discipline and diligence. Adequate tests, discipline to run them and verify the build won’t break, and frequent pushes (not just when your code if <em>finished</em> but when it’s in a stable state) and pulls are all a vital part of Trunk Based Development. Between having no process and having Feature Branches, I’d choose Feature Branches too even though that will only go so far to improve the situation.</p>
+<h3>When to Choose Feature Branches</h3>
+<p>In all professionally developed projects I would use Trunk Based Development. With personal projects (where you or a small group of friends are working on an application) I’d use Trunk Based Development. The only time I would consider branching is when I was working with an open source project and didn’t know if I could trust the other developers contributing.</p>
+
+<p>For an excellent resource regarding Trunk Based Development refer to <a href="http://paulhammant.com">Paul Hammant’s blog</a>, he has several articles talking about what Trunk Based Development is, why it’s better, and about how companies like Facebook and Google use Trunk Based Development.</p>
+
+<div class="archived comments">
+
+<div class="comment"><blockquote>First, James McKay says that feature branches is releasing code that is untested.</blockquote>
+
+I think you meant to say "feature toggles" here.
+
+While I'm suggesting edits, "eluded" should be "alluded", "they two" should be "the two", "not is so" —&gt; "not in so", "you code" —&gt; "your code", "presser" —&gt; "pressure", and "Oauth 2" —&gt; something that actually works.  (You should take heart in the fact that the only first draft I've seen of Martin Fowler's was littered with typos and omitted words.)
+
+I, too, am dismayed at the abuse of the term "Continuous Integration": "Of course we do Continuous Integration: we have our Continuous Integration server all set up, with a build for every feature branch!  It's especially useful at the end of the month when we integrate all the feature branches."
+
+Another pitfall I've seen is teams implementing "Continuous Integration" by merging <i>from</i> master (or "trunk" or "main" or "mainline") multiple times a day—until they all realize this is pointless, because nobody's merging anything <i>into</i> master until the last couple days of the sprint.  Maybe "trunk-based development" would be a useful label for avoiding this situation.  <div class="by">George Paci on 2015-08-29 09:40:47.0  </div></div>
+</div>
+
+  </div>
+  <div class="PageNavigation">
+    
+    <a class="prev" href="/2014/01/18/angular-dependency-injection.html">&laquo; Angular Dependency Injection</a>
+    
+    
+    <a class="next" href="/2015/05/12/a-better-way.html">A Better Way &raquo;</a>
+    
+  </div>
+
+</article>
+
+      </div>
+    </div>
+
+    <footer class="site-footer">
+
+  <div class="wrapper">
+
+    <h2 class="footer-heading">tuesdayDeveloper;</h2>
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col footer-col-1">
+        <ul class="contact-list">
+          <li>tuesdayDeveloper;</li>
+          <li><a href="mailto:"></a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col footer-col-2">
+        <ul class="social-media-list">
+          
+          <li>
+            <a href="https://github.com/mahon.baldwin"><span class="icon icon--github"><svg viewBox="0 0 16 16"><path fill="#828282" d="M7.999,0.431c-4.285,0-7.76,3.474-7.76,7.761 c0,3.428,2.223,6.337,5.307,7.363c0.388,0.071,0.53-0.168,0.53-0.374c0-0.184-0.007-0.672-0.01-1.32 c-2.159,0.469-2.614-1.04-2.614-1.04c-0.353-0.896-0.862-1.135-0.862-1.135c-0.705-0.481,0.053-0.472,0.053-0.472 c0.779,0.055,1.189,0.8,1.189,0.8c0.692,1.186,1.816,0.843,2.258,0.645c0.071-0.502,0.271-0.843,0.493-1.037 C4.86,11.425,3.049,10.76,3.049,7.786c0-0.847,0.302-1.54,0.799-2.082C3.768,5.507,3.501,4.718,3.924,3.65 c0,0,0.652-0.209,2.134,0.796C6.677,4.273,7.34,4.187,8,4.184c0.659,0.003,1.323,0.089,1.943,0.261 c1.482-1.004,2.132-0.796,2.132-0.796c0.423,1.068,0.157,1.857,0.077,2.054c0.497,0.542,0.798,1.235,0.798,2.082 c0,2.981-1.814,3.637-3.543,3.829c0.279,0.24,0.527,0.713,0.527,1.437c0,1.037-0.01,1.874-0.01,2.129 c0,0.208,0.14,0.449,0.534,0.373c3.081-1.028,5.302-3.935,5.302-7.362C15.76,3.906,12.285,0.431,7.999,0.431z"/></svg>
+</span><span class="username">mahon.baldwin</span></a>
+
+          </li>
+          
+
+          
+          <li>
+            <a href="https://twitter.com/mahonrib"><span class="icon icon--twitter"><svg viewBox="0 0 16 16"><path fill="#828282" d="M15.969,3.058c-0.586,0.26-1.217,0.436-1.878,0.515c0.675-0.405,1.194-1.045,1.438-1.809c-0.632,0.375-1.332,0.647-2.076,0.793c-0.596-0.636-1.446-1.033-2.387-1.033c-1.806,0-3.27,1.464-3.27,3.27 c0,0.256,0.029,0.506,0.085,0.745C5.163,5.404,2.753,4.102,1.14,2.124C0.859,2.607,0.698,3.168,0.698,3.767 c0,1.134,0.577,2.135,1.455,2.722C1.616,6.472,1.112,6.325,0.671,6.08c0,0.014,0,0.027,0,0.041c0,1.584,1.127,2.906,2.623,3.206 C3.02,9.402,2.731,9.442,2.433,9.442c-0.211,0-0.416-0.021-0.615-0.059c0.416,1.299,1.624,2.245,3.055,2.271 c-1.119,0.877-2.529,1.4-4.061,1.4c-0.264,0-0.524-0.015-0.78-0.046c1.447,0.928,3.166,1.469,5.013,1.469 c6.015,0,9.304-4.983,9.304-9.304c0-0.142-0.003-0.283-0.009-0.423C14.976,4.29,15.531,3.714,15.969,3.058z"/></svg>
+</span><span class="username">mahonrib</span></a>
+
+          </li>
+          
+        </ul>
+      </div>
+
+      <div class="footer-col footer-col-3">
+        <p>tech opinions and how-tos</p>
+      </div>
+    </div>
+
+  </div>
+
+</footer>
+
+
+  </body>
+
+</html>
