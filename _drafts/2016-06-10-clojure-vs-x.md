@@ -108,4 +108,3 @@ This image is an approximation of how different languages might fit when you loo
 
 ## Conclusion
 So, why not Java? That's an excellent question, one that I'm becoming more and more convinced to be qualified to answer that you need to have a psychology degree because selecting your language of choice seems to be such a personal decision. As so many other preferences, it seems to come down to your values:
-

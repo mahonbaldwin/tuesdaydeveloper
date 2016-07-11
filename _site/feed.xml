@@ -5,9 +5,120 @@
     <description>tech opinions and how-tos</description>
     <link>http://tuesdaydeveloper.com/</link>
     <atom:link href="http://tuesdaydeveloper.com/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Wed, 15 Jun 2016 19:48:00 -0700</pubDate>
-    <lastBuildDate>Wed, 15 Jun 2016 19:48:00 -0700</lastBuildDate>
+    <pubDate>Mon, 11 Jul 2016 12:34:43 -0700</pubDate>
+    <lastBuildDate>Mon, 11 Jul 2016 12:34:43 -0700</lastBuildDate>
     <generator>Jekyll v3.1.6</generator>
+    
+      <item>
+        <title>Testing Done Right</title>
+        <description>&lt;p&gt;How do I know a test is good?&lt;/p&gt;
+
+&lt;p&gt;How do I know I have the right tests?&lt;/p&gt;
+
+&lt;p&gt;How do I know that the tests that are written &lt;em&gt;actually&lt;/em&gt; highlight errors in the application when they fail?&lt;/p&gt;
+
+&lt;p&gt;I’ve had these questions for a while. I’m not really sure I can answer them yet.&lt;/p&gt;
+
+&lt;p&gt;I think that knowing how to test an application is way more complicated than we treat it.&lt;/p&gt;
+
+&lt;p&gt;Take code coverage for example. For some reason we’ve gotten it into our heads that if we visit all the lines (or branches) of a method then we’ve done enough testing. This is simple enough to disprove:&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-java&quot; data-lang=&quot;java&quot;&gt;&lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;add5&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;x&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;){&lt;/span&gt;
+  &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;x&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;5&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;p&gt;If we &lt;code&gt;assertEquals(add5(1), 6)&lt;/code&gt; we’ve visited all the lines of code and we’re done, right? What happens when you call &lt;code&gt;add5(2147483646)&lt;/code&gt;?&lt;/p&gt;
+
+&lt;p&gt;Even if we are in the habit of considering edge cases, null cases, zero cases, and suit cases I don’t think I’ve seen tests that are really &lt;em&gt;valuable&lt;/em&gt; in real life.&lt;/p&gt;
+
+&lt;p&gt;Perhaps one of the things that bothers me the most about unit tests is a reaction not uncommon when they fail. If your immediate reaction is to fix the test, what is the point of your test in the first place? If tests exist just so we can fix them when they fail, we’re just making more work for ourselves.&lt;/p&gt;
+
+&lt;p&gt;Of course I’m not saying that writing tests is bad nor that they shouldn’t be fixed when they fail. My point is, if a unit test fails there must be a series of questions we ask ourselves including whether the new code we’ve written is right and whether the test was right in the first place and if the change we made in the code is one that is correct and if we expect this unit test to fail. We may even have to reconsider if this unit test is still valuable to us. We can’t just say, “Oh, I changed &lt;code&gt;add5()&lt;/code&gt; to &lt;code&gt;return x + 6&lt;/code&gt; so I need to change the unit tests.” Yes, that is as ridiculous as it sounds.&lt;/p&gt;
+
+&lt;h2 id=&quot;essential-testing&quot;&gt;Essential Testing&lt;/h2&gt;
+&lt;p&gt;When I learned to program I was trained to think in a very imperative mindset. &lt;code&gt;step1; step2; step3;&lt;/code&gt; As I matured in my career I was introduced to a declarative mind set. The difference I think was answering the question ‘What should it do?’ rather than ‘How should it do it?’. I’ve begun to think of testing in the same way. Rather than asserting every conceivable validation we can think of, we should think of the essential properties of what an algorithm should do.&lt;/p&gt;
+
+&lt;p&gt;After watching an &lt;a href=&quot;https://www.youtube.com/watch?v=Tb823aqgX_0&quot;&gt;excellent talk about bottom up programming&lt;/a&gt; I decided to play around a little and write a simple app that shuffled a deck of cards. Each card has two keywords in a vector representing the suit and the rank like this: &lt;code&gt;[:hearts :two]&lt;/code&gt;. I came up with a pretty simple solution:&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-clojure&quot; data-lang=&quot;clojure&quot;&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;def&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;ranks&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;no&quot;&gt;:ace&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;no&quot;&gt;:two&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;no&quot;&gt;:three&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;no&quot;&gt;:four&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;no&quot;&gt;:five&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;no&quot;&gt;:six&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;no&quot;&gt;:seven&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;no&quot;&gt;:eight&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;no&quot;&gt;:nine&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;no&quot;&gt;:ten&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;no&quot;&gt;:jack&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;no&quot;&gt;:queen&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;no&quot;&gt;:king&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+
+&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;def&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;new-deck&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+  &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;for&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;suit&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;no&quot;&gt;:hearts&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;no&quot;&gt;:diamonds&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;no&quot;&gt;:spades&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;no&quot;&gt;:clubs&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;rank&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;ranks&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;suit&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;rank&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]))&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+
+&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;defn&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;shuffle-deck&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+  &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;([]&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;shuffle-deck&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;new-deck&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+  &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;([&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;deck&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;shuffle&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;deck&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)))&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;p&gt;Of course I tested this in the REPL and I saw what I expected, but I doubted that I had done it correctly the first time (because that never happens) so I started to write some unit tests.&lt;/p&gt;
+
+&lt;p&gt;My first unit tests were a mess:&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-clojure&quot; data-lang=&quot;clojure&quot;&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;defn&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;deck-assertions&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;deck&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+  &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;println&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;testing deck &quot;&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;deck&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+  &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;is&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;count&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;set&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;deck&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;52&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+  &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;is&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;count&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;filter&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;#&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;first&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;%&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;no&quot;&gt;:clubs&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;deck&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;13&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+  &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;...&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+  &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;is&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;count&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;filter&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;#&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;last&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;%&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;no&quot;&gt;:ace&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;deck&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;4&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+  &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;...&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+  &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;is&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;count&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;filter&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;#&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;last&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;%&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;no&quot;&gt;:king&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;deck&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;4&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)))&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+
+&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;deftest&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;test-shuffle-deck&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+  &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;deck-assertions&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;shuffle-deck&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+  &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;deck-assertions&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;shuffle-deck&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;shuffle-deck&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)))&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+  &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;is&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;not=&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;shuffle-deck&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;shuffle-deck&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;shuffle-deck&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;shuffle-deck&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))))&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+
+&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;deftest&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;test-new-deck&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+  &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;is&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;new-deck&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[[&lt;/span&gt;&lt;span class=&quot;no&quot;&gt;:hearts&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;no&quot;&gt;:ace&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+                   &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;no&quot;&gt;:hearts&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;no&quot;&gt;:two&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+                   &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;...&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+                   &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;no&quot;&gt;:clubs&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;no&quot;&gt;:queen&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+                   &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;no&quot;&gt;:clubs&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;no&quot;&gt;:king&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]])))&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;p&gt;There are good aspects of the code, but I had 86 lines of test code when the code I was testing only had 8. I wasn’t too concerned with the tests having more lines than the solution, but I felt that my tests were missing something. That’s when I added:&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-clojure&quot; data-lang=&quot;clojure&quot;&gt;&lt;span class=&quot;w&quot;&gt;  &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;is&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;sort&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;shuffle-deck&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;sort&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;new-deck&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)))&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;p&gt;Which I think is probably the first good test I wrote. But I wanted to wright a test that verified that two shuffled decks were probably different. My first naïve test:&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-clojure&quot; data-lang=&quot;clojure&quot;&gt;&lt;span class=&quot;w&quot;&gt;  &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;is&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;not=&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;shuffle-deck&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;shuffle-deck&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;shuffle-deck&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;shuffle-deck&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)))&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;p&gt;But I didn’t think that was good enough so I wrote another naïve test:&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-clojure&quot; data-lang=&quot;clojure&quot;&gt;&lt;span class=&quot;w&quot;&gt;  &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;is&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;apply&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;not=&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;repeatedly&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;100&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;shuffle-deck&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)))&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;p&gt;But there’s a problem with this test. It doesn’t provide any real knowledge. If it fails then all 100 &lt;code&gt;shuffled-deck&lt;/code&gt;s contain cards that are in the same order. If it passes I know only that one deck is different than the other 99.&lt;/p&gt;
+
+&lt;p&gt;I think a better test is this one:&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-clojure&quot; data-lang=&quot;clojure&quot;&gt;&lt;span class=&quot;w&quot;&gt;  &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;is&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;990&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;count&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;set&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;repeatedly&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1000&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;shuffle-deck&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)))))&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;p&gt;Here I still generate several shuffled decks, but I get the count of only the unique decks and expect that number to be greater than a large percentage of the generated decks (99% in this case). (So far every time I’ve looked at it, the count of the set of shuffled decks has been 1000).&lt;/p&gt;
+
+&lt;p&gt;At this point I feared that my tests were tautological. I had too many tests that were testing the same thing. But I still wanted to verify that a deck of cards contained 52 cards and that each of these cards were a vector of a suit and a rank, each one being unique. Of course we know that if each card contains one of &lt;code&gt;[:hearts :diamonds :spades :clubs]&lt;/code&gt; as the first value and one of &lt;code&gt;[:ace ... :king]&lt;/code&gt; as its second element and that they all have only two values, then maybe the right answer is something like this:&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-clojure&quot; data-lang=&quot;clojure&quot;&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;defn&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;test-cards&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;cards&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+  &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;if-let&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;card&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;first&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;cards&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)]&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+    &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;do&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+      &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;is&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;count&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;card&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+      &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;is&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;contains?&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;#&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;no&quot;&gt;:hearts&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;no&quot;&gt;:diamonds&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;no&quot;&gt;:spades&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;no&quot;&gt;:clubs&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;first&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;card&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)))&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+      &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;is&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;contains?&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;#&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;no&quot;&gt;:ace&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;no&quot;&gt;:two&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;no&quot;&gt;:three&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;no&quot;&gt;:four&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;no&quot;&gt;:five&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;no&quot;&gt;:six&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;no&quot;&gt;:seven&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;no&quot;&gt;:eight&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;no&quot;&gt;:nine&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;no&quot;&gt;:ten&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;no&quot;&gt;:jack&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;no&quot;&gt;:queen&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;no&quot;&gt;:king&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;last&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;card&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)))&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+      &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;recur&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;rest&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;cards&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)))))&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+
+&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;deftest&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;test-shuffle-deck&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+  &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;is&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;count&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;set&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;shuffle-deck&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)))&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;52&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+  &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;test-cards&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;shuffle-deck&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+  &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;is&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;sort&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;shuffle-deck&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;sort&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;new-deck&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)))&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+  &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;is&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;990&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;count&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;set&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;repeatedly&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1000&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;shuffle-deck&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))))))&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+</description>
+        <pubDate>Fri, 08 Jul 2016 11:49:42 -0700</pubDate>
+        <link>http://tuesdaydeveloper.com/testing/2016/07/08/unit-testing.html</link>
+        <guid isPermaLink="true">http://tuesdaydeveloper.com/testing/2016/07/08/unit-testing.html</guid>
+        
+        
+        <category>testing</category>
+        
+      </item>
     
       <item>
         <title>A New Beginning!</title>
@@ -33,6 +144,136 @@
       </item>
     
       <item>
+        <title>Clojure vs. x</title>
+        <description>&lt;p&gt;A week or so ago I was interviewing a candidate to come to work with my company. After briefly explaining why we chose Clojure for our application we asked him if he had any questions about our architecture. “Well,” his eyes flicked to the side before returning eye contact, “why not just use Java?”&lt;/p&gt;
+
+&lt;h2 id=&quot;why-should-i-choose&quot;&gt;Why should I choose…?&lt;/h2&gt;
+&lt;p&gt;I’m fascinated by the question, “Why should I choose &lt;em&gt;x&lt;/em&gt; programming language/paradigm/framework/parrot?” Obviously this can be a silly question because a bird that can program can make you a lot of money even if its not very &lt;em&gt;good&lt;/em&gt; at programming! As for the non-fowl-programming-entities, you’ll get a lot more debate as to which has the most merit.&lt;/p&gt;
+
+&lt;p&gt;I’ve been drawn to Clojure for a while now. Clojure is a functional, dynamically-typed, Lisp dialect. I can list for you the air of grievances people have against Clojure even knowing only the short description I provided:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;What’s wrong with OO?&lt;/li&gt;
+  &lt;li&gt;No types???!!! Seriously?&lt;/li&gt;
+  &lt;li&gt;Ugh, the parenthesis!&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Objections by others asside, I like it and a lot of other people like it too. &lt;a href=&quot;https://www.thoughtworks.com/radar/languages-and-frameworks/clojure&quot;&gt;Clojure comes highly recommended&lt;/a&gt;. It’s even in &lt;a href=&quot;http://www.tiobe.com/tiobe_index&quot;&gt;the top 100 most popular languages&lt;/a&gt;&lt;sup id=&quot;fnref:tiobe&quot;&gt;&lt;a href=&quot;#fn:tiobe&quot; class=&quot;footnote&quot;&gt;1&lt;/a&gt;&lt;/sup&gt;. But no one can doubt that for one reason or another Clojure is less popular than Java, C#, Ruby, Python, JavaScript, C, C++, even PHP. So this leads me to the question: what makes a programming language &lt;em&gt;popular&lt;/em&gt;?&lt;/p&gt;
+
+&lt;h2 id=&quot;hammers&quot;&gt;Hammers&lt;/h2&gt;
+&lt;blockquote&gt;
+  &lt;p&gt;If all you have is a hammer, everything looks like a nail.&lt;/p&gt;
+
+  &lt;p&gt;—&lt;a href=&quot;https://en.wiktionary.org/wiki/if_all_you_have_is_a_hammer,_everything_looks_like_a_nail&quot;&gt;Abraham Kaplan or Abraham Maslow&lt;/a&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;I hate hearing that phrase. Whichever Abraham said it, it is the single most quoted text I hear when I discuss functional paradigms with other people. And it wasn’t even originally about programming. Is it true?&lt;sup id=&quot;fnref:hammer&quot;&gt;&lt;a href=&quot;#fn:hammer&quot; class=&quot;footnote&quot;&gt;2&lt;/a&gt;&lt;/sup&gt; Perhaps the sentiment of the quote is true to some degree. I want to point out that there are cases that for which Clojure is not a good fit. I haven’t worked with any, but I know that when working with limited amounts of space or close to the hardware you don’t have higher level languages at your disposal.&lt;/p&gt;
+
+&lt;p&gt;I’m also not saying that Clojure is the only good language nor that it will never be replaced with something better. It is the nature of our profession to continue learning and creating new technologies because we have more knowledge and resources at our disposal. That means that Clojure will be replaced someday.&lt;/p&gt;
+
+&lt;p&gt;I will, however, be bold and say that I think that Clojure is the best tool we have available for most use cases.&lt;/p&gt;
+
+&lt;h2 id=&quot;language-analysis&quot;&gt;Language Analysis&lt;/h2&gt;
+&lt;p&gt;To understand how one language is different from another I think that you have to understand the features of a language.&lt;/p&gt;
+
+&lt;h3 id=&quot;language-families&quot;&gt;Language Families&lt;/h3&gt;
+&lt;p&gt;One language feature is that of the manner it is written. As far as I know, there are really only two styles of writing software&lt;sup id=&quot;fnref:software-styles&quot;&gt;&lt;a href=&quot;#fn:software-styles&quot; class=&quot;footnote&quot;&gt;3&lt;/a&gt;&lt;/sup&gt;. Those styles are C and LISP. C looks like &lt;code class=&quot;highlighter-rouge&quot;&gt;x = y&lt;/code&gt;. It’s often punctuated with semicolons and feels familiar to anyone has been introduced to high school algebra. LISP looks like &lt;code class=&quot;highlighter-rouge&quot;&gt;(fn x y)&lt;/code&gt; where &lt;code class=&quot;highlighter-rouge&quot;&gt;fn&lt;/code&gt; is a function and &lt;code class=&quot;highlighter-rouge&quot;&gt;x&lt;/code&gt; and &lt;code class=&quot;highlighter-rouge&quot;&gt;y&lt;/code&gt; are arguments. Everything in LISP is written with lists. In fact, LISP is short for List Processor.&lt;/p&gt;
+
+&lt;p&gt;Since everything is lists in LISPs, this makes for extremely simple syntax, because once you understand that the first symbol of a list (something enclosed in &lt;code class=&quot;highlighter-rouge&quot;&gt;()&lt;/code&gt;) must be a function&lt;sup id=&quot;fnref:escape-list&quot;&gt;&lt;a href=&quot;#fn:escape-list&quot; class=&quot;footnote&quot;&gt;4&lt;/a&gt;&lt;/sup&gt;, you basically have the syntax down. I’m not familiar with other LISPs&lt;sup id=&quot;fnref:lisps&quot;&gt;&lt;a href=&quot;#fn:lisps&quot; class=&quot;footnote&quot;&gt;5&lt;/a&gt;&lt;/sup&gt;, but in Clojure the only syntax you really need to know are lists &lt;code class=&quot;highlighter-rouge&quot;&gt;()&lt;/code&gt;, maps &lt;code class=&quot;highlighter-rouge&quot;&gt;&lt;span class=&quot;p&quot;&gt;{}&lt;/span&gt;&lt;/code&gt;, vectors &lt;code class=&quot;highlighter-rouge&quot;&gt;[]&lt;/code&gt;, sets &lt;code class=&quot;highlighter-rouge&quot;&gt;#{}&lt;/code&gt;, and a special feature called keywords that start with &lt;code class=&quot;highlighter-rouge&quot;&gt;:&lt;/code&gt;&lt;sup id=&quot;fnref:clj-syntax&quot;&gt;&lt;a href=&quot;#fn:clj-syntax&quot; class=&quot;footnote&quot;&gt;6&lt;/a&gt;&lt;/sup&gt;.&lt;/p&gt;
+
+&lt;p&gt;C syntax, on the other hand is more complicated. You usually have a lot of reserved keywords&lt;sup id=&quot;fnref:keywords&quot;&gt;&lt;a href=&quot;#fn:keywords&quot; class=&quot;footnote&quot;&gt;7&lt;/a&gt;&lt;/sup&gt; peppered with different punctuation that mean different things based on the context. In Java the &lt;code class=&quot;highlighter-rouge&quot;&gt;()&lt;/code&gt; in &lt;code class=&quot;highlighter-rouge&quot;&gt;for(int i = 0; i &amp;lt; 10; i++)&lt;/code&gt; mean something different than they mean in &lt;code class=&quot;highlighter-rouge&quot;&gt;main(String[] args)&lt;/code&gt; which mean something different than they do in &lt;code class=&quot;highlighter-rouge&quot;&gt;System.out.print(&quot;Hello World&quot;)&lt;/code&gt;. You might think I’m being anal about this, because they are all fairly similar, but all of those rules have to be written in a compiler and that adds to the complexity to a system.&lt;/p&gt;
+
+&lt;h3 id=&quot;language-styles&quot;&gt;Language Styles&lt;/h3&gt;
+&lt;p&gt;There are also different programming &lt;em&gt;paradigms&lt;/em&gt;. I’m not going to get into all of them&lt;sup id=&quot;fnref:lang-styles&quot;&gt;&lt;a href=&quot;#fn:lang-styles&quot; class=&quot;footnote&quot;&gt;8&lt;/a&gt;&lt;/sup&gt;, but you could probably say that the two main ones are Imperative Programming and Declarative Programming. The main difference with the two: With imperative programming you tell the computer not only what do do, but how to do it. With declarative you tell the computer what to do, but let it figure out how.&lt;/p&gt;
+
+&lt;p&gt;These sorts of features are cropping up in several different traditional imperative languages. Take the following examples in JavaScript (with the latest ES2015 update has become way better in it’s declarative style).&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-javascript&quot; data-lang=&quot;javascript&quot;&gt;&lt;span class=&quot;c1&quot;&gt;//imperative style&lt;/span&gt;
+&lt;span class=&quot;kd&quot;&gt;function&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;getSum&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;arr&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;){&lt;/span&gt;
+  &lt;span class=&quot;kd&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;sum&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+  &lt;span class=&quot;k&quot;&gt;for&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kd&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;i&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;i&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;arr&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;length&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;i&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;++&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;nx&quot;&gt;sum&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+=&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;arr&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;i&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;];&lt;/span&gt;
+  &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+  &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;sum&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-javascript&quot; data-lang=&quot;javascript&quot;&gt;&lt;span class=&quot;c1&quot;&gt;//declarative style&lt;/span&gt;
+&lt;span class=&quot;kd&quot;&gt;function&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;getSum&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;arr&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;){&lt;/span&gt;
+  &lt;span class=&quot;nx&quot;&gt;arr&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;reduce&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;((&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;preVal&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;curVal&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;preVal&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;curVal&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-clojure&quot; data-lang=&quot;clojure&quot;&gt;&lt;span class=&quot;c1&quot;&gt;; the same example in clojure for comparison
+&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;defn&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;sum&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;arr&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+  &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;reduce&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;+&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;arr&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;p&gt;When comparing the first style with the subsequent styles, the following quote makes a lot of sense.&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;OO makes code understandable by encapsulating moving parts.  FP makes code understandable by minimizing moving parts.&lt;/p&gt;
+
+  &lt;p&gt;—&lt;a href=&quot;https://twitter.com/mfeathers/status/29581296216&quot;&gt;Michael Feathers&lt;/a&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;In general, functional languages seek to have a more declarative style, it is for this reason that functional languages are often considered more expressive.&lt;/p&gt;
+
+&lt;p&gt;With imperative languages you don’t have much of a whole language API. What you really have is a lot of micro APIs. &lt;code class=&quot;highlighter-rouge&quot;&gt;String&lt;/code&gt; has a set of methods, &lt;code class=&quot;highlighter-rouge&quot;&gt;List&lt;/code&gt; has a set of methods, &lt;code class=&quot;highlighter-rouge&quot;&gt;YourObject&lt;/code&gt; has a set of methods. Declarative languages tend to have a larger whole language API. In imperative languages you often have separate &lt;code class=&quot;highlighter-rouge&quot;&gt;.equals()&lt;/code&gt; methods. &lt;code class=&quot;highlighter-rouge&quot;&gt;Object&lt;/code&gt;’s &lt;code class=&quot;highlighter-rouge&quot;&gt;.equals()&lt;/code&gt; method is overridden. More often than not, a function that works on a vector will also work on a map &lt;em&gt;and it’s the same function&lt;/em&gt; in declarative languages like Clojure. This philosophy can be summed up in this quote:&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;It is better to have 100 functions operate on one data structure than 10 functions on 10 data structures.&lt;/p&gt;
+
+  &lt;p&gt;—&lt;a href=&quot;http://www.cs.yale.edu/homes/perlis-alan/quotes.html&quot;&gt;Alan Perlis&lt;/a&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;h2 id=&quot;how-is-all-fits&quot;&gt;How is All Fits&lt;/h2&gt;
+&lt;p&gt;&lt;img src=&quot;/assets/lang-table.png&quot; alt=&quot;Languages Table&quot; /&gt;
+This image is an approximation of how different languages might fit when you look at language style and family. As you can see it seems a bit crowded in the bottom left corner. Of course, you could say that all of the Imperative-C languages have elements of declarative style and they are certainly gaining aspects of declarative notation. I put them there because the typical coding style for someone using those languages is more imperative. As for Scheme, I’ll admit I’m not sure where to put that. I looked on Wikipedia at the Scheme code examples and it looked very imperative to me (which may mean you can write imperative code in any language&lt;sup id=&quot;fnref:imperativeAnyLang&quot;&gt;&lt;a href=&quot;#fn:imperativeAnyLang&quot; class=&quot;footnote&quot;&gt;9&lt;/a&gt;&lt;/sup&gt;). In actuality, you’d probably see more languages strataling the line between declarative and imperative.&lt;/p&gt;
+
+&lt;h2 id=&quot;conclusion&quot;&gt;Conclusion&lt;/h2&gt;
+&lt;p&gt;So, why not Java? That’s an excellent question, one that I’m becoming more and more convinced to be qualified to answer that you need to have a psychology degree because selecting your language of choice seems to be such a personal decision. As so many other preferences, it seems to come down to your values:&lt;/p&gt;
+&lt;div class=&quot;footnotes&quot;&gt;
+  &lt;ol&gt;
+    &lt;li id=&quot;fn:tiobe&quot;&gt;
+      &lt;p&gt;As of 10 Jun 2016. &lt;a href=&quot;#fnref:tiobe&quot; class=&quot;reversefootnote&quot;&gt;&amp;#8617;&lt;/a&gt;&lt;/p&gt;
+    &lt;/li&gt;
+    &lt;li id=&quot;fn:hammer&quot;&gt;
+      &lt;p&gt;Well if I’m being pedantic, no, it’s not true. You see, nails must be pounded into something like a board, if everything looked like a nail then you’d have to use a hammer to pound nails into nails which doesn’t make much sense. Not to mention the hammer would look like a nail too, so it would be more like using a nail to pound nails into nails. (This is starting to sound like a torture scenario, especially if one or more of those nails is really fingernails. Ehh.) &lt;a href=&quot;#fnref:hammer&quot; class=&quot;reversefootnote&quot;&gt;&amp;#8617;&lt;/a&gt;&lt;/p&gt;
+    &lt;/li&gt;
+    &lt;li id=&quot;fn:software-styles&quot;&gt;
+      &lt;p&gt;I am not counting coding straight in binary or even assembly code. &lt;a href=&quot;#fnref:software-styles&quot; class=&quot;reversefootnote&quot;&gt;&amp;#8617;&lt;/a&gt;&lt;/p&gt;
+    &lt;/li&gt;
+    &lt;li id=&quot;fn:escape-list&quot;&gt;
+      &lt;p&gt;You can escape a list so it won’t invoke a function allowing you to use the first space for something other than a function, but for that most of the time you can use vectors. &lt;a href=&quot;#fnref:escape-list&quot; class=&quot;reversefootnote&quot;&gt;&amp;#8617;&lt;/a&gt;&lt;/p&gt;
+    &lt;/li&gt;
+    &lt;li id=&quot;fn:lisps&quot;&gt;
+      &lt;p&gt;From what I understand mosts LISPs have even less syntax. Clojure chose to add a few extra forms to ease in code understanding (which also decreases the number of parentheses by a lot.) &lt;a href=&quot;#fnref:lisps&quot; class=&quot;reversefootnote&quot;&gt;&amp;#8617;&lt;/a&gt;&lt;/p&gt;
+    &lt;/li&gt;
+    &lt;li id=&quot;fn:clj-syntax&quot;&gt;
+      &lt;p&gt;There are also special meanings for &lt;code class=&quot;highlighter-rouge&quot;&gt;#&lt;/code&gt;, &lt;code class=&quot;highlighter-rouge&quot;&gt;`&lt;/code&gt;, &lt;code class=&quot;highlighter-rouge&quot;&gt;&#39;&lt;/code&gt;, and &lt;code class=&quot;highlighter-rouge&quot;&gt;~&lt;/code&gt; but you’d be able to read the language just fine even if you didn’t know that. &lt;a href=&quot;#fnref:clj-syntax&quot; class=&quot;reversefootnote&quot;&gt;&amp;#8617;&lt;/a&gt;&lt;/p&gt;
+    &lt;/li&gt;
+    &lt;li id=&quot;fn:keywords&quot;&gt;
+      &lt;p&gt;Clojure (and as far as I know other LISPs) don’t really have reserved keywords. Yes, you have functions that are predefined for you, but they are all namespaced so you can use really any name that consists of alpha-numeric characters, dashes, and underscores even if it’s used in the core library, but most people don’t. &lt;a href=&quot;#fnref:keywords&quot; class=&quot;reversefootnote&quot;&gt;&amp;#8617;&lt;/a&gt;&lt;/p&gt;
+    &lt;/li&gt;
+    &lt;li id=&quot;fn:lang-styles&quot;&gt;
+      &lt;p&gt;I’m definitely not qualified to talk about all of them. &lt;a href=&quot;#fnref:lang-styles&quot; class=&quot;reversefootnote&quot;&gt;&amp;#8617;&lt;/a&gt;&lt;/p&gt;
+    &lt;/li&gt;
+    &lt;li id=&quot;fn:imperativeAnyLang&quot;&gt;
+      &lt;p&gt;I tried it in Clojure, it’s possible, but more difficult that just writing idiomatic declarative code. &lt;a href=&quot;#fnref:imperativeAnyLang&quot; class=&quot;reversefootnote&quot;&gt;&amp;#8617;&lt;/a&gt;&lt;/p&gt;
+    &lt;/li&gt;
+  &lt;/ol&gt;
+&lt;/div&gt;
+</description>
+        <pubDate>Mon, 06 Jun 2016 20:00:42 -0700</pubDate>
+        <link>http://tuesdaydeveloper.com/clojure/programming-style/2016/06/06/clojure-vs-x.html</link>
+        <guid isPermaLink="true">http://tuesdaydeveloper.com/clojure/programming-style/2016/06/06/clojure-vs-x.html</guid>
+        
+        
+        <category>clojure</category>
+        
+        <category>programming-style</category>
+        
+      </item>
+    
+      <item>
         <title>Rounding Errors</title>
         <description>&lt;p&gt;I’m not really sure why, but since I learned about rounding errors I’ve always been fascinated by them. Case in point, I was playing with Clojure’s (range) function and:&lt;/p&gt;
 
@@ -47,6 +288,19 @@
         <pubDate>Tue, 09 Feb 2016 04:34:43 -0800</pubDate>
         <link>http://tuesdaydeveloper.com/2016/02/09/rounding-errors.html</link>
         <guid isPermaLink="true">http://tuesdaydeveloper.com/2016/02/09/rounding-errors.html</guid>
+        
+        
+      </item>
+    
+      <item>
+        <title>Agility</title>
+        <description>&lt;p&gt;“We’re Agile!” Is one of the most annoying phrases you’ll hear from software companies. I take umbridge with the phrase because you cannot reliably know what someone means when they claim agility. The &lt;a href=&quot;http://www.agilemanifesto.org/&quot; target=&quot;_blank&quot;&gt;Agile Manifesto&lt;/a&gt; came out 15 years this month and has revolutionized the way we develop software. But the world is different than it was in 2001 and I think it’s worth a closer look to determine whether “being Agile” (or what that term has come to mean) is still desirable.&lt;/p&gt;
+
+&lt;p&gt; &lt;/p&gt;
+</description>
+        <pubDate>Wed, 16 Dec 2015 05:34:00 -0800</pubDate>
+        <link>http://tuesdaydeveloper.com/2015/12/16/agility.html</link>
+        <guid isPermaLink="true">http://tuesdaydeveloper.com/2015/12/16/agility.html</guid>
         
         
       </item>
@@ -85,6 +339,45 @@
         <pubDate>Tue, 26 May 2015 01:00:13 -0700</pubDate>
         <link>http://tuesdaydeveloper.com/2015/05/26/the-cause-of-poor-code.html</link>
         <guid isPermaLink="true">http://tuesdaydeveloper.com/2015/05/26/the-cause-of-poor-code.html</guid>
+        
+        
+      </item>
+    
+      <item>
+        <title>I Am Not A Mokey</title>
+        <description>&lt;p&gt;To start this post off I want to ask you a question:&lt;/p&gt;
+&lt;p style=&quot;text-align: center;&quot;&gt;What value does a software engineer bring to a company?&lt;/p&gt;
+&lt;p&gt;I’ll even give you some options to choose from.&lt;/p&gt;
+&lt;ol&gt;
+	&lt;li&gt; Software engineers can speak computer (programming languages, etc).&lt;/li&gt;
+	&lt;li&gt; Software engineers can speak human &lt;em&gt;and&lt;/em&gt; computer (they provide an interface between what the customer wants and how to get it).&lt;/li&gt;
+	&lt;li&gt;Software engineers can&#39;t speak (they like quite).&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;If you answered one, two, or even three, you are wrong. Yes, that’s right, this was a trick question (or well… trick answers, the question is non-tricky, but none of the provided answer options were correct).&lt;/p&gt;
+
+&lt;p&gt;So what is the correct answer? The most valuable thing that a software engineer can bring to a company is their critical thinking ability.&lt;/p&gt;
+&lt;h3&gt;Wait, isn&#39;t that what execs and management are paid for?&lt;/h3&gt;
+&lt;p&gt;Regardless of the way you categorize what &lt;em&gt;the boss&lt;/em&gt; does, software engineers must be valued first and foremost for their critical thinking skills. No one can raise the right questions who isn’t acquainted with the code and must interact with it in order to provide the needed solution. The unfortunate truth is that developers are often treated like trainable monkeys who accept direction and then preform a trick. In reality developers make business decisions every day—do you want a monkey making critical decisions?&lt;/p&gt;
+&lt;h3&gt;What critical business decisions do developers make?&lt;/h3&gt;
+&lt;p&gt;Whenever there is a question about requirements that isn’t specified in the requirements for a feature a decision is made. A smart engineer will determine which questions need more input from the business or customer, because if she were to ask about every question that comes up then she would spend her entire day asking questions. The smart engineer will be able to gauge, with her critical thinking skills, which questions she can devise her own best solution for and which ones need more clarification. She will also be able to provide valid options to the client in the event that she determines that she does not have enough information to proceed.&lt;/p&gt;
+
+&lt;p&gt;A developer does not possess the necessary critical thinking skills will not see any points that need clarification or guess at a solution without proper measurement to determine if it was the right answer or will provide a never-ending stream of questions to the client to the point that the client just gets tired of them being around.&lt;/p&gt;
+
+&lt;p&gt;As you can see, there is a fine line between getting it right and getting it wrong. And of course it’s true that developers will make the wrong move on occasion, no one is perfect. But with the proper critical thinking skills they will get it right more often that wrong and save you money.&lt;/p&gt;
+&lt;h3&gt;Do you want to ship that job overseas?&lt;/h3&gt;
+&lt;p&gt; &lt;/p&gt;
+
+&lt;p&gt;I’m not avers to working with developers in other counties to solve the problems that need to be faced. I have, however, witnessed a blatant disregard for the familiarity with the code that an on shore team had and was ultimately replaced with an off shore team.&lt;/p&gt;
+
+&lt;p&gt;In truth, people from different cultures and backgrounds can provide different kinds of critical thinking. There may still be challenges, but a skilled developer is a great asset to any team whether he is in the US or in India. Some may say that overseas developers won’t be able to&lt;/p&gt;
+
+&lt;p&gt;To a large extent communication is a large part of it. If you find that communicating two times a day early in the morning or late at night is adequate, then maybe an off shore team is okay. While language barriers can be overcome they can still prevent challenges. In the end you must communicate your vision to the developer if you have any hope of being able to build your software application successfully.&lt;/p&gt;
+
+&lt;p&gt; &lt;/p&gt;
+</description>
+        <pubDate>Wed, 20 May 2015 13:50:52 -0700</pubDate>
+        <link>http://tuesdaydeveloper.com/2015/05/20/i-am-not-a-mokey.html</link>
+        <guid isPermaLink="true">http://tuesdaydeveloper.com/2015/05/20/i-am-not-a-mokey.html</guid>
         
         
       </item>
@@ -207,607 +500,12 @@ Another pitfall I&#39;ve seen is teams implementing &quot;Continuous Integration
       </item>
     
       <item>
-        <title>Angular Dependency Injection</title>
-        <description>&lt;p&gt;I just spent two awesome days at &lt;a href=&quot;http://ng-conf.org&quot;&gt;ng-conf 2014&lt;/a&gt; where were presented with a challenge to improve upon the already &lt;em&gt;awesome&lt;/em&gt; Angular dependency injection. At first I didn’t really have any ideas. “The only way to improve the DI framework would require interfaces,” I thought. And I left it at that.&lt;/p&gt;
-
-&lt;p&gt;My subconscious mind, however, kept working on it and I woke up at five this morning with a few ideas. I admit that this solution needs some improvement, but I thought I’d at least write it down and see what comes of it.&lt;/p&gt;
-
-&lt;p&gt;One of the few weaknesses that Angular has in its dependency framework is because JavaScript lacks interfaces. This doesn’t mean however that Angular couldn’t build an interface system. I’m not sure if these ideas could be used without a framework like Angular, so I write this document with the understanding that it would naturally fit into Angular.&lt;/p&gt;
-
-&lt;p&gt;Before I begin, I should explain a little about how I personally use Angular, and more importantly, how the various pieces used in Angular come together to help the code stay organized. When I finally convinced my employer, to use Angular, the first thing we found is that it was very easy for everyone to have their own way to structure their code. It is for this reason that I came up with a coding standard that we now currently use.&lt;/p&gt;
-
-&lt;p&gt;There is, obviously, nothing in Angular that enforces this standard and I’ve seen a lot of good code that does it differently, but this is what makes most sense to me.&lt;/p&gt;
-
-&lt;p&gt;As you know, under the hood services and factories are the same thing in Angular. While I see no reason for this to change, I try to keep them and their purposes logically separated.&lt;/p&gt;
-
-&lt;p&gt;&lt;strong&gt;Factories:&lt;/strong&gt;
-A factory is used only when dealing with things that need to be created or saved. In general this means that they use $resource (or sometimes $http) to interact with our API. Controllers never directly interact with a factory, rather they are always used by a service. Factories always have the postfix, “Factory”.&lt;/p&gt;
-
-&lt;p&gt;&lt;strong&gt;Services:&lt;/strong&gt;
-A service is used to keep logic for a certain thing together. This helps with code reuse and to keep the size of a controller to a minimum. Services are used directly from controllers and other services. Often services use factories to get or save off data. Services are always prefixed with a dollar sign and a two letter abbreviation for the company or project it is used for. (Example: If I’m building a task app called Task App a users service may be named: $taUsers.&lt;/p&gt;
-
-&lt;p&gt;With that out of the way, I’ll explain what I think could be a good idea for Angular. I hope that there are others who can improve upon this because it has some spots that are a bit clunky.&lt;/p&gt;
-
-&lt;p&gt;I consider myself pretty new in the software engineering world, but when I think of dependency injection I think of interfaces. Most of my knowledge about DI is colored by the C# dependency injection framework: Windsor. The general principle that Angular lacks when it comes to dependency injection is that there can be more than one dependency that meets the requirements of the dependency. The particular implementation used is usually chosen at runtime based on the DI frameworks configuration. The only problem is that to do this correctly: there really needs to be interfaces, or something that acts like an interface, in JavaScript. I’m not sure what the best practice would be for declaring the members of an interface, but this is one idea. (Using ECMAScript 5.)&lt;/p&gt;
-
-&lt;p&gt;&lt;b&gt;For “Pet Application” this would be used to create an interface.&lt;/b&gt;&lt;/p&gt;
-&lt;pre lang=&quot;javascript&quot; line=&quot;1&quot;&gt;app.interface(&#39;iAnimalService&#39;, {
-  species: angular.STRING,
-  commonName: angular.STRING,
-  numberOfLegs: angular.NUMBER,
-  speak: function(duration){}
-});&lt;/pre&gt;
-&lt;p&gt;&lt;b&gt;Implementing the interface.&lt;/b&gt;&lt;/p&gt;
-&lt;pre lang=&quot;javascript&quot; line=&quot;10&quot;&gt;app.service(&#39;$paDog&#39;, function(){
-  angular.implements(&#39;iAnimalService&#39;, this);//will throw an error if the requirements are not met
-
-  this.species = “Canis lupus”;
-  this.speak = function(duration){
-    //…
-  }
-  //etc.
-});&lt;/pre&gt;
-&lt;p&gt;You can see that the $paDog service implements the iAnimalService interface and that any derivation from the contract will cause an error to be thrown.&lt;/p&gt;
-
-&lt;p&gt;I hope that this was helpful. I would love to hear feedback on this and how it could be improved or thoughts that others have.&lt;/p&gt;
-
-&lt;div class=&quot;archived comments&quot;&gt;
-
-&lt;div class=&quot;comment&quot;&gt;Hey great article, I just wanted to mention you have a duplicate paragraph .
-
-&quot;&lt;b&gt;There is, obviously, nothing in Angular that enforces this standard and I’ve seen a lot of good code that does it differently, but this is what makes most sense to me.&lt;/b&gt;&quot;  &lt;div class=&quot;by&quot;&gt;Andrew Del Prete on 2014-01-22 12:02:21.0  &lt;/div&gt;&lt;/div&gt;
-&lt;/div&gt;
+        <title>To Be Functional</title>
+        <description>&lt;p&gt;My first forays into programming (as I’m sure is the case for many other programmers) started with Object Oriented Programming. OOP is certainly popular, but&lt;/p&gt;
 </description>
-        <pubDate>Sat, 18 Jan 2014 00:38:11 -0800</pubDate>
-        <link>http://tuesdaydeveloper.com/2014/01/18/angular-dependency-injection.html</link>
-        <guid isPermaLink="true">http://tuesdaydeveloper.com/2014/01/18/angular-dependency-injection.html</guid>
-        
-        
-      </item>
-    
-      <item>
-        <title>How to Add a Widget to your Wordpress Blog</title>
-        <description>&lt;p&gt;My awesome wife asked me to do her a favor, “Can you write a tutorial on how to add an HTML widget to a Wordpress blog?”&lt;/p&gt;
-
-&lt;p&gt;While I’m sure that there is already probably fifty explanations on how to do it, but well, I’ll write it anyway:&lt;/p&gt;
-
-&lt;p&gt;Step One: Smile. Think to yourself, “This is easy. I can do this.”&lt;/p&gt;
-
-&lt;p&gt;Step Two: Open your Wordpress Admin page.&lt;/p&gt;
-
-&lt;p&gt;Step Three: Navigate to Appearance &amp;gt; Widgets&lt;/p&gt;
-
-&lt;p&gt;Step D: Select the widget type you want. If you’re doing an HTML widget, select “Text: Arbitrary text or HTML”&lt;/p&gt;
-
-&lt;p&gt;Step E: Drag the button to the sidebar (you may have more than one) that you want to have the widget on.&lt;/p&gt;
-
-&lt;p&gt;Step F: Stop worrying about the fact that I changed my enumeration system half way through.&lt;/p&gt;
-
-&lt;p&gt;&lt;a href=&quot;/uploads/2013/10/Screen-Shot-2013-10-28-at-9.17.38-PM.png&quot;&gt;&lt;img class=&quot;alignleft size-medium wp-image-690&quot; alt=&quot;Screen Shot 2013-10-28 at 9.17.38 PM&quot; src=&quot;/uploads/2013/10/Screen-Shot-2013-10-28-at-9.17.38-PM-279x300.png&quot; width=&quot;279&quot; height=&quot;300&quot; /&gt;&lt;/a&gt;Step G: Expand the widget editor by clicking on it and editing the title (optional) and the body of your widget (see image).&lt;/p&gt;
-
-&lt;p&gt;Step H: Click Save.&lt;/p&gt;
-
-&lt;p&gt;Step I: Check your changes by navigating to your blog.&lt;/p&gt;
-
-&lt;p&gt;Step J: If there are changes you want to make, go back to Step One, skip Step D, and continue until you have the widget in the way you want it.&lt;/p&gt;
-
-&lt;p&gt;Step K: That is it.&lt;/p&gt;
-</description>
-        <pubDate>Mon, 28 Oct 2013 16:24:04 -0700</pubDate>
-        <link>http://tuesdaydeveloper.com/2013/10/28/how-to-add-a-widget-to-your-wordpress-blog.html</link>
-        <guid isPermaLink="true">http://tuesdaydeveloper.com/2013/10/28/how-to-add-a-widget-to-your-wordpress-blog.html</guid>
-        
-        
-      </item>
-    
-      <item>
-        <title>AngularJS Testing with Karma and Jasmine</title>
-        <description>&lt;p&gt;&lt;a href=&quot;/uploads/2013/06/AngularJS-Shield-large.png&quot;&gt;&lt;img class=&quot;alignleft size-medium wp-image-677&quot; src=&quot;/uploads/2013/06/AngularJS-Shield-large-284x300.png&quot; alt=&quot;AngularJS-Shield-large&quot; width=&quot;284&quot; height=&quot;300&quot; /&gt;&lt;/a&gt;AngularJS is the best thing to happen to JavaScript since jQuery. It’s what JavaScript development has always wanted to be. One of the key advantages to Angular is its dependency injection which is very advantageous when you want to unit test your code. There is one little quirk though… I can’t for the life of me find a tutorial out there that shows how to do that unit testing.&lt;/p&gt;
-
-&lt;p&gt;Sure there are recommendations: use the &lt;a title=&quot;Jasmine Overview&quot; href=&quot;http://pivotal.github.io/jasmine/&quot;&gt;Jasmine&lt;/a&gt; test framework with the &lt;a title=&quot;Karma&quot; href=&quot;http://karma-runner.github.io/0.8/index.html&quot;&gt;Karma&lt;/a&gt; test runner; but there isn’t a start to finish setup guide to make testing work. So I made one. I had to go all around the web finding out how to do this, which (if this is your first stop) you won’t have to do.&lt;/p&gt;
-
-&lt;p&gt;If you notice any errors please let me know, but as far as I can tell this is the best way to unit test Angular with Karma and Jasmine.&lt;/p&gt;
-&lt;h3&gt;Introduction&lt;/h3&gt;
-&lt;p&gt;This tutorial will lead you through installation of all the tools you will need to run automated tests using Karma and Jasmine. I don’t care if you’re doing TDD or TAD, but for this example, we’ll assume that you already have a file you want to test.&lt;/p&gt;
-&lt;h3&gt;Install Karma&lt;/h3&gt;
-&lt;p&gt;If you don’t have &lt;a title=&quot;Node JS&quot; href=&quot;http://nodejs.org/&quot;&gt;node.js&lt;/a&gt; installed, download and install it. After you have it installed go to your terminal or command line and type:&lt;/p&gt;
-&lt;pre lang=&quot;text&quot;&gt;npm install -g karma&lt;/pre&gt;
-&lt;h3&gt;File structure&lt;/h3&gt;
-&lt;p&gt;The file structure is irrelevant, but for these tests it will look something like this:&lt;/p&gt;
-&lt;pre lang=&quot;text&quot;&gt;Application
-| angular.js
-| angular-resource.js
-| Home
-  | home.js
-| Tests
-  | Home
-    | home.tests.js
-  | karma.config.js (will be created in the next step)
-  | angular-mocks.js&lt;/pre&gt;
-&lt;ul&gt;
-  &lt;li&gt;I’m not advocating this file structure, I simply show it for example sake.&lt;/li&gt;
-&lt;/ul&gt;
-&lt;h3&gt;Configure Karma&lt;/h3&gt;
-&lt;p&gt;Create a configuration file by navigating to the directory you wish it to be in and typing the following command in your terminal:&lt;/p&gt;
-&lt;pre lang=&quot;text&quot;&gt;karma init karma.config.js&lt;/pre&gt;
-&lt;p&gt;You’ll be asked a few questions including which testing framework you want to use, whether you want the files to be auto watched, and what files to include. For our tutorial we’ll leave ‘jasmine’ as the default framework, let it autowatch files, and include the following files:&lt;/p&gt;
-&lt;pre lang=&quot;text&quot;&gt;../*.js
-../**.*.js
-angular-mocks.js
-**/*.tests.js&lt;/pre&gt;
-&lt;p&gt;These are relative paths that include 1) any .js file in the parent directory, any .js file inside of any directory inside of the parent directory, &lt;code&gt;angular-mocks.js&lt;/code&gt;, and any file within any directory (located in the current directory) that is formated &lt;code&gt;[name].tests.js&lt;/code&gt; (which is how I like to delineate test file from other files).&lt;/p&gt;
-
-&lt;p&gt;Whatever files you choose, just be sure that you include angular.js, angular-mocks.js, and any other files that you’ll need.&lt;/p&gt;
-&lt;h3&gt;Start Karma&lt;/h3&gt;
-&lt;p&gt;Now you are ready to start Karma. Again from the terminal type:&lt;/p&gt;
-&lt;pre lang=&quot;text&quot;&gt;karma start karma.config.js&lt;/pre&gt;
-&lt;p&gt;This will start any browsers you listed in the config file on your computer. Each browser will be connected to the Karma instance with it’s own socket and you will see a list of active browsers that will tell you whether or not it is running tests. I wish that Karma would tell you a summary of the last result of your tests for each browser (15 out of 16 passed, 1 failed) but alas for that information you need to look at the terminal window.&lt;/p&gt;
-
-&lt;p&gt;An awesome thing about Karma is that you can test on any device connected to your network. Try pointing your phone’s browser to Karma by looking at teh URL of one of the browser windows running the tests. It should look something like this: &lt;code&gt;http://localhost:9876/?id=5359192&lt;/code&gt;. Point your phone, VM, or any other device with a browser to &lt;code&gt;[your network IP address]:9876/?id=5359192&lt;/code&gt;. Because Karma is running an instance of node.js, your test machine is acting like a server and will send the tests to any browser that is pointed to it.&lt;/p&gt;
-&lt;h3&gt;Make Basic Test&lt;/h3&gt;
-&lt;p&gt;We are assuming that you already have a file to test. We’ll say that your home.js file looks something like this:&lt;/p&gt;
-&lt;h4&gt;home.js&lt;/h4&gt;
-&lt;pre lang=&quot;javascript&quot; line=&quot;1&quot;&gt;&#39;use strict&#39;;
-
-var app = angular.module(&#39;Application&#39;, [&#39;ngResource&#39;]);
-
-app.factory(&#39;UserFactory&#39;, function($resource){
-    return $resource(&#39;Users/users.json&#39;)
-});
-
-app.controller(&#39;MainCtrl&#39;, function($scope, UserFactory) {
-    $scope.text = &#39;Hello World!&#39;;
-    $scope.users = UserFactory.get();
-});&lt;/pre&gt;
-&lt;p&gt;Inside of home.tests.js we can create our tests cases. We’ll start out with the simpler of the two: &lt;code&gt;$scope.text&lt;/code&gt; should equal ‘Hello World!’. To test this we must mockout our &lt;code&gt;Application&lt;/code&gt; module and the &lt;code&gt;$scope &lt;/code&gt; variable. We’ll do this in the Jasmine beforeEach function so that we’ll have a fresh controller and scope at the beginning of each test.&lt;/p&gt;
-&lt;h4&gt;home.tests.js&lt;/h4&gt;
-&lt;pre lang=&quot;javascript&quot; line=&quot;1&quot;&gt;&#39;use strict&#39;;
-
-describe(&#39;MainCtrl&#39;, function(){
-    var scope;//we&#39;ll use this scope in our tests
-
-    //mock Application to allow us to inject our own dependencies
-    beforeEach(angular.mock.module(&#39;Application&#39;));
-    //mock the controller for the same reason and include $rootScope and $controller
-    beforeEach(angular.mock.inject(function($rootScope, $controller){
-        //create an empty scope
-        scope = $rootScope.$new();
-        //declare the controller and inject our empty scope
-        $controller(&#39;MainCtrl&#39;, {$scope: scope});
-    });
-    // tests start here
-});&lt;/pre&gt;
-&lt;p&gt;You’ll see in the code example that we are injecting our own scope so that we can verify information off of it. &lt;strong&gt;Also, do not forget to mock out the module itself as on line 7!&lt;/strong&gt; We are now ready to do our tests:&lt;/p&gt;
-&lt;h4&gt;home.tests.js&lt;/h4&gt;
-&lt;pre lang=&quot;javascript&quot; line=&quot;15&quot;&gt;    // tests start here
-    it(&#39;should have variable text = &quot;Hello World!&quot;&#39;, function(){
-        expect(scope.text).toBe(&#39;Hello World!&#39;);
-    });&lt;/pre&gt;
-&lt;p&gt;If you run this test it should run in any browsers looking at Karma and pass.&lt;/p&gt;
-&lt;h3&gt;Make $resource Request&lt;/h3&gt;
-&lt;p&gt;Now we’re ready to test the &lt;code&gt;$resource&lt;/code&gt; request. To make this request we need to use &lt;code&gt;$httpBackend &lt;/code&gt;with is a mocked out version of Angular’s &lt;code&gt;$http&lt;/code&gt;. We’ll create another variable called &lt;code&gt;$httpBackend&lt;/code&gt; and in our second &lt;code&gt;beforeEach&lt;/code&gt; block we’ll inject &lt;code&gt;_$httpBackend_&lt;/code&gt; and assign the new variable to &lt;code&gt;_$httpBackend_&lt;/code&gt;. We’ll then tell &lt;code&gt;$httpBackend&lt;/code&gt; how to respond to requests.&lt;/p&gt;
-&lt;pre lang=&quot;javascript&quot; line=&quot;10&quot;&gt;        $httpBackend = _$httpBackend_;
-        $httpBackend.when(&#39;GET&#39;, &#39;Users/users.json&#39;).respond([{id: 1, name: &#39;Bob&#39;}, {id:2, name: &#39;Jane&#39;}]);&lt;/pre&gt;
-&lt;p&gt;And our tests:&lt;/p&gt;
-&lt;h4&gt;home.tests.js&lt;/h4&gt;
-&lt;pre lang=&quot;javascript&quot; line=&quot;20&quot;&gt;    it(&#39;should fetch list of users&#39;, function(){
-            $httpBackend.flush();
-            expect(scope.users.length).toBe(2);
-            expect(scope.users[0].name).toBe(&#39;Bob&#39;);
-        });&lt;/pre&gt;
-&lt;h3&gt;All Together&lt;/h3&gt;
-&lt;h4&gt;home.tests.js&lt;/h4&gt;
-&lt;pre lang=&quot;javascript&quot; line=&quot;1&quot;&gt;&#39;use strict&#39;;
-
-describe(&#39;MainCtrl&#39;, function(){
-    var scope, $httpBackend;//we&#39;ll use these in our tests
-
-    //mock Application to allow us to inject our own dependencies
-    beforeEach(angular.mock.module(&#39;Application&#39;));
-    //mock the controller for the same reason and include $rootScope and $controller
-    beforeEach(angular.mock.inject(function($rootScope, $controller, _$httpBackend_){
-        $httpBackend = _$httpBackend_;
-        $httpBackend.when(&#39;GET&#39;, &#39;Users/users.json&#39;).respond([{id: 1, name: &#39;Bob&#39;}, {id:2, name: &#39;Jane&#39;}]);
-
-        //create an empty scope
-        scope = $rootScope.$new();
-        //declare the controller and inject our empty scope
-        $controller(&#39;MainCtrl&#39;, {$scope: scope});
-    });
-    // tests start here
-    it(&#39;should have variable text = &quot;Hello World!&quot;&#39;, function(){
-        expect(scope.text).toBe(&#39;Hello World!&#39;);
-    });
-    it(&#39;should fetch list of users&#39;, function(){
-        $httpBackend.flush();
-        expect(scope.users.length).toBe(2);
-        expect(scope.users[0].name).toBe(&#39;Bob&#39;);
-    });
-});&lt;/pre&gt;
-&lt;h3&gt;Tips&lt;/h3&gt;
-&lt;ul&gt;
-	&lt;li&gt;Karma will run all tests in all files, if you only want to run a subset of tests change &lt;code&gt;describe&lt;/code&gt; or &lt;code&gt;it&lt;/code&gt; to &lt;code&gt;ddescribe&lt;/code&gt; or &lt;code&gt;iit&lt;/code&gt; to run the respective tests. If there are tests that you do not want to test change &lt;code&gt;describe&lt;/code&gt; or &lt;code&gt;it&lt;/code&gt; to &lt;code&gt;xdescribe&lt;/code&gt; or &lt;code&gt;xit&lt;/code&gt; to ignore that set of code.&lt;/li&gt;
-	&lt;li&gt;I would also suggest reading through the &lt;a title=&quot;Jasmine Documentation&quot; href=&quot;http://pivotal.github.io/jasmine/&quot;&gt;Jasmine documentation&lt;/a&gt; to know what methods are available to you.&lt;/li&gt;
-	&lt;li&gt;You also have the option to run your tests in an html file on the page. The code for our example would look something like this:
-&lt;h4&gt;home.runner.html&lt;/h4&gt;
-&lt;pre lang=&quot;html&quot; line=&quot;1&quot;&gt;&lt;!-- include your script files (notice that the jasmine source files have been added to the project) --&gt;&lt;script src=&quot;../jasmine/jasmine-1.3.1/jasmine.js&quot; type=&quot;text/javascript&quot;&gt;&lt;/script&gt;&lt;script src=&quot;../jasmine/jasmine-1.3.1/jasmine-html.js&quot; type=&quot;text/javascript&quot;&gt;&lt;/script&gt;&lt;script src=&quot;../angular-mocks.js&quot; type=&quot;text/javascript&quot;&gt;&lt;/script&gt;&lt;script src=&quot;home.tests.js&quot; type=&quot;text/javascript&quot;&gt;&lt;/script&gt;&lt;!-- use Jasmine to run and display test results --&gt;&lt;script type=&quot;text/javascript&quot;&gt;// &lt;![CDATA[
-        var jasmineEnv = jasmine.getEnv();
-        jasmineEnv.addReporter(new jasmine.HtmlReporter());
-        jasmineEnv.execute();
-    
-// ]]&gt;&lt;/script&gt;&lt;/pre&gt;
-&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;div class=&quot;archived comments&quot;&gt;
-
-&lt;div class=&quot;comment&quot;&gt;Nice job and thanks.
-I think there should be an additional &#39;)&#39; in the first home.tests.js line 14, making it &lt;b&gt;}));&lt;/b&gt; rather than &lt;b&gt;});&lt;/b&gt;  &lt;div class=&quot;by&quot;&gt;Grant on 2013-08-04 13:05:16.0  &lt;/div&gt;&lt;/div&gt;
-&lt;div class=&quot;comment&quot;&gt;great job!  &lt;div class=&quot;by&quot;&gt;peterr on 2013-08-20 03:16:16.0  &lt;/div&gt;&lt;/div&gt;
-&lt;div class=&quot;comment&quot;&gt;Thanks! I think that should be &quot;npm -g install karma&quot;, not &quot;npm install -g karma&quot;.  &lt;div class=&quot;by&quot;&gt;Alec McEachran on 2013-09-04 22:54:49.0  &lt;/div&gt;&lt;/div&gt;
-&lt;div class=&quot;comment&quot;&gt;It appears that angular-mocks.js only defines angular.mock.module when Jasmine is being used. I don&#39;t understand why it would exclude the use of Mocha.  &lt;div class=&quot;by&quot;&gt;Mark Volkmann on 2013-09-08 15:58:09.0  &lt;/div&gt;&lt;/div&gt;
-&lt;div class=&quot;comment&quot;&gt;So does karma-jasmine ship with jasmine itself, or do I have to install that separately using `npm`??  &lt;div class=&quot;by&quot;&gt;Rudolf Olah on 2013-09-10 16:50:12.0  &lt;/div&gt;&lt;/div&gt;
-&lt;div class=&quot;comment&quot;&gt;Do we actually need karma if we are performing tests using browser with all jasmine files included?
-
-I kind of found the fact that karma opens browser completely redundant - as it doesn&#39;t really do anything apart from using it&#39;s console - all the relevant information is displayed in the terminal anyway.  &lt;div class=&quot;by&quot;&gt;Mark on 2013-10-12 08:26:23.0  &lt;/div&gt;&lt;/div&gt;
-&lt;div class=&quot;comment&quot;&gt;Also - you haven&#39;t mentioned what the users.json file should contain - I&#39;m constantly getting the following test failure:
-
-TypeError: Object # has no method &#39;push&#39;  &lt;div class=&quot;by&quot;&gt;Mark on 2013-10-12 08:45:56.0  &lt;/div&gt;&lt;/div&gt;
-&lt;div class=&quot;comment&quot;&gt;@Mark 
-You can use a headless browser such as PhantomJS with karma to avoid a browser window opening.  &lt;div class=&quot;by&quot;&gt;mr on 2013-10-14 22:57:51.0  &lt;/div&gt;&lt;/div&gt;
-&lt;div class=&quot;comment&quot;&gt;Check out our Jasmine testing videos at http://blog.neosavvy.com.  &lt;div class=&quot;by&quot;&gt;Trevor Ewen on 2013-11-04 14:44:32.0  &lt;/div&gt;&lt;/div&gt;
-&lt;div class=&quot;comment&quot;&gt;How could we do AngularJS Testing with Karma for https sites?  &lt;div class=&quot;by&quot;&gt; on 2013-11-06 09:12:39.0  &lt;/div&gt;&lt;/div&gt;
-&lt;div class=&quot;comment&quot;&gt;I tried running a simple test. But its failing with below error:
-C:\Users\502245602\combo&amp;gt;karma start src/main/webapp/karma.config.js
-INFO [karma]: Karma v0.10.4 server started at http://localhost:9876/
-INFO [launcher]: Starting browser Chrome
-INFO [Chrome 30.0.1599 (Windows 7)]: Connected on socket auZijvn9LzbH_2K0QDcv
-Chrome 30.0.1599 (Windows 7) Sanity Test Sanity test Jasmine&quot; FAILED
-        expect undefined toEqual &quot;Hi&quot;
-      ..../src/main/webapp/test/spec/controllers/welcome.test.js:15:3: expected &quot;Hi&quot; but was undefined
-Chrome 30.0.1599 (Windows 7): Executed 1 of 1 (1 FAILED) ERROR (0.38 secs / 0.024 secs)
-
-
-my test looks like below:
-
-
-describe(&#39;Sanity Test&#39;, function() {
-	var scope;
-	beforeEach(angular.mock.module(&#39;serviceApp&#39;));
-	beforeEach(angular.mock.inject(function($rootScope, $controller) {
-		scope = $rootScope.$new();
-		$controller(&#39;welcomeController&#39;, {
-			$scope : scope
-		});
-	}));
-
-
-	it(&#39;Sanity test Jasmine&quot;&#39;, function() {
-		scope.text = &#39;Hi&#39;;		
-		expect(&#39;Hi&#39;).toEqual(&#39;Hi&#39;);
-	});
-});
-
-any help...  &lt;div class=&quot;by&quot;&gt;Priyabrat on 2013-11-13 20:35:45.0  &lt;/div&gt;&lt;/div&gt;
-&lt;div class=&quot;comment&quot;&gt;&lt;code&gt;var complement = &quot;Great Job!&quot;;&lt;/code&gt;  &lt;div class=&quot;by&quot;&gt; on 2013-11-19 15:32:46.0  &lt;/div&gt;&lt;/div&gt;
-&lt;div class=&quot;comment&quot;&gt;@Priyabrat your expect should be:
-
-expect(scope.text).toEqual(&#39;Hi&#39;);  &lt;div class=&quot;by&quot;&gt;Brandon R Staley on 2013-12-04 10:02:49.0  &lt;/div&gt;&lt;/div&gt;
-&lt;div class=&quot;comment&quot;&gt;Thanks you for this tutorial. It helps me a lot!!  &lt;div class=&quot;by&quot;&gt;Tobi on 2013-12-17 17:31:53.0  &lt;/div&gt;&lt;/div&gt;
-&lt;div class=&quot;comment&quot;&gt;Could not get html runner working:
-
-Uncaught TypeError: Cannot set property &#39;mock&#39; of undefined angular-mocks.js:17
-Uncaught TypeError: undefined is not a function home.runner.html:16  &lt;div class=&quot;by&quot;&gt;Dmitri on 2013-12-28 02:04:22.0  &lt;/div&gt;&lt;/div&gt;
-&lt;div class=&quot;comment&quot;&gt;Also the test did not pass:
-
-Chrome 31.0.1650 (Mac OS X 10.8.5) MainCtrlTest should have variable text = &quot;Hello World!&quot; FAILED
-	ReferenceError: $httpBackend is not defined
-	    at null. (/Users/dmitrizaitsev/Dropbox/Priv/APP/Testers/generated-app-test/test/spec/home.tests.js:21:26)
-	    at Object.invoke (/Users/dmitrizaitsev/Dropbox/Priv/APP/Testers/generated-app-test/app/bower_components/angular/angular.js:3697:17)
-	    at workFn (/Users/dmitrizaitsev/Dropbox/Priv/APP/Testers/generated-app-test/app/bower_components/angular-mocks/angular-mocks.js:2102:20)
-	Error: Declaration Location
-	    at Object.window.inject.angular.mock.inject [as inject] (/Users/dmitrizaitsev/Dropbox/Priv/APP/Testers/generated-app-test/app/bower_components/angular-mocks/angular-mocks.js:2087:25)
-	    at null. (/Users/dmitrizaitsev/Dropbox/Priv/APP/Testers/generated-app-test/test/spec/home.tests.js:19:29)
-	    at /Users/dmitrizaitsev/Dropbox/Priv/APP/Testers/generated-app-test/test/spec/home.tests.js:3:1
-	TypeError: Cannot read property &#39;text&#39; of undefined
-	    at null. (/Users/dmitrizaitsev/Dropbox/Priv/APP/Testers/generated-app-test/test/spec/home.tests.js:32:21)
-Chrome 31.0.1650 (Mac OS X 10.8.5): Executed 2 of 2 (1 FAILED) (0.031 secs / 0.028 secs)
-
-However, dropping the _ miraculously  works:
-
-        function($rootScope, $controller, $httpBackend){
-            $httpBackend.when(&#39;GET&#39;, &#39;Users/users.json&#39;).respond([{id: 1, name: &#39;Bob&#39;}, {id:2, name: &#39;Jane&#39;}]);
-...
-
-Chrome 31.0.1650 (Mac OS X 10.8.5): Executed 2 of 2 SUCCESS (0.039 secs / 0.035 secs)  &lt;div class=&quot;by&quot;&gt;Dmitri on 2013-12-28 02:10:28.0  &lt;/div&gt;&lt;/div&gt;
-&lt;div class=&quot;comment&quot;&gt;How to test multiple controller, whether i have to declare &#39;var scope&#39; for each controller ?  &lt;div class=&quot;by&quot;&gt;Imran Khatri on 2013-12-31 23:48:43.0  &lt;/div&gt;&lt;/div&gt;
-&lt;div class=&quot;comment&quot;&gt;How to test multiple controller, whether i have to declare &#39;var scope&#39; for each controller?  &lt;div class=&quot;by&quot;&gt;Imran Khatri on 2013-12-31 23:49:24.0  &lt;/div&gt;&lt;/div&gt;
-&lt;div class=&quot;comment&quot;&gt;Really nice!
-
-I spend days to make my tests work with karma/jasmine, and this is the best article that i found  &lt;div class=&quot;by&quot;&gt;Ariel Moraes on 2014-01-21 12:12:39.0  &lt;/div&gt;&lt;/div&gt;
-&lt;div class=&quot;comment&quot;&gt;@Dmitri
-
-About the undefined mock,
-make sure your config/karma.conf.js 
-is pointing at the right file location.
-
-Example:
-
-files : [
-      &#39;public/js/lib/angular/angular.js&#39;,
-      &#39;public/js/lib/angular/angular-*.js&#39;,
-      &#39;test/lib/angular/angular-mocks.js&#39;,
-      &#39;public/js/**/*.js&#39;,
-      &#39;test/unit/**/*.js&#39;
-    ]  &lt;div class=&quot;by&quot;&gt;Dude on 2014-02-15 13:37:50.0  &lt;/div&gt;&lt;/div&gt;
-&lt;div class=&quot;comment&quot;&gt;good one!!  &lt;div class=&quot;by&quot;&gt; on 2014-02-19 04:49:56.0  &lt;/div&gt;&lt;/div&gt;
-&lt;div class=&quot;comment&quot;&gt;Nice tutorial. Thanks!  &lt;div class=&quot;by&quot;&gt;Franco on 2014-02-19 10:41:14.0  &lt;/div&gt;&lt;/div&gt;
-&lt;div class=&quot;comment&quot;&gt;I was unable to get this example to work with a fresh install, even after fixing the above errors.
-I&#39;m using the latest versions of all tools, and Angular is v1.2.15
-The first error was:
-        Error: [$injector:modulerr] Failed to instantiate module ngResource due to:
-        Error: [$injector:nomod] Module &#39;ngResource&#39; is not available! You either misspelled the module name or forgot to load it. If registering a module ensure that you specify the dependencies as the second argument.
-
-So I simplified the example further to:
-appl.js
-=====
-&lt;code&gt;
-&#39;use strict&#39;;
-var app = angular.module(&#39;Application&#39;);
-app.controller(&#39;MainCtrl&#39;, function($scope) {
-    $scope.text = &#39;Hello World!&#39;;
-});
-&lt;/code&gt;
---------
-appl.test.js
-==========
-&lt;code&gt;
-&#39;use strict&#39;;
-describe(&#39;MainCtrl&#39;, function() {
-    var scope;//we&#39;ll use this scope in our tests
-    beforeEach(angular.mock.module(&#39;Application&#39;));
-    //mock the controller for the same reason and include $rootScope and $controller
-    beforeEach(angular.mock.inject(function($rootScope, $controller){
-        scope = $rootScope.$new();
-        $controller(&#39;MainCtrl&#39;, {$scope: scope});
-    }));
-    it(&#39;should have variable text = &quot;Hello World!&quot;&#39;, function() {
-       expect(scope.text).toBe(&#39;Hello World!&#39;);
-    });
-});
-&lt;/code&gt;
--------------
-but this fails with:
-  Uncaught Error: [$injector:nomod] Module &#39;Application&#39; is not available! You either misspelled the module name or forgot to load it. If registering a module ensure that you specify the dependencies as the second argument.
-
-Any help is greatly appreciated...  &lt;div class=&quot;by&quot;&gt;P Snider on 2014-03-25 19:04:18.0  &lt;/div&gt;&lt;/div&gt;
-&lt;div class=&quot;comment&quot;&gt;Hey P Snider, I had the same problem-- it looks like the home.js file isn&#39;t being included in the Karma config file (that&#39;s why it couldn&#39;t find the Application Module), so in karma.config.js, I added &#39;../Home/*.js&#39; to the files array.  &lt;div class=&quot;by&quot;&gt;Will on 2014-04-03 19:30:32.0  &lt;/div&gt;&lt;/div&gt;
-&lt;div class=&quot;comment&quot;&gt;Great tutorial.
-
-Couple of addition to it will make a real life testing suite:
-
-1: PhantomJS integration for headless ( no opening browsers anymore) testing.
-2: Coverage, for testing code coverage in the application.
-3: Switching auto-run to false and doing on demand tests. (depends across type of projects and developers)
-
-All in all a great place to start karma-jasmine-angular unit testing !!!!  &lt;div class=&quot;by&quot;&gt;Abhi on 2014-04-21 13:34:30.0  &lt;/div&gt;&lt;/div&gt;
-&lt;div class=&quot;comment&quot;&gt;Note that it is now recommended to globally install &lt;strong&gt;karma-cli&lt;/strong&gt; (&lt;code&gt;npm install -g karma-cli&lt;/code&gt;) which will take care of fetching the appropriate &lt;strong&gt;karma&lt;/strong&gt;.
-
-Thus you can install a different local version specific to each project and &lt;strong&gt;karma-cli&lt;/strong&gt; will pick the appropriate one.  &lt;div class=&quot;by&quot;&gt;Aymeric Beaumet on 2014-04-24 04:12:15.0  &lt;/div&gt;&lt;/div&gt;
-&lt;div class=&quot;comment&quot;&gt;To run the command &quot;karma init karma.config.js&quot; I had to install the package karma-cli (npm install -g karma-cli)  &lt;div class=&quot;by&quot;&gt;Gianni Bossini on 2014-05-09 03:55:26.0  &lt;/div&gt;&lt;/div&gt;
-&lt;div class=&quot;comment&quot;&gt;Good tutorial here as well for those interested:
-
-https://docs.angularjs.org/tutorial  &lt;div class=&quot;by&quot;&gt;Treize on 2014-05-23 10:55:57.0  &lt;/div&gt;&lt;/div&gt;
-&lt;div class=&quot;comment&quot;&gt;aaa  &lt;div class=&quot;by&quot;&gt;Asawari Ranjit Patil on 2014-06-20 06:38:56.0  &lt;/div&gt;&lt;/div&gt;
-&lt;div class=&quot;comment&quot;&gt;Great tutorial. Exactly what I needed!  &lt;div class=&quot;by&quot;&gt;KJ Price on 2014-06-25 11:48:16.0  &lt;/div&gt;&lt;/div&gt;
-&lt;div class=&quot;comment&quot;&gt;Great article. Thanks!
-
-But I think that the whole point of factories is to isolate the dependancies, so your controller doesn&#39;t care uf the users are created by http request or its a simply hardcoded array. I think that the most useful way to test this funcionality is to stub the userfactory with an array or a mock promise that resolves returning the users array. What do you  think?  &lt;div class=&quot;by&quot;&gt;Vinícius Oyama on 2014-06-28 12:48:16.0  &lt;/div&gt;&lt;/div&gt;
-&lt;div class=&quot;comment&quot;&gt;Nice  &lt;div class=&quot;by&quot;&gt;Karthee on 2014-07-13 03:53:56.0  &lt;/div&gt;&lt;/div&gt;
-&lt;div class=&quot;comment&quot;&gt;Hi, I&#39;ve tried exactly the same, but I&#39;m always getting these following Errors:
-
-&lt;code&gt;minErr/&amp;lt;@/home/michael/webui-ng/src/client/app/bower_components/angular/angular.js:78:5
-	loadModules/&amp;lt;@/home/michael/webui-ng/src/client/app/bower_components/angular/angular.js:3859:1
-	forEach@/home/michael/webui-ng/src/client/app/bower_components/angular/angular.js:325:7
-	loadModules@/home/michael/webui-ng/src/client/app/bower_components/angular/angular.js:3824:5
-	createInjector@/home/michael/webui-ng/src/client/app/bower_components/angular/angular.js:3764:3
-	workFn@/home/michael/webui-ng/src/client/app/bower_components/angular-mocks/angular-mocks.js:2150:9
-	
-	TypeError: scope is undefined in /home/michael/webui-ng/src/client/test/hello.js (line 17)
-	@/home/michael/webui-ng/src/client/test/hello.js:17:9&lt;/code&gt;
-
-My idea is, that the problem has something to do with the requirements array in angular.module(&#39;Application&#39;, [&#39;ngRessource&#39;]), because when letting this empty the test passes. I&#39;m pretty stuck at this problem at the moment, do you have an idea what it could be?  &lt;div class=&quot;by&quot;&gt;Michael on 2014-07-17 09:41:06.0  &lt;/div&gt;&lt;/div&gt;
-&lt;div class=&quot;comment&quot;&gt;For people who just want to simply test on a web page, such as in the home.runner.html example above, and using Jasmine 2.X: you&#39;ll need the &lt;i&gt;boot.js&lt;/i&gt; file declared after &lt;i&gt;jasmine.js&lt;/i&gt; and &lt;i&gt;jasmine-html.js&lt;/i&gt;.
-
-If not, you&#39;ll get nothing but a couple of reference errors in the browser console.  &lt;div class=&quot;by&quot;&gt;User20140804 on 2014-08-04 09:36:19.0  &lt;/div&gt;&lt;/div&gt;
-&lt;div class=&quot;comment&quot;&gt;Line 17 in the second home.tests.js is missing a closing single-quote, which generates syntax errors if the code is copy/pasted directly.
-
-The line is:
-expect(scope.text).toBe(&#39;Hello World!);
-
-It should be:
-expect(scope.text).toBe(&#39;Hello World!&#39;);
-
-:-)  &lt;div class=&quot;by&quot;&gt;Paul B. Hartzog on 2014-10-16 23:42:19.0  &lt;/div&gt;&lt;/div&gt;
-&lt;div class=&quot;comment&quot;&gt;1. If my unit test is calling function which is in controller and that function is calling a service to fetch the details. Will it call service(StationService)? 
-2. My Karma unit test is not able to inject StationService and not able to call service. 
-
-My Code.
-/// controller
-var policyControllers = angular.module(&#39;policyControllers&#39;, []);
-policyControllers.controller(&#39;StationListController&#39;, [&#39;$translate&#39;, &#39;$scope&#39;,&#39;$rootScope&#39;,&#39;$state&#39;, &#39;StationService&#39;, &#39;StationListExportService&#39;, function ($translate, $scope, $rootScope, $state, StationService, StationListExportService) {
-...
-$scope.getFilterDetails = function(StationService, filterDetails ){
-
-	StationService.get(filterDetails).$promise.then(function (filteredDetails) {
-			console.log(&quot; Web services Result - &quot;, JSON.stringify(filteredDetails));			
-		},function(error) {
-			console.log(&quot; Error &quot;);
-		});
-	};
-	
-
-
-
-
-	
-///Service	
-var policyServices = angular.module(&#39;policyServices&#39;, [&#39;ngResource&#39;]);
-policyServices.factory(&#39;StationService&#39;, [&#39;$resource&#39;, function($resource) {
-	return $resource(policyConfig.mock? &#39;modules/policymanager/services/mock/stations.json&#39;: &#39;http://10.132.240.25:7640/policy/api/v1/stationpolicy/stations&#39;,{},{
-		get:{method: &#39;POST&#39;,isArray: false, url:&#39;modules/policymanager/services/mock/stations.json&#39;}
-	});
-}]);
-
-
-
-/// Unit test
-describe(&#39;station filter&#39;, function(){
-
-    var scope;
-    var ctrl;
-    var translate, scope, rootScope, state;
-    var StationService, StationListExportService;
-
-    beforeEach(module(&#39;policyServices&#39;));
-    beforeEach(module(&#39;policyControllers&#39;));
-
-
-
-    beforeEach(inject(function(_StationService_, _StationListExportService_, $rootScope, $controller, $translate, $state) {
-
-        StationService = _StationService_;
-        StationListExportService = _StationListExportService_;
-        translate = $translate;
-        rootScope = $rootScope;
-        state = $state;
-        scope = $rootScope.$new();
-        ctrl = $controller(&#39;StationListController&#39;, {$scope: scope});
-
-    }));
-
-
-
-
-    it(&#39;Stations Inject test case&#39;, inject([&#39;StationService&#39;,function(StationService){
-
-        var data = {&quot;recency&quot;:&quot;&quot;,&quot;countries&quot;:[],&quot;policies&quot;:[],&quot;stations&quot;:[{&quot;stationName&quot;:&quot;Test&quot;}],&quot;status&quot;:&quot;ready&quot;,&quot;regions&quot;:[]};
-        
-        scope.getFilterDetails(StationService, data);
-        
-      ///  Getting StationService is undifiened 
-    
-    }]));  &lt;div class=&quot;by&quot;&gt;Amit on 2015-02-03 08:09:50.0  &lt;/div&gt;&lt;/div&gt;
-&lt;div class=&quot;comment&quot;&gt;For anyone experiencing an issue where $httpBackend.flush() returns an error that it&#39;s looking for an object but an array was found, try changing this line:
-
-`$httpBackend.when(&#39;GET&#39;, &#39;Users/users.json&#39;).respond([{ id: 1, name: &#39;Bob&#39; }, { id: 2, name: &#39;Jane&#39; }]);` 
-
-to this:
-
-`$httpBackend.when(&#39;GET&#39;, &#39;Users/users.json&#39;).respond(200, { data: [{ id: 1, name: &#39;Bob&#39; }, { id: 2, name: &#39;Jane&#39; }] });`
-
-and subsequently change the following lines to test the new `data` object:
-
-`$httpBackend.flush();`
-`expect(scope.users.data.length).toBe(2);`
-`expect(scope.users.data[0].name).toBe(&#39;Bob&#39;);`
-
-Otherwise, great post!  &lt;div class=&quot;by&quot;&gt;Aaron Jessen on 2015-04-03 10:20:08.0  &lt;/div&gt;&lt;/div&gt;
-&lt;div class=&quot;comment&quot;&gt;P.S. Remove the ` from the lines from the code in my previous comment (I thought the comment system might be like StackOverflow where ` creates code blocks).  &lt;div class=&quot;by&quot;&gt;Aaron Jessen on 2015-04-03 10:22:24.0  &lt;/div&gt;&lt;/div&gt;
-&lt;div class=&quot;comment&quot;&gt;To make this code sample work , I had to :
-1 - add the missing parenthesis in &quot;All Together, home.tests.js&quot;, line 17 : it should be &quot;}));&quot; instead of &quot;});&quot; (as noted by Grant above)
-2 - change &quot;Userfactory.get()&quot; by &quot;UserFactory.query()&quot; in home.js, otherwise I got a &quot;Error in resource configuration. Expected response to contain an object but got an array&quot;
-
-Hope it&#39;ll help others  &lt;div class=&quot;by&quot;&gt;Michael Zilbermann on 2015-05-12 14:23:51.0  &lt;/div&gt;&lt;/div&gt;
-&lt;div class=&quot;comment&quot;&gt;You&#39;ve help me. Thank you, Aaron Jessen!  &lt;div class=&quot;by&quot;&gt; on 2015-07-02 00:19:19.0  &lt;/div&gt;&lt;/div&gt;
-&lt;/div&gt;
-</description>
-        <pubDate>Sat, 22 Jun 2013 06:35:48 -0700</pubDate>
-        <link>http://tuesdaydeveloper.com/2013/06/22/angularjs-testing-with-karma-and-jasmine.html</link>
-        <guid isPermaLink="true">http://tuesdaydeveloper.com/2013/06/22/angularjs-testing-with-karma-and-jasmine.html</guid>
-        
-        
-      </item>
-    
-      <item>
-        <title>Story Estimation</title>
-        <description>&lt;p&gt;&lt;img class=&quot;alignleft size-medium wp-image-654&quot; alt=&quot;dogs&quot; src=&quot;/uploads/2013/02/dogs-e1361559202624-293x300.jpg&quot; width=&quot;293&quot; height=&quot;300&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;I’ve come up with the perfect explanation for how I would estimate stories.&lt;/p&gt;
-
-&lt;p&gt;First, we are not measuring time or complexity—we’re measuring effort.&lt;/p&gt;
-
-&lt;p&gt;For this example forget all you know—or think you know. Let’s ignore everything about T-shirt sizes or hours… instead we’ll think about vicious canines and the effort it requires you to render them unconscious in order to stop an attack.&lt;/p&gt;
-
-&lt;p&gt;Incapacitating a chiwawa (not Phil’s, I’m sure they’re nice and not vicious and we don’t want to hurt them) doesn’t require much effort at all. You have no fear to simply bend down pick it up and (as gently as possible) toss it a few feet away—out cold.&lt;/p&gt;
-
-&lt;p&gt;Incapacitating a mastiff (you initially thought was a horse), however, requires a significantly larger about of effort. I don’t want one of those sicked on me. You may resort to running, kicking, or beating him with a stick…it still may be attacking you.&lt;/p&gt;
-
-&lt;p&gt;Who is providing the effort makes a difference. If Dave, significantly stronger than I am, was knocking out the mastiff, he would perform an elegant taekwondo chop to the poor beasts skull and the attack would be over and out cold. Me, even if I used the biggest stick I could carry, it would still take significantly longer to render the dog unconscious.&lt;/p&gt;
-
-&lt;p&gt;The actual effort required to halt the attack is the same in each case for each of us, the dog needs to be knocked out—same problem same amount of effort.&lt;/p&gt;
-
-&lt;p&gt;The chiwawa is the story that requires the least amount of effort we have. The mastiff swallowed several chiwawas he thought were burritos—an epic with a LOT of effort.&lt;/p&gt;
-</description>
-        <pubDate>Fri, 22 Feb 2013 05:49:13 -0800</pubDate>
-        <link>http://tuesdaydeveloper.com/2013/02/22/story-estimation.html</link>
-        <guid isPermaLink="true">http://tuesdaydeveloper.com/2013/02/22/story-estimation.html</guid>
-        
-        
-      </item>
-    
-      <item>
-        <title>My Three Dollar Phone Plan</title>
-        <description>&lt;p&gt;I get all the phone calling, data, and text messages for $3 a month.&lt;/p&gt;
-
-&lt;p&gt;Theres a catch, right? I’ve got an awful phone or terrible service, right? To answer that, I’ll be upfront and say that my phone plan isn’t for everyone—but, just to be clear I have a &lt;a title=&quot;Nexus 4&quot; href=&quot;http://www.google.com/nexus/4/&quot; target=&quot;_blank&quot;&gt;great phone&lt;/a&gt; and my service is fine. Without further ado I’ll get into the details of my awesome phone plan.&lt;/p&gt;
-&lt;h3&gt;Summary&lt;/h3&gt;
-&lt;p&gt;My GSM phone has no SIM card. I don’t need one. I don’t subscribe to any carriers service (no Verizon, AT&amp;amp;T, T-Mobile, or Sprint for me). I spend the greater part of every day within range of either my work’s WiFi or my home’s WiFi. And I have a mobile hotspot for any time I’m driving, at the store, or not in range of a WiFi signal for some other reason. I do all of my calling over WiFi using a special app that uses my Google Voice phone number.&lt;/p&gt;
-&lt;h3&gt;Details&lt;/h3&gt;
-&lt;p&gt;My $3 a month plan is possible for these reasons:&lt;/p&gt;
-&lt;ul&gt;
-	&lt;li&gt;Google Voice
-&lt;ul&gt;
-	&lt;li&gt;A service that uses a singe phone number to ring all or part of your phones at once (home, work, mobile). I have a Google Voice Phone number (a ported Sprint phone number) and another provided by Google. (I only needed one, but too many people have both numbers so I opted to keep both phone numbers).&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/li&gt;
-	&lt;li&gt;Google offeres free calling to anywhere in the USA or Canada over Google Chat
-&lt;ul&gt;
-	&lt;li&gt;Isn&#39;t Google nice. They &lt;a href=&quot;http://gmailblog.blogspot.com/2011/12/free-calling-within-us-and-canada.html&quot; target=&quot;_blank&quot;&gt;provide free calling&lt;/a&gt; to the USA and Canada. This service has been promised through the end of 2012, which means we&#39;re getting close to this offer&#39;s expiration, however they promised the same in &lt;a href=&quot;http://googletalk.blogspot.com/2010/12/free-calling-in-gmail-extended-through.html&quot; target=&quot;_blank&quot;&gt;2011&lt;/a&gt; and for &lt;a href=&quot;http://gmailblog.blogspot.com/2010/08/call-phones-from-gmail.html&quot; target=&quot;_blank&quot;&gt;part of the year they introduced it in 2010&lt;/a&gt;. I&#39;m optimistic that Google won&#39;t let me down for 2013. If they do change this pollicy I&#39;ll probably be looking at about 1¢ a minute. (So maybe $2 more a month.) Calling to other countries is pretty comprable to what you&#39;ll find from other companies.&lt;/li&gt;
-	&lt;li&gt;UPDATE 12/26/2012: &lt;a href=&quot;http://gmailblog.blogspot.com/2012/12/free-calling-within-us-and-canada.html&quot;&gt;Google will continue to offer free calls through Google Chat through the end of 2013&lt;/a&gt;. Yay!&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/li&gt;
-	&lt;li&gt;&lt;a href=&quot;https://play.google.com/store/apps/details?id=com.gvoip&amp;amp;feature=nav_other#?t=W251bGwsMSwyLDYsImNvbS5ndm9pcCJd&quot; target=&quot;_blank&quot;&gt;GrooVe IP&lt;/a&gt;
-&lt;ul&gt;
-	&lt;li&gt;An Android App that utilizes Google Voice over Google Chat to offer VOIP calls over your phones network (WiFi or mobile). They have both a paid version and a free version. (They also have an app they have if you do choose to use a carrier that will change your call settings between using GrooVe IP and your carrier called &lt;a href=&quot;https://play.google.com/store/apps/details?id=com.snrblabs.bishop&amp;amp;feature=more_from_developer#?t=W251bGwsMSwxLDEwMiwiY29tLnNucmJsYWJzLmJpc2hvcCJd&quot; target=&quot;_blank&quot;&gt;GrooVe Forwarder&lt;/a&gt; based on your location.) As long as you have Google Voice and rout calls to Google Chat, all you have to do is log in and you&#39;re good to go.&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/li&gt;
-	&lt;li&gt;&lt;a href=&quot;http://www.freedompop.com/&quot; target=&quot;_blank&quot;&gt;FreedomPop&lt;/a&gt;
-&lt;ul&gt;
-	&lt;li&gt;If not for FreedomPop I would only get calls when I was near a WiFi signal. FreedomPop allows me to take a WiFi hotspot with me.&lt;/li&gt;
-	&lt;li&gt;They may have a stupid name, but they offer &lt;em&gt;free&lt;/em&gt; mobile internet. You get 500 MB of data without any charge. If you go over this amount you pay a very reasonable 2¢ per megabyte (or 1¢ per megabyte if you go with one of their paid plans). You can even get more free data by connecting to other friends who use FreedomPop or completing advertising offers (which they thankfully don&#39;t cram down your throat). In the time I&#39;ve been using it, 500 MB has been about two to three times as much data as I need.&lt;/li&gt;
-	&lt;li&gt;FreedomPop will however throttle your data unless you pay them not to. This is where the $3 a month comes in.&lt;/li&gt;
-	&lt;li&gt;They also don&#39;t have to widest area of coverage currently. It mostly surrounds big cities, however this should all change around March of 2013 when they will be extending their network using Sprint 3g/4g LTE in addition to Clear Wire 4g LTE.&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;So there you have it. I get free calling through Google Chat routed to my phone via GrooVe IP (with a one time charge of $4.99) and pay an on going $2.99 charge to FreedomPop for 500mb of un-throttled data when I’m out of range.&lt;/p&gt;
-&lt;h3&gt;&lt;strong&gt;Emergency Calling&lt;/strong&gt;&lt;/h3&gt;
-&lt;p&gt;Any phone regardless of whether it is activated will make emergency calls (911, 211, 112, 999, IXII depending on your country). There doesn’t even need to be a SIM card for this to happen. So even if you don’t have a WiFi signal for some reason, unless you are out of range of any networks that could work with your phone, you can still contact emergency personell.&lt;/p&gt;
-&lt;h3&gt;Pro Quos&lt;/h3&gt;
-&lt;ul&gt;
-	&lt;li&gt;My phone always says that I can only make emergency calls, however, this is not the case and whether I use the phones dialer or GrooVe IP&#39;s I get connected just fine.&lt;/li&gt;
-	&lt;li&gt;I have to keep track of two devices. My Nexus 4 and my WiFi hotspot. I have to keep them both charged. Turn the hotspot off when I don&#39;t want to use it (it only has about 6 hours battery charge).&lt;/li&gt;
-	&lt;li&gt;Android also doesn&#39;t nor have I found a 3rd party app that will allow you to priorities your WiFi networks. This means if I forget to turn my hotspot off at home then I&#39;m using the data off of it (not that I mind, like I said earlier: 500 mb is more than enough for me).&lt;/li&gt;
-	&lt;li&gt;Call quality, though usually good, is dependent on your network. If you have a slower internet connection, chances are your call quality could suffer. Keep in mind also, that typically upload speeds are lower than download speeds for many ISPs so even if you can hear the call just fine someone on the other end may not hear you at all. Chances are if you have a fast internet connection then your call quality should be just fine.&lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;I should also point out that &lt;a href=&quot;http://online.wsj.com/article/SB10001424127887324735104578121553147711538.html&quot; target=&quot;_blank&quot;&gt;Google and Dish Networks are discussing the potential of a wireless network partnership&lt;/a&gt;. According to some sources this is all but done and should be rolling out toward the end of 2013, and while I don’t usually hold a lot of stock in rumors I would bet this one is fairly accurate. So there may be another option in the future regarding mobile data.&lt;/p&gt;
-
-&lt;p&gt;What kind of things have you done to lower your phone bill?&lt;/p&gt;
-</description>
-        <pubDate>Sat, 15 Dec 2012 13:13:30 -0800</pubDate>
-        <link>http://tuesdaydeveloper.com/2012/12/15/my-three-dollar-phone-plan.html</link>
-        <guid isPermaLink="true">http://tuesdaydeveloper.com/2012/12/15/my-three-dollar-phone-plan.html</guid>
+        <pubDate>Sat, 02 May 2015 16:42:24 -0700</pubDate>
+        <link>http://tuesdaydeveloper.com/2015/05/02/to-be-functional.html</link>
+        <guid isPermaLink="true">http://tuesdaydeveloper.com/2015/05/02/to-be-functional.html</guid>
         
         
       </item>
