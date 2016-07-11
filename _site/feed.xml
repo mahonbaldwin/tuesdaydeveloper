@@ -5,9 +5,112 @@
     <description>tech opinions and how-tos</description>
     <link>http://tuesdaydeveloper.com/</link>
     <atom:link href="http://tuesdaydeveloper.com/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Mon, 11 Jul 2016 12:34:43 -0700</pubDate>
-    <lastBuildDate>Mon, 11 Jul 2016 12:34:43 -0700</lastBuildDate>
+    <pubDate>Mon, 11 Jul 2016 12:36:54 -0700</pubDate>
+    <lastBuildDate>Mon, 11 Jul 2016 12:36:54 -0700</lastBuildDate>
     <generator>Jekyll v3.1.6</generator>
+    
+      <item>
+        <title>Why Your Program Looks Awful</title>
+        <description>&lt;p&gt;A cautionary tale of application development.&lt;/p&gt;
+
+&lt;h2 id=&quot;sprint-1&quot;&gt;Sprint 1&lt;/h2&gt;
+
+&lt;h4 id=&quot;story-1-feature&quot;&gt;story 1 (feature)&lt;/h4&gt;
+
+&lt;p&gt;&lt;strong&gt;Estimation:&lt;/strong&gt; 5&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Specification:&lt;/strong&gt; Create a plane figure with three straight lines of equal length that meet at the ends forming a total of three interior equiangular angles.&lt;/p&gt;
+
+&lt;h3 id=&quot;sprint-1-result&quot;&gt;Sprint 1 Result&lt;/h3&gt;
+
+&lt;p&gt;&lt;img src=&quot;http://tuesdaydeveloper.com/assets/11jul2016-sprint1.png&quot; alt=&quot;Sprint 1 Result&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;A plane figure with three relatively straight lines with one line only slightly longer than the other two forming three interior angles, close to equal. We are only human, we can’t draw perfectly.&lt;/p&gt;
+
+&lt;p&gt;We receive accolades for a sprint well done.&lt;/p&gt;
+
+&lt;h2 id=&quot;sprint-2&quot;&gt;Sprint 2&lt;/h2&gt;
+
+&lt;h4 id=&quot;story-2-bug&quot;&gt;story 2 (bug)&lt;/h4&gt;
+
+&lt;p&gt;&lt;strong&gt;Estimation:&lt;/strong&gt; 5&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Specification&lt;/strong&gt; The longer line needs to be shortened to be equal to the other two, lines still need to meet. Oh, and can you make it blue?&lt;/p&gt;
+
+&lt;h4 id=&quot;story-3-feature&quot;&gt;story 3 (feature)&lt;/h4&gt;
+
+&lt;p&gt;&lt;strong&gt;Specification&lt;/strong&gt; We need to have a fourth side added to our figure.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Estimation:&lt;/strong&gt; 2&lt;/p&gt;
+
+&lt;h3 id=&quot;sprint-2-result&quot;&gt;Sprint 2 Result&lt;/h3&gt;
+&lt;p&gt;&lt;img src=&quot;http://tuesdaydeveloper.com/assets/11jul2016-sprint2.png&quot; alt=&quot;Sprint 2 Result&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;A figure that looks like that of the first (with a few lines erased and redrawn leaving some artifacts of old code) one of the lines is now blue. On the top there is a fourth side protruding (like a tangent) that does not connect to anything. &lt;em&gt;In the defense of the programmers, this is a perfectly valid response to the specifications that were given.&lt;/em&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;sprint-3&quot;&gt;Sprint 3&lt;/h2&gt;
+
+&lt;h4 id=&quot;story-4-bug&quot;&gt;story 4 (bug)&lt;/h4&gt;
+
+&lt;p&gt;&lt;strong&gt;Specification&lt;/strong&gt; Connect the end of line three with the end of line four.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Estimation:&lt;/strong&gt; 2&lt;/p&gt;
+
+&lt;h3 id=&quot;sprint-3-result&quot;&gt;Sprint 3 Result&lt;/h3&gt;
+
+&lt;p&gt;&lt;img src=&quot;http://tuesdaydeveloper.com/assets/11jul2016-sprint3.png&quot; alt=&quot;Sprint 3 Result&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;It looks like a rhombus, with a few lines erased.&lt;/p&gt;
+
+&lt;p&gt;We relieve hesitant pats on the back right after they ask why we only got 2 points of work done when we got 7 done last spring and 5 the sprint before.&lt;/p&gt;
+
+&lt;h2 id=&quot;ad-infinitum&quot;&gt;ad infinitum&lt;/h2&gt;
+
+&lt;p&gt;This results in Sprint 4 which asks to make all connecting lines perfectly perpendicular (because what they wanted the whole time was a square), and the process continues.&lt;/p&gt;
+
+&lt;h2 id=&quot;programming-vs-building-cars&quot;&gt;Programming vs. Building Cars&lt;/h2&gt;
+
+&lt;p&gt;Building programs is a lot like building cars—you have to smash a few to make sure the rest are safe. We rarely understand what a program should look like from the beginning. It takes a lot of deliberate thought and patience before the design of an application emerges. Sometimes you have to try and fail so you know how to try again. People do this in other fields too. Successful entrepreneurs will tell you that their first 50 businesses were failures. Published authors will speak of their many, many rejection letters. Artists, rarely become famous overnight. Sometimes programmers will have to try out one design before they realize its flaws.&lt;/p&gt;
+
+&lt;p&gt;But programming is also like raising children. Parents &lt;em&gt;may not&lt;/em&gt; smash their children! Even if they mess up. If you mess up somehow (maybe you lose your temper and yell) you have to work with the result. Sometimes the application you have in production is what you have to work with and you can’t just start over. But you’re still going to make mistakes, so what do you do?&lt;/p&gt;
+
+&lt;p&gt;This is what agile is all about. You get to define the parameters over how frequently you might fail but not whether you will fail. Sometimes you have to refactor greatly (e.g. even throw away part of your code) so that the program delivered is the program being asked for. The initial architecture of an application may not be what you will want to end up with and so you have to change it. But you have to work with what you’ve got now to produce what you really need.&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-math&quot; data-lang=&quot;math&quot;&gt;x = current application
+
+f(x) =&amp;gt; x&#39;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;p&gt;You’ll notice that there were lines that didn’t get completely erased in the example above. These should have been removed, but we ran out of sprint and so they’ll probably live there until some poor soul comes along and wonders what on earth this is supposed to do and he asks a lot of questions about the code and he maybe (in a fit of bravery) removes it, is relieved that all the tests pass, but he doesn’t sleep well for a couple nights because he’s afraid that he’ll get a call reporting some error in the application due to the code that didn’t seem to do anything….&lt;/p&gt;
+
+&lt;h2 id=&quot;how-to-fix-it&quot;&gt;How to fix it&lt;/h2&gt;
+
+&lt;p&gt;Like many things the only thing we can do is be careful and attentive in our work. We have to take time to think and design &lt;em&gt;before&lt;/em&gt; we start coding. There’s a great quote I heard recently “I find that weeks of coding and testing can save me hours of design.”&lt;sup id=&quot;fnref:design&quot;&gt;&lt;a href=&quot;#fn:design&quot; class=&quot;footnote&quot;&gt;1&lt;/a&gt;&lt;/sup&gt; We have to double check our work after we commit, and it’s really helpful if we take time to make the code we just finished easier to read. Ask your neighbor if he understands the code in its current state. Refactor until you think it’s easier to understand.&lt;/p&gt;
+
+&lt;h2 id=&quot;problems-out-of-our-hands&quot;&gt;Problems out of our hands&lt;/h2&gt;
+
+&lt;p&gt;There are problems that are implicit to the tools we use or the domain we’re in. We should try to reduce complexity as much as possible. Use a better tool if possible, but there will still be some things that will be complicated about our application whether we like it or not. I still believe that we should refactor to simplicity as much as we can, knowing that there may be a limit.&lt;/p&gt;
+
+&lt;h2 id=&quot;its-only-going-to-be-used-once&quot;&gt;It’s only going to be used once&lt;/h2&gt;
+
+&lt;p&gt;If your application is only going to be used one time to parse a million records from one format and input them into another, maybe you don’t have to follow these rules. If there is even a chance that you or anyone else will have to read the code again, I urge you to take some time to save time down the road.&lt;/p&gt;
+&lt;div class=&quot;footnotes&quot;&gt;
+  &lt;ol&gt;
+    &lt;li id=&quot;fn:design&quot;&gt;
+      &lt;p&gt;I’m sorry I couldn’t find a source for this. &lt;a href=&quot;#fnref:design&quot; class=&quot;reversefootnote&quot;&gt;&amp;#8617;&lt;/a&gt;&lt;/p&gt;
+    &lt;/li&gt;
+  &lt;/ol&gt;
+&lt;/div&gt;
+</description>
+        <pubDate>Mon, 11 Jul 2016 12:34:56 -0700</pubDate>
+        <link>http://tuesdaydeveloper.com/design/agile/2016/07/11/why-your-program-looks-awful.html</link>
+        <guid isPermaLink="true">http://tuesdaydeveloper.com/design/agile/2016/07/11/why-your-program-looks-awful.html</guid>
+        
+        
+        <category>design</category>
+        
+        <category>agile</category>
+        
+      </item>
     
       <item>
         <title>Testing Done Right</title>
@@ -495,17 +598,6 @@ Another pitfall I&#39;ve seen is teams implementing &quot;Continuous Integration
         <pubDate>Mon, 11 May 2015 08:45:26 -0700</pubDate>
         <link>http://tuesdaydeveloper.com/2015/05/11/an-apologists-defense-of-trunk-based-development.html</link>
         <guid isPermaLink="true">http://tuesdaydeveloper.com/2015/05/11/an-apologists-defense-of-trunk-based-development.html</guid>
-        
-        
-      </item>
-    
-      <item>
-        <title>To Be Functional</title>
-        <description>&lt;p&gt;My first forays into programming (as I’m sure is the case for many other programmers) started with Object Oriented Programming. OOP is certainly popular, but&lt;/p&gt;
-</description>
-        <pubDate>Sat, 02 May 2015 16:42:24 -0700</pubDate>
-        <link>http://tuesdaydeveloper.com/2015/05/02/to-be-functional.html</link>
-        <guid isPermaLink="true">http://tuesdaydeveloper.com/2015/05/02/to-be-functional.html</guid>
         
         
       </item>

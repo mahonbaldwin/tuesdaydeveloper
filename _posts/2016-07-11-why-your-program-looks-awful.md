@@ -16,7 +16,7 @@ A cautionary tale of application development.
 
 ### Sprint 1 Result
 
-![Sprint 1 Result](/assets/11jul2016-sprint1.png)
+![Sprint 1 Result]({{site.url}}/assets/11jul2016-sprint1.png)
 
 A plane figure with three relatively straight lines with one line only slightly longer than the other two forming three interior angles, close to equal. We are only human, we can’t draw perfectly.
 
@@ -39,7 +39,7 @@ We receive accolades for a sprint well done.
 **Estimation:** 2
 
 ### Sprint 2 Result
-![Sprint 2 Result](/assets/11jul2016-sprint2.png)
+![Sprint 2 Result]({{site.url}}/assets/11jul2016-sprint2.png)
 
 A figure that looks like that of the first (with a few lines erased and redrawn leaving some artifacts of old code) one of the lines is now blue. On the top there is a fourth side protruding (like a tangent) that does not connect to anything. _In the defense of the programmers, this is a perfectly valid response to the specifications that were given._
 
@@ -55,7 +55,7 @@ A figure that looks like that of the first (with a few lines erased and redrawn 
 
 ### Sprint 3 Result
 
-![Sprint 3 Result](/assets/11jul2016-sprint3.png)
+![Sprint 3 Result]({{site.url}}/assets/11jul2016-sprint3.png)
 
 It looks like a rhombus, with a few lines erased.
 
