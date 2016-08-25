@@ -14,3 +14,6 @@ thing I really found this feature useful for. And for that one use, I hope they 
 
 That's right, I have the Chrome app and Chrome Beta open to the same recipe so I can see the
 ingredient list and the cooking instructions side-by-side!
+
+Now if only I could get Android to not only lock in portrait mode, but also in landscape mode. 
+(Without a third party app.)
