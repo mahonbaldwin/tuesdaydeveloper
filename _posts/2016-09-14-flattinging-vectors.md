@@ -17,7 +17,7 @@ Some examples:
   </thead>
   <tbody>
     <tr>
-        <td>`[:a]`</td><td>`[[:a]]`</td>
+        <td> `[:a]` </td><td> `[[:a]]` </td>
     </tr>
     <tr>
         <td>`[1]`</td><td>`[[1]]`</td>
