@@ -209,3 +209,11 @@ pre {
     border-top: 1px solid;
     font-size: 10pt;
 }
+
+.mbtablestyle {
+    border-collapse: collapse;
+
+    > table, td, th {
+        border: 1px solid black;
+    }
+}
