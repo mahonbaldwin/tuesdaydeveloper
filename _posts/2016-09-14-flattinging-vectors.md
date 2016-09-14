@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  ""
+title:  "Flattening Vectors"
 date:   2016-09-14 15:34:56 -0700
 categories: clojure
 ---
