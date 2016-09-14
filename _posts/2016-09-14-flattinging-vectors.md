@@ -9,14 +9,33 @@ for every possible path when given a vector which might contains scalar values o
 values.
 
 Some examples:
-| input | output |
---- | ---
-| `[:a]` | `[[:a]]` |
-| `[1]` | `[[1]]` |
-| `[:a :b :c]` | `[[:a :b :c]]` |
-| `[:a [:b]]` | `[[:a :b]]` |
-| `[:a [:b :c]]` | `[[:a :b] [:a :c]]` |
-| `[[:a :b] [:c :d]]` | `[[:a :c] [:a :d] [:b :c] [:b :d]]` |
+<table>
+  <thead>
+    <tr>
+        <th>input</th><th>output</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+        <td>`[:a]`</td><td>`[[:a]]`</td>
+    </tr>
+    <tr>
+        <td>`[1]`</td><td>`[[1]]`</td>
+    </tr>
+    <tr>
+        <td>`[:a :b :c]`</td><td>`[[:a :b :c]]`</td>
+    </tr>
+    <tr>
+        <td>`[:a [:b]]`</td><td>`[[:a :b]]`</td>
+    </tr>
+    <tr>
+        <td>`[:a [:b :c]]`</td><td>`[[:a :b] [:a :c]]`</td>
+    </tr>
+    <tr>
+        <td>`[[:a :b] [:c :d]]`</td><td>`[[:a :c] [:a :d] [:b :c] [:b :d]]`</td>
+    </tr>
+  </tbody>
+</table>
 
 Here is my solution to the problem:
 
