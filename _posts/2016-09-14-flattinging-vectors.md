@@ -17,22 +17,22 @@ Some examples:
   </thead>
   <tbody>
     <tr>
-        <td> `[:a]` </td><td> `[[:a]]` </td>
+        <td>[:a]</td><td>[[:a]]</td>
     </tr>
     <tr>
-        <td>`[1]`</td><td>`[[1]]`</td>
+        <td>[1]</td><td>[[1]]</td>
     </tr>
     <tr>
-        <td>`[:a :b :c]`</td><td>`[[:a :b :c]]`</td>
+        <td>[:a :b :c]</td><td>[[:a :b :c]]</td>
     </tr>
     <tr>
-        <td>`[:a [:b]]`</td><td>`[[:a :b]]`</td>
+        <td>[:a [:b]]</td><td>[[:a :b]]</td>
     </tr>
     <tr>
-        <td>`[:a [:b :c]]`</td><td>`[[:a :b] [:a :c]]`</td>
+        <td>[:a [:b :c]]</td><td>[[:a :b] [:a :c]]</td>
     </tr>
     <tr>
-        <td>`[[:a :b] [:c :d]]`</td><td>`[[:a :c] [:a :d] [:b :c] [:b :d]]`</td>
+        <td>[[:a :b] [:c :d]]</td><td>[[:a :c] [:a :d] [:b :c] [:b :d]]</td>
     </tr>
   </tbody>
 </table>
