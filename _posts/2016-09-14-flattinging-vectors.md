@@ -9,14 +9,14 @@ for every possible path when given a vector which might contains scalar values o
 values.
 
 Some examples:
-input | output
+| input | output |
 --- | ---
-`[:a]` | `[[:a]]`
-`[1]` | `[[1]]`
-`[:a :b :c]` | `[[:a :b :c]]`
-`[:a [:b]]` | `[[:a :b]]`
-`[:a [:b :c]]` | `[[:a :b] [:a :c]]`
-`[[:a :b] [:c :d]]` | `[[:a :c] [:a :d] [:b :c] [:b :d]]`
+| `[:a]` | `[[:a]]` |
+| `[1]` | `[[1]]` |
+| `[:a :b :c]` | `[[:a :b :c]]` |
+| `[:a [:b]]` | `[[:a :b]]` |
+| `[:a [:b :c]]` | `[[:a :b] [:a :c]]` |
+| `[[:a :b] [:c :d]]` | `[[:a :c] [:a :d] [:b :c] [:b :d]]` |
 
 Here is my solution to the problem:
 
