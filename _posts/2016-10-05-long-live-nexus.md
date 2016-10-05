@@ -14,7 +14,7 @@ I feel like Google has abandoned all about their loyal Nexus children (unless th
 
 Don't get me wrong, I think the Pixel looks great. I'm not crazy about the half and half back with glass and metal[^weird], but I wasn't crazy about the camera hump on my Nexus 6p either[^6phump]. I could make an argument that it's in Google best interest to release Google Assistant to all phones (not just Pixel/Nexus phones) or that Google competitors offer unlimited full-res photo storage[^competitors], but in light of their latest move I'm not confident that they would see reason.
 
-<iframe width="1280" height="720" src="https://www.youtube.com/embed/Rykmwn0SMWU" frameborder="0" allowfullscreen></iframe>
+<iframe width="740" height="416" src="https://www.youtube.com/embed/Rykmwn0SMWU" frameborder="0" allowfullscreen></iframe>
 
 But I'm not ready to upgrade[^upgrade]. I had sticker shock, but it's more than that. Despite the Pixel commercial telling me otherwise, I didn't see anything new in the Pixel phone. Sure there's more RAM and more processor, but the rest of the updates are all software, including the camera[^camera].
 
